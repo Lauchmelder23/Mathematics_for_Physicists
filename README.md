@@ -77,11 +77,11 @@ The topics covered in this script will be:
    12.5 Adjoint Operators
 
 13. Spectral Theory  
-   13.1 Spectral Theory of Bounded Linear Operators
-   13.2 Spectral Representation of Bounded Self-Adjoint Operators I
-   13.3 Spectral Representation of Bounded Self-Adjoint Operators II
-   13.4 Compact Linear Operators
-   13.5 Unbounded Linear Operators
+   13.1 Spectral Theory of Bounded Linear Operators  
+   13.2 Spectral Representation of Bounded Self-Adjoint Operators I  
+   13.3 Spectral Representation of Bounded Self-Adjoint Operators II  
+   13.4 Compact Linear Operators  
+   13.5 Unbounded Linear Operators  
    13.6 Spectral Representation of Unbounded Self-Adjoint Operaotrs
 
 14. Curves in ℝ³
