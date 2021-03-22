@@ -1,0 +1,500 @@
+\documentclass[../../script.tex]{subfiles}
+
+% !TEX root = ../../script.tex
+
+\begin{document}
+\section{Convergence of Series}
+\begin{defi}
+Let $\rcseqdef{x}$. Then the series
+\[
+	\series{k} x_k
+\]
+is the sequence of partial sums $\seq{s}$:
+\[
+	s_n = \series[n]{k} x_k
+\]
+If the series converges, then $\series{k}$ denotes the limit.
+\end{defi}
+
+\begin{thm}\label{thm:seriesnull}
+Let $\rcseqdef{x}$. Then
+\[
+	\series{n} x_n \text{ converges} \implies \seq{x} \text{ null sequence}
+\]
+\end{thm}
+\begin{proof}
+Let $s_n = \series{n} x_n$. This is a Cauchy series. Let $\epsilon > 0$. Then
+\begin{equation}
+	\exists N \in \natn ~\forall n \ge N: ~~|s_{n+1} - s_n| = |x_{n+1}| < \epsilon
+\end{equation}
+\end{proof}
+
+\begin{eg}[Geometric series]
+Let $x \in \realn$ (or $\cmpln$). Then
+\[
+	\series{k} x^k
+\]
+converges if $|x| < 1$. (Why?)
+\end{eg}
+
+\begin{eg}[Harmonic series]
+This is a good example of why the inverse of \Cref{thm:seriesnull} does not hold. Consider
+\[
+	x_n = \frac{1}{n}
+\]
+This is a null sequence, but $\series{k}\frac{1}{k}$ does not converge. (Why?)
+\end{eg}
+
+\begin{lem}
+Let $\rcseqdef{x}$. Then
+\[
+	\series{k} x_n \text{ converges} \iff \sum_{k=N}^{\infty} x_n \text{ converges for some } N \in \natn
+\]
+\end{lem}
+\begin{proof}
+\reader
+\end{proof}
+
+\begin{thm}[Alternating series test]\label{thm:alttest}
+Let $\seq{x} \subset [0, \infty)$ be a monotonic decreasing null sequence. Then
+\[
+	\series{k} (-1)^k x_k
+\]
+converges, and
+\[
+	\left| \series{k} (-1)^k x_k - \series[N]{k} (-1)^k x_k \right| \le x_{N+1}
+\]
+\end{thm}
+\begin{proof}
+Let $s_n = \series[n]{k} (-1)^k x_n$, and define the sub sequences $a_n = s_{2n}$, $b_n = s_{2n+1}$. Then
+\begin{equation}
+	a_{n+1} = s_{2n} - \underbrace{(x_{2n+1} - x_{2n+2})}_{\ge 0} \le s_{2n} = a_n
+\end{equation}
+Hence, $\seq{a}$ is monotonic decreasing. By the same argument, $\seq{b}$ is monotonic decreasing. Let $m, n \in \natn$ such that $m \le n$. Then
+\begin{equation}\label{eq:act}
+	b_m \le b_n = a_n - x_{2n+1} \le a_n \le a_m
+\end{equation}
+Therefore $\seq{a}$, $\seq{b}$ are bounded. By \Cref{thm:monotone}, these sequence converge
+\begin{align}
+	\seq{a} &\convinf a & \seq{b} &\convinf b
+\end{align}
+Furthermore
+\begin{equation}
+	b_n - a_n = -x_{2n+1} \convinf 0 \implies a = b
+\end{equation}
+From \cref{eq:act} we know that
+\begin{equation}
+	b_m \le b = a \le a_m
+\end{equation}
+So therefore
+\begin{align}
+	|s_{2n} - a| &= a_n - a \le a_n - b_n = x_{2n+1} \\
+	|s_{2n+1} - a| &= b - b_n \le a_{m+1} - b_n = x_{2n+2}
+\end{align}
+\end{proof}
+
+\begin{eg}[Alternating harmonic series]
+\[
+\begin{split}
+	s = \series{k} (-1)^{k+1} \rec{k} &= 1 - \rec{2} + \rec{3} - \rec{4} + \rec{5} - \cdots \\
+	&= \left(1 - \rec{2}\right) - \rec{4} + \left(\rec{3} - \rec{6}\right) - \rec{8} + \left(\rec{5} - \rec{10}\right) - \rec{12} + \cdots \\
+	&= \rec{2} - \rec{4} + \rec{6} - \rec{8} + \rec{10} - \rec{12} + \cdots \\
+	&= \rec{2}\left(1 - \rec{2} + \rec{3} - \rec{4} + \rec{5} - \rec{6} + \cdots\right) \\
+	&= \rec{2}s
+\end{split}
+\]
+But $s \in \left[\rec{2}, 1\right]$, this is an example on why rearranging infinite sums can lead to weird results.
+\end{eg}
+
+\begin{rem}\leavevmode
+\begin{enumerate}[(i)]
+	\item The convergence behaviour does not change if we rearrange finitely many terms.
+	
+	\item Associativity holds without restrictions
+	\[
+		\series{k} x_k = \series{k} (x_{2k} + x_{2k-1})
+	\]
+	
+	\item Let $I$ be a set, and define
+	\begin{align*}
+		I &\longrightarrow \realn \\
+		i &\longmapsto a_i
+	\end{align*}
+	Consider the sum
+	\[
+		\sum_{i \in I} a_i	
+	\]
+	If $I$ is finite, there are no problems. However if $I$ is infinite then the solution of that sum can depend on the order of summation!
+\end{enumerate}
+\end{rem}
+
+\begin{defi}
+Let $\rcseqdef{x}$. The series $\series{k} x_k$ is said to converge absolutely if $\series{k} |x_k|$ converges.
+\end{defi}
+
+\begin{rem}
+Let $\seq{x} \subset [0, \infty)$. Then the sequence
+\[
+	s_n = \series[n]{k} x_k
+\]
+is monotonic increasing. If $\seq{s}$ is bounded it converges, if it is unbounded it diverges properly. The notation for absolute convergence is
+\[
+	\series{k} |x_k| < \infty
+\]
+\end{rem}
+
+\begin{lem}\label{lem:absolutebounded}
+Let $\series{k} x_k$ be a series. Then the following are all equivalent
+\begin{enumerate}[(i)]
+	\item 
+	\[
+		\series{k} x_k \text{ converges absolutely}
+	\]
+	
+	\item 
+	\[
+		\set[I \subset \natn \text{ finite}]{\sum_{k \in I} |x_k|} \text{ is bounded}
+	\]
+		
+	\item 
+	\[
+		\forall \epsilon > 0 ~\exists I \subset \natn \text{ finite} ~\forall J \subset \natn \text{ finite}: ~~\sum_{k \in J \setminus I} |x_k| < \epsilon
+		\]
+\end{enumerate}
+\end{lem}
+\begin{proof}
+To prove the equivalence of all of these statements, we will show that (i) $\implies$ (ii) $\implies$ (iii) $\implies$ (i). This is sufficient. First we prove (i) $\implies$ (ii). Let
+\begin{equation}
+	\series{n} |x_n| = k \in [0, \infty)
+\end{equation}
+Let $I \subset \natn$ be a finite set, and let $N = \max I$. Then
+\begin{equation}
+	\sum_{n \in I} |x_n| \le \series[N]{n} |x_n| \leexpl{Monotony of the partial sums} \series{n} |x_n|
+\end{equation}
+Now to prove (ii) $\implies$ (iii), set
+\begin{equation}
+	K := \set[I \subset \natn \finite]{\sum_{k \in I} |x_k|}
+\end{equation}
+Let $\epsilon > 0$. Then by definition of $\sup$
+\begin{equation}
+	\exists I \subset \natn \finite: ~~\sum_{k \in I} |x_k| > k - \epsilon
+\end{equation}
+Let $J \subset \natn \finite$. Then
+\begin{equation}
+	k - \epsilon < \sum_{k \in I} |x_k| \le \sum_{k \in I \cup J} |x_k| \le K
+\end{equation}
+Hence
+\begin{equation}
+	\sum_{k \in J \setminus I} |x_k| = \sum_{k \in I \cup J} |x_k| - \sum_{k \in I} |x_k| \le \epsilon
+\end{equation}
+Finally we show that (iii) $\implies$ (i). Choose $I \subset \natn \finite$ such that
+\begin{equation}
+	\forall J \subset \natn \finite: ~~\sum_{k \in J \setminus I} |x_k| < 1
+\end{equation}
+Then $\forall J \subset \natn \finite$
+\begin{equation}
+	\sum_{k \in J} |x_k| \le \sum_{k \in J \setminus I} |x_k| + \sum_{k \in I} |x_k| \le \sum_{k \in I} |x_k| + 1
+\end{equation}
+Therefore $\series[n]{k} |x_k|$ is bounded and monotonic increasing, and hence it is converging. So $\series{k} |x_k| < \infty$.
+\end{proof}
+
+\begin{thm}
+Every absolutely convergent series converges and the limit does not depend on the order of summation.
+\end{thm}
+\begin{proof}
+Let $\series{k} x_k$ be absolutely convergent and let $\epsilon > 0$. Choose $I \subset \natn \finite$ such that
+\begin{equation}
+	\forall J \subset \natn: ~~\sum_{k \in I} |x_k| < \epsilon
+\end{equation}
+Choose $N = \max I$. Define the series
+\begin{equation}
+	s_n = \series[n]{k} x_k
+\end{equation}
+Then for $n \le m \le N$
+\begin{equation}
+	|s_n - s_m| \le \sum_{k=m+1}^n |x_k| \le \sum_{k \in \set{1, \cdots, n} \setminus I} |x_k| < \epsilon
+\end{equation}
+Hence $s_n$ is a Cauchy sequence, so it converges. Let $\phi: \natn \rightarrow \natn$ be a bijective mapping. According to \Cref{lem:absolutebounded} the series $\series{k} x_{\phi(n)}$ converges absolutely. Let $\epsilon > 0$. According to the same Lemma
+\begin{equation}
+	\exists I \subset \natn \finite ~\forall J \subset \natn \finite: ~~\sum_{k \in J \setminus I} |x_k| < \frac{\epsilon}{2}
+\end{equation}
+Choose $N \in \natn$ such that
+\begin{equation}
+	I \subset \set{1, \cdots, N} \cap \set{\phi(1), \phi(2), \cdots, \phi(n)}
+\end{equation}
+Then for $n \ge N$
+\begin{equation}
+\begin{split}
+	\left|\series{k} x_k - \series[n]{k} x_{\phi(k)}\right| &= \left| \sum_{k \in \set{1, \cdots, N} \setminus I} x_k - \sum_{k \in \set{\phi(1), \cdots, \phi(n)} \setminus I} x_k \right| \\
+	&\le \sum_{k \in \set{1, \cdots, N} \setminus I} |x_k| + \sum_{k \in \set{\phi(1), \cdots, \phi(n)} \setminus I} |x_k| < \epsilon
+\end{split}
+\end{equation}
+Therefore
+\begin{equation}
+	\limn\left( \series[n]{k} x_k - \series[n]{k} x_{\phi(k)} \right) = 0
+\end{equation}
+\end{proof}
+
+\begin{thm}
+Let $\series{k} x_k$ be a converging series. Then
+\[
+	\left| \series{k} x_k \right| \le \series{k} |x_k|
+\]
+\end{thm}
+\begin{proof}
+\reader
+\end{proof}
+
+\begin{thm}[Direct comparison test]
+Let $\series{k} x_k$ be a series. If a converging series $\series{k} y_k$ exists with $|x_k| \le y_k$ for all sufficiently large $k$, then $\series{k} x_k$ converges absolutely. If a series $\series{k} z_k$ diverges with $0 \le z_k \le x_k$ for all sufficiently large $k$, then $\series{k} x_k$ diverges.
+\end{thm}
+\begin{proof}
+\begin{equation}
+	\series[n]{k} |x_k| \le \series[n]{k} y_k \implies \series[n]{k} x_k \text{ bounded} \implbl{\cref{lem:absolutebounded}} \series{k} |x_k| < \infty
+\end{equation}
+\begin{equation}
+	\series[n]{k} z_k \le \series[n]{k} x_k \implies \series{k} x_k \text{ unbounded}
+\end{equation}
+\end{proof}
+
+\begin{cor}[Ratio test]
+Let $\seq{x}$ be a sequence. If $\exists q \in (0, 1)$ such that
+\[
+	\left| \frac{x_{n+1}}{x_n} \right| \le q
+\]
+for a.e. $n \in \natn$, then $\series{k} x_k$ converges absolutely. If
+\[
+	\left| \frac{x_{n+1}}{x_n} \right| \ge 1
+\]
+then the series diverges.
+\end{cor}
+\begin{proof}
+Let $q \in (0, 1)$ and choose $N \in \natn$ such that
+\begin{equation}
+	\forall n \ge N: ~~\left|\frac{x_{n+1}}{x_n}\right| \le q
+\end{equation}
+Then
+\begin{equation}
+	|x_{N+1}| \le q|x_N|, ~|x_{N+2}| \le q|x_{N+1}| \le q^2|x_N|, ~\cdots
+\end{equation}
+This means that
+\begin{equation}
+	\series{k} |x_k| \le \series[N]{k} |x_k| + \sum_{k=N+1}^\infty q^{k-N} \cdot |x_N| < \infty
+\end{equation}
+Hence, $\series{k} x_k$ converges absolutely. Now choose $N \in \natn$ such that
+\begin{equation}
+	\forall n \ge N: ~~\left|\frac{x_{n+1}}{x_n}\right| > 1
+\end{equation}
+However this means that
+\begin{equation}
+	|x_{n+1}| \ge |x_{n}| ~~\forall n \ge N
+\end{equation}
+So $\seq{x}$ is monotonic increasing and therefore not a null sequence. Hence $\series{k} x_k$ diverges.
+\end{proof}
+
+\begin{cor}[Root test]
+Let $\seq{x}$ be a sequence. If $\exists q \in (0, 1)$ such that
+\[
+	\sqrt[n]{|x_n|} \le q
+\]
+for a.e. $n \in \natn$, then $\series{k} x_k$ converges absolutely. If
+\[
+	\sqrt[n]{|x_n|} \ge 1
+\]
+for all $n \in \natn$ then $\series{k} x_k$ diverges.
+\end{cor}
+\begin{proof}
+\reader
+\end{proof}
+
+\begin{rem}
+The previous tests can be summed up by the formulas
+\begin{align*}
+	\limn \left|\frac{x_{n+1}}{x_n}\right| &< 1 & \limn \sqrt[n]{|x_n|} &< 1 \\
+	\limn \left|\frac{x_{n+1}}{x_n}\right| &> 1 & \limn \sqrt[n]{|x_n|} &> 1
+\end{align*}
+for convergence and divergence respectively. If any of these limits is equal to $1$ then the test is inconclusive.
+\end{rem}
+
+\begin{eg}
+Let $z \in \cmpln$. Then
+\[
+	\exp(z) := \sum_{k=0}^\infty \frac{z^k}{k!}
+\]
+converges. To prove this, apply the ratio test:
+\[
+	\frac{|z|^{k+1} k!}{(k+1)! |z|^k} = \frac{|z|}{k+1} \conv{} 0
+\]
+The function $\exp: \cmpln \rightarrow \cmpln$ is called the exponential function.
+\end{eg}
+
+\begin{rem}[Binomial coefficient]
+The binomial coefficient is defined as
+\begin{align*}
+	{n\choose 0} &:= 1 & {n\choose k+1} &= {n\choose k} \cdot \frac{n-k}{k+1}
+\end{align*}
+and represents the number of ways one can choose $k$ objects from a set of $n$ objects. Some rules are
+\begin{enumerate}[(i)]
+	\item \[{n\choose k} = 0 ~~\text{ if } k > n\]
+	\item \[k \le n: ~~{n\choose k} = \frac{n!}{k!(n-k)!}\]
+	\item \[{n\choose k} + {n\choose k-1} = {n+1\choose k}\]
+	\item \[\forall x, y \in \cmpln: ~~(x+y)^n = \series[n]{k} {n\choose k} x^ky^{n-k}\]
+\end{enumerate}
+\end{rem}
+
+\begin{thm}
+\[
+	\forall u, v \in \cmpln: ~~\exp(u+v) = \exp(u)\cdot\exp(v)
+\]
+\end{thm}
+\begin{proof}
+\begin{equation}
+\begin{split}
+	\exp(u)\cdot\exp(v) = \left(\sum_{n=0}^{\infty} \frac{u^n}{n!} \right) \cdot \left(\sum_{m=0}^{\infty} \frac{v^m}{m!} \right) &= \sum_{n=0}^{\infty} \sum_{m=0}^{\infty} \frac{u^nv^m}{n!m!} \\
+	&= \sum_{l=0}^{\infty} \sum_{k=0}^{l} \frac{u^kv^{l-k}}{k!(l-k)!} \\
+	&=\sum_{l=0}^{\infty} \frac{(u+v)^l}{l!} \\
+	&= \exp(u+v)
+\end{split}
+\end{equation}
+\end{proof}
+
+\begin{rem}
+We define Euler's number as
+\[
+	e := \exp(1)
+\]
+We will also take note of the following rules $\forall x \in \cmpln, n \in \natn$
+\[
+	\exp(0) = \exp(x)\exp(-x) = 1 \implies \exp(-x) = \frac{1}{\exp(x)} 
+\]
+\[
+	\exp(nx) = \exp(x + x + x + \cdots + x) = \exp(x)^n
+\]
+\[
+	\exp(x)^{\frac{1}{n}} = \exp(\frac{x}{n})
+\]
+Alternatively we can write
+\[
+	\exp(z) = e^z
+\]
+\end{rem}
+
+\begin{thm}
+Let $x, y \in \realn$.
+\begin{enumerate}[(i)]
+	\item
+	\[
+		x < y \implies \exp(x) < \exp(y)
+	\]
+	
+	\item
+	\[
+		\exp(x) > 0 ~~\forall x \in \realn
+	\]
+	
+	\item 
+	\[
+		\exp(x) \ge 1 + x ~~\forall x \in \realn
+	\]
+	
+	\item
+	\[
+		\limn \frac{n^d}{\exp(n)} = 0 ~~\forall d \in \natn
+	\]
+\end{enumerate}
+\end{thm}
+\begin{proof}\leavevmode
+\begin{enumerate}[(i)]
+	\item \reader
+	
+	\item For $x \ge 0$ this is trivial. For $x < 0$
+	\begin{equation}
+		\exp(x) = \frac{1}{\exp(-x)} > 0
+	\end{equation}
+	
+	\item For $x \ge 0$ this is trivial. For $x < 0$
+	\begin{equation}
+		\sum_{k=0}^{\infty} \frac{x^k}{k!}
+	\end{equation}
+	is an alternating series, and therefore the statement follows from \Cref{thm:alttest}.
+	
+	\item Let $d \in \natn$. Then $\forall n \in \natn$
+	\begin{equation}
+		0 < \frac{n^d}{\exp(n)} < \frac{n^d}{\sum_{k=0}^{d+1} \frac{n^k}{k!}} \convinf 0
+	\end{equation}
+\end{enumerate}
+\end{proof}
+
+\begin{defi}
+Define
+\[
+	\sin, \cos: \realn \longrightarrow \realn
+\]
+as
+\begin{align*}
+	\sin(x) &:= \Im(\exp(ix)) \\
+	\cos(x) &:= \Re(\exp(ix))
+\end{align*}
+\end{defi}
+
+\begin{rem}\leavevmode
+\begin{enumerate}[(i)]
+	\item Euler's formula
+	\[
+		\exp(ix) = \cos(x) + i\sin(x)
+	\]
+	
+	\item $\forall z \in \cmpln: ~~\overline{\exp(z)} = \exp(\bar{z})$
+	\[
+		|\exp(ix)|^2 = \exp(ix) \cdot \overline{\exp(ix)} = \exp(ix) \cdot \exp(-ix) = 1
+	\]
+	Also:
+	\[
+		1 = \cos^2(x) + \sin^2(x)
+	\]
+	On the symmetry of $\cos$ and $\sin$:
+	\[
+		\cos(-x) + i\sin(-x) = \exp(-ix) = \overline{\exp(ix)} = \cos(x) - i\sin(x)
+	\]
+	
+	\item From
+	\[
+		\exp(ix) = \sum_{k=0}^{\infty} \frac{(ix)^k}{k!} ~~~(i^0 = 1, i^1 = i, i^2 = -1, i^3 = -i, i^4 = 1, \cdots)
+	\]
+	follow the following series
+	\begin{align*}
+		\sin(x) &= \sum_{k=0}^{\infty} \frac{(-1)^k x^{2k+1}}{(2k+1)!} & \cos(x) &= \sum_{k=0}^{\infty} \frac{(-1)^k x^{2k}}{(2k)!}
+	\end{align*}
+	
+	\item For $x \in \realn$
+	\[
+	\begin{split}
+		\exp(i2x) &= \cos(2x) + i\sin(2x) \\
+		&= (\cos(x) + i\sin(x))^2 \\
+		&= \cos^2(x) - \sin^2(x) + 2i\sin(x)\cos(x)
+	\end{split}
+	\]
+	By comparing the real and imaginary parts we get the following identities
+	\begin{align*}
+		\cos(2x) &= \cos^2(x) - \sin^2(x) \\
+		\sin(2x) &= 2\sin(x)\cos(x)
+	\end{align*}
+	
+	\item Later we will show that $\cos$ as exactly one root in the interval $[0, 2]$. We define $\pi$ as the number in the interval $[0, 4]$ such that $\cos(\frac{\pi}{2}) = 0$.
+	\[
+		\implies \sin(\frac{\pi}{2}) = \pm 1
+	\]
+	$\cos$ and $\sin$ are $2\pi$-periodic.
+\end{enumerate}
+\end{rem}
+
+\begin{thm}
+$\forall z \in \cmpln$
+\[
+	\limn \left(1 + \frac{z}{n}\right)^n = \limn \left(1 - \frac{z}{n}\right)^{-n} = \exp(z)
+\]
+\end{thm}
+\begin{proof}
+Without proof.
+\end{proof}
+\end{document}

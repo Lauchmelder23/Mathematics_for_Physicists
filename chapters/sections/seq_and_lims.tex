@@ -1,0 +1,714 @@
+\documentclass[../../script.tex]{subfiles}
+
+% !TEX root = ../../script.tex
+
+\begin{document}
+\section{Sequences and Limits}
+\begin{defi}
+Let $M$ be a set (usually $M$ is $\realn$ or $\cmpln$). A sequence in $M$ is a mapping from $\natn$ to $M$. The notation is $(x_n)_{n \in \natn} \subset M$ or $(x_n) \subset M$. $x_n$ is called element of the sequence at $n$.
+\end{defi}
+\newpage
+\begin{eg}
+Some real sequences are
+\begin{itemize}
+	\item $x_n = \frac{1}{n} ~~~\left(1, \frac{1}{2}, \frac{1}{3}, \frac{1}{4}, \cdots\right)$
+	
+	\item $x_n = \sum_{k=1}^n k ~~~\left(1, 3, 6, 10, 15, \cdots\right)$
+	
+	\item $x_n =$ "smallest prime factor of $n$" $~~~(*, 2, 3, 2, 5, 2, 7, 2, 3, 2, \cdots)$
+\end{itemize}
+\end{eg}
+
+\begin{defi}[Convergence]
+Let $(x_n) \subset \realn$ be a sequence, and $x \in \realn$. Then
+\[
+	(x_n) \text{ converges to } x \iff \forall \epsilon > 0 ~\exists N \in \natn: ~~|x_n - x| < \epsilon ~~\forall n \ge N
+\]
+A complex sequence $(z_n) \subset \cmpln$ converges to $z \in \cmpln$ if the real and imaginary parts of $(z_n)$ converge to the real and imaginary parts of $z$. $x$ (or $z$) is called the limit of the sequence. Common notation:
+
+\noindent\begin{minipage}{0.3\textwidth}
+\[
+	x_n \longrightarrow x
+\]
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+\[
+	x_n \convinf x
+\]
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+\[
+	\lim_{n \rightarrow \infty} x_n = x
+\]
+\end{minipage}
+
+\noindent If a sequence converges to $0$ it is called a null sequence.
+\end{defi}
+
+\begin{eg}\leavevmode
+\begin{enumerate}[(i)]
+	\item $x \in \realn$, $x_n = x$ (constant sequence). This sequence converges to $x$. To show this, let $\epsilon > 0$. Then for $N = 1$:
+	\[
+		|x_n - x| = |x - x| = 0 < \epsilon
+	\]
+	
+	\item $x_n = \frac{1}{n}$ is a null sequence. Let $\epsilon > 0$. By the Archimedean property:
+	\[
+		\exists N \in \natn: ~~\frac{1}{\epsilon} < N
+	\]
+	Then for $n \ge N$:
+	\[
+		|x_n - 0| = |x_n| = \frac{1}{n} \le \frac{1}{N} < \epsilon
+	\]
+	
+	\item The sequence
+	\[
+		x_n =
+		\begin{cases}
+			1 &, n \text{ even} \\
+			-1 &, n \text{ odd}
+		\end{cases}
+	\]
+	does not converge.
+\end{enumerate}
+\end{eg}
+
+\begin{rem}
+A property holds for almost every (a.e.) $n \in \natn$ if it doesn't hold for only finitely many $n$. (e.g. $n < 10$ is true for a.e. $n \in \natn$)
+\end{rem}
+
+\begin{thm}
+A sequence $(x_n) \subset \realn$ (or $\cmpln$) has at most one limit.
+\end{thm}
+\begin{proof}
+Propose that $x, \tilde{x}$ are different limits of $(x_n)$. Without loss of generality (w.l.o.g.) we can write $x < \tilde{x}$. Now define $\epsilon = \frac{1}{2}(\tilde{x} - x) > 0$.
+\begin{align}
+	x_n \longrightarrow x &\iff \exists N_1: ~~x_n \in (x - \epsilon, x + \epsilon) = \left(x - \epsilon, \frac{x + \tilde{x}}{2}\right) \\
+	x_n \longrightarrow \tilde{x} &\iff \exists N_2: ~~x_n \in (\tilde{x} - \epsilon, \tilde{x} + \epsilon) = \left(\frac{x + \tilde{x}}{2}, x + \epsilon\right)
+\end{align}
+Since these intervals are disjoint, the proposition led to a contradiction.
+\end{proof}
+
+\begin{thm}
+Let $(x_n) \subset \realn$ (or $\cmpln$) be sequence with limit $x \in \realn$. Then for $m \in \natn$
+\[
+	\lim_{n \rightarrow \infty} x_{n+m} = x
+\]
+\end{thm}
+\begin{proof}
+\reader
+\end{proof}
+
+\begin{defi}
+The sequence $(x_n) \subset \realn$ is bounded above if $\{x_n \setvert n \in \natn \}$ is bounded above. A number $K \in \realn$ is an upper bound if $\forall n \in \natn: ~x_n \le K$.
+\end{defi}
+
+\begin{thm}
+Every convergent sequence is bounded.
+\end{thm}
+\begin{proof}
+Let $(x_n) \subset \realn$ converge to $x \in \realn$. For $\epsilon = 1$ we trivially know that
+\begin{equation}
+	\exists N \in \natn ~\forall n \ge N: ~~|x_n - x| < \epsilon = 1
+\end{equation}
+Let
+\begin{equation}
+	K = \max \{x_1, x_2, \cdots, x_N, |x| + 1\}
+\end{equation}
+Then
+\begin{equation}
+	|x_n| \le K ~~\forall n \in \natn
+\end{equation}
+This is trivial for $n \le N$. For $n > N$ we can use the triangle inequality:
+\begin{equation}
+	|x_n| = |(x_n - x) + x| \le |x_n - x| + |x| \le |x| + 1
+\end{equation}
+\end{proof}
+
+\begin{thm}\label{215}
+If $(x_n) \subset \realn$ bounded and $(y_n) \subset \realn$ null sequence, then $(x_n) \cdot (y_n)$ is also a null sequence.
+\end{thm}
+\begin{proof}
+If $(x_n)$ is bounded, this means that $\exists K \in (0, \infty)$ such that
+\begin{equation}
+	|x_n| \le K ~~\forall n \in \natn
+\end{equation}
+Since $(y_n)$ is a null sequence we know that
+\begin{equation}
+	\forall \epsilon > 0 ~\exists N \in \natn ~\forall n  \ge N: ~~|y_n| < \epsilon
+\end{equation}
+Now let $\epsilon > 0$, then $\exists N \in \natn$ such that
+\begin{equation}
+	\forall n \ge N: ~~|y_n| < \frac{\epsilon}{K}
+\end{equation}
+\begin{equation}
+	|x_n \cdot y_n| = |x_n||y_n| \le K \frac{\epsilon}{K} = \epsilon
+\end{equation}
+Therefore $(x_n)(y_n)$ is a null sequence.
+\end{proof}
+
+\begin{thm}[Squeeze theorem]
+Let $(x_n), (y_n), (z_n) \subset \realn$ be sequences such that
+\[
+	x_n \le y_n \le z_n
+\]
+for a.e. $n \in \natn$, and let $x_n \rightarrow x$, $z_n \rightarrow x$. Then
+\[
+	\lim_{n \rightarrow \infty} y_n = x
+\]
+\end{thm}
+\begin{proof}
+Let $\epsilon > 0$. Then $\exists N_1, N_2, N_3 \in \natn$ such that
+\begin{align}
+	&\forall n \ge N_1: ~~x_n \le y_n \le z_n \\
+	&\forall n \ge N_2: ~~|x_n - x| < \epsilon \\
+	&\forall n \ge N_3: ~~|z_n - x| < \epsilon
+\end{align}
+Choose $N = \max \{N_1, N_2, N_3\}$. Then
+\begin{equation}
+	\forall n \ge N: ~~-\epsilon < x_n - x \le y_n - x \le z_n - x < \epsilon
+\end{equation}
+Therefore $|y_n - x| < \epsilon$
+\end{proof}
+
+\begin{eg}
+$\forall n \in \natn: ~~n \le n^2$ (why?).
+\[
+	\implies 0 \le \frac{1}{n^2} \le \frac{1}{n} \implies \lim_{n \rightarrow \infty} \frac{1}{n^2} = 0
+\]
+\end{eg}
+
+\begin{thm}
+Let $(x_n), (y_n) \subset \realn$ and $x_n \rightarrow x$, $y_n \rightarrow y$. Then $x \le y$.
+\end{thm}
+\begin{proof}
+\reader
+\end{proof}
+
+\begin{rem}
+If $x_n < y_n ~~\forall n \in \natn$, then $x=y$ can still be true.
+\end{rem}
+
+\begin{lem}\label{220}
+Let $(x_n) \in \realn$ and $x \in \realn$.
+\[
+	(x_n) \longrightarrow x \iff (|x_n - x|) \text{ is null sequence}
+\]
+Especially:
+\[
+	(x_n) \text{ null sequence} \iff |x_n| \text{ null sequence}
+\]
+\end{lem}
+\begin{proof}
+\begin{equation}
+	||x_n - x| - 0| = |x_n - x|
+\end{equation}
+\end{proof}
+
+\begin{thm}\label{thm:lims}
+Let $(x_n), (x_n) \subset \realn$ (or $\cmpln$) with $x_n \rightarrow x$, $y_n \rightarrow y$ ($x, y \in \realn$). Then all of the following are true:
+\begin{enumerate}[(i)]
+	\item 
+	\[
+		\limn x_n + y_n = x + y = \limn x_n + \limn y_n
+	\]
+	
+	\item
+	\[
+		\limn x_n y_n = xy = \limn x_n \cdot \limn y_n
+	\]
+	
+	\item If $y \ne 0$: 
+	\[
+		\limn \frac{x_n}{y_n} = \frac{x}{y} = \frac{\limn x_n}{\limn y_n}
+	\]
+\end{enumerate}
+\end{thm}
+\begin{proof}\leavevmode
+\begin{enumerate}[(i)]
+	\item Let $\epsilon > 0$. Then $\exists N_1, N_2 \in \natn$ such that
+	\begin{align}
+		&\forall n \ge N_1: ~~|x_n - x| < \frac{\epsilon}{2} \\
+		&\forall n \ge N_2: ~~|y_n - y| < \frac{\epsilon}{2}
+	\end{align}
+	Now choose $N = \max \{N_1, N_2\}$. Then $\forall n \ge N$:
+	\begin{equation}
+	\begin{split}
+		|x_n + y_n - (x+y)| &= |(x_n - x) + (y_n - y)| \\
+		&\le |x_n - x| + |y_n - y| \\
+		&< \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon
+	\end{split}
+	\end{equation}
+	\begin{equation}
+		\implies x_n + y_n \longrightarrow x + y
+	\end{equation}
+	
+	\item
+	\begin{equation}
+	\begin{split}
+		0 \le |x_ny_n - xy| &= |(x_ny_n - x_ny) + (x_ny - xy)| \\
+		&\le |x_n(y_n - y)| + |(x_n - x)y| \\
+		&= |x_n||y_n - y| + |x_n - x||y| \longrightarrow 0
+	\end{split}
+	\end{equation}
+	Therefore $|x_ny_n - xy|$ is a null sequence and
+	\begin{equation}
+		x_ny_n \longrightarrow xy
+	\end{equation}
+	
+	\item Now we need to show that if $y \ne 0$ then $\frac{1}{y_n} \rightarrow \frac{1}{y}$. We know that $|y| > 0$. So $\exists N \in \natn$ such that
+	\begin{equation}
+		\forall n \ge N: ~~|y_n - y| < \frac{|y|}{2}
+	\end{equation}
+	This implies that
+	\begin{equation}
+		\forall n \ge N: ~~0 < \frac{|y|}{2} \le |y_n|
+	\end{equation}
+	From this we now know that $\frac{1}{y_n}$ is defined and bounded
+	\begin{equation}
+		\left|\frac{1}{y_n}\right| = \frac{1}{|y_n|} \le \frac{2}{|y|}
+	\end{equation}
+	So finally
+	\begin{equation}
+	\begin{split}
+		\left| \frac{1}{y_n} - \frac{1}{y} \right| = \left| \frac{1}{y_n} \left(1 - y_n \frac{1}{y}\right) \right| = \left| \frac{1}{y_n} \right| \left| 1 - y_n \frac{1}{y} \right| \longrightarrow 0
+	\end{split}
+	\end{equation}
+	And therefore
+	\begin{equation}
+	\begin{split}
+		y_n \longrightarrow y \implies &\frac{y_n}{y} \longrightarrow 1 \\
+		\implbl{\cref{215}} &\left|1 - \frac{y_n}{y}\right| \text{ is a null sequence} \\
+		\implbl{\cref{220}} &\frac{1}{y_n} \longrightarrow \frac{1}{y}
+	\end{split}
+	\end{equation}
+\end{enumerate}
+\end{proof}
+
+\begin{cor}\label{cor:polynomial}
+Let $k \in \natn$, $a_0, \cdots, a_k, b_0, \cdots, b_k \in \realn$ and $b_k \ne 0$. Then
+\[
+	\limn \frac{a_0 + a_1n + a_2n^2 + \cdots + a_{k-1}n^{k-1} + a_kn^k}{b_0 + b_1n + b_2n^2 + \cdots + b_{k-1}n^{k-1} + b_kn^k} = \frac{a_k}{b_k}
+\]
+\end{cor}
+\begin{proof}
+Multiply the numerator and the denominator with $\frac{1}{n^k}$
+\begin{equation}
+	\frac{\frac{a_0}{n^k} + \frac{a_1}{n^{k-1}} + \frac{a_2}{n^{k-2}} + \cdots + \frac{a_{k-1}}{n} + a_k}{\frac{b_0}{n^k} + \frac{b_1}{n^{k-1}} + \frac{b_2}{n^{k-2}} + \cdots + \frac{b_{k-1}}{n} + b_k} \stackrel[n \rightarrow \infty]{}{\longrightarrow} 0
+\end{equation}
+\end{proof}
+
+\begin{eg}
+Let $x \in (-1, 1)$. Then $\limn x^n = 0$
+\end{eg}
+\begin{proof}
+For $x = 0$ this is trivial. For $x \ne 0$ it follows that $|x| \in (0, 1)$ and $\frac{1}{|x|} \in (1, \infty)$. Choose $s = \frac{1}{|x|} - 1 > 0$ and apply the Bernoulli inequality (Theorem \autoref{thm:bernoulli}).
+\begin{equation}
+	(1 + s)^n \ge 1 + n \cdot s
+\end{equation}
+\begin{equation}
+	0 \le |x|^n = \left(\frac{1}{1+s}\right)^n = \frac{1}{(1+s)^n} \le \frac{1}{1 + n\cdot s} = \frac{1 + n \cdot 0}{1 + n \cdot s} \stackrel{\autoref{cor:polynomial}}{\longrightarrow} 0
+\end{equation}
+The squeeze theorem now tells us that $|x^n| = |x|^n \rightarrow 0$ and therefore $x^n \rightarrow 0$.
+\end{proof}
+
+\begin{defi}
+A sequence $(x_n) \subset \realn$ is called monotonic increasing (decreasing) if $x_{n+1} \ge x_n$ ($x_{n+1} \le x_n$) $\forall n \in \natn$.
+\end{defi}
+
+\begin{thm}[Monotone convergence theorem]\label{thm:monotone}
+Let $\rseqdef{x}$ be a monotonic increasing (or decreasing) sequence that is bounded above (or below). Then $\seq{x}$ converges.
+\end{thm}
+\begin{proof}
+Let $\seq{x}$ be monotonic increasing and bounded above. Define
+\begin{equation}
+	x = \sup \underbrace{\{x_n \setvert n \in \natn \}}_A
+\end{equation}
+Now let $\epsilon > 0$, then $x - \epsilon$ is not an upper bound of $A$, this means $\exists N \in \natn$ such that $x_N > x - \epsilon$. The monotony of $\seq{x}$ implies that
+\begin{equation}
+	\forall n \ge N: ~~x_n > x - \epsilon
+\end{equation}
+So therefore
+\begin{equation}
+	x - \epsilon < x_n < x + \epsilon \implies |x_n - x| < \epsilon
+\end{equation}
+\end{proof}
+
+\begin{rem}
+\begin{align*}
+	\seq{x} \text{ is monotonic increasing} &\iff \frac{x_{n+1}}{x_n} \ge 1 ~~\forall n \in \natn \\
+	\seq{x} \text{ is monotonic decreasing} &\iff \frac{x_{n+1}}{x_n} \le 1 ~~\forall n \in \natn
+\end{align*}
+\end{rem}
+
+\begin{eg}
+Consider the following sequence
+\begin{align*}
+	x_1 &= 1 \\
+	x_{n+1} &= \frac{1}{2}\left(x_n + \frac{a}{x_n}\right), ~~a \in [0, \infty)
+\end{align*}
+Notice that $0 < x_n ~~\forall n \in \natn$. For $n \in \natn$ one can show that
+\[
+\begin{split}
+	x_{n+1}^2 = \frac{1}{4} \left(x_n^2 + 2a + \frac{a^2}{x_n^2} \right) &= \frac{1}{4} \left(x_n^2 - 2a + \frac{a^2}{x_n^2} \right) + a \\
+	&= \frac{1}{4} \left(x_n - \frac{a}{x_n} \right)^2 + a \ge a
+\end{split}
+\]
+So $x_n^2 \ge a ~~\forall n \ge 2$, and therefore $\frac{a}{x_n} \le x_n$. Finally
+\[
+	x_{n+1} = \frac{1}{2}\left(x_n + \frac{a}{x_n}\right) \le \frac{1}{2}\left(x_n + x_n\right) = x_n ~~\forall n \ge 2
+\]
+This proves that $\seq{x}$ is monotonic decreasing and bounded below.
+\end{eg}
+
+\begin{thm}[Square root]
+This theorem doubles as the definition of the square root. Let $a \in [0, \infty)$. Then $\exists! x \in [0, \infty)$ such that $x^2 = a$. Such an $x$ is called the square root of $a$, and is notated as $x = \sqrt{a}$.
+\end{thm}
+\begin{proof}
+First we want to prove the uniqueness of such an $x$. Assume that $x^2 = y^2 = a$ with $x, y \in [0, \infty)$. Then $0 = x^2 - y^2 = (x-y)(x+y)$.
+\begin{align}
+	&\implies x + y = 0 \implies x = y = 0 \\
+	&\implies x - y = 0 \implies x = y
+\end{align}
+Now to prove the existence, review the previous example.
+\begin{equation}
+	x_n \longrightarrow x \text{ for some } x \in [0, \infty)
+\end{equation}
+By using the recursive definition we can write
+\begin{equation}
+	2x_n \cdot x_{n+1} = x_n^2 + a \longrightarrow x^2 + a
+\end{equation}
+\begin{equation}
+	\implies 2x^2 = x^2 + a \implies x^2 = a
+\end{equation}
+\end{proof}
+
+\begin{rem}
+Analogously $\exists! x \in [0, \infty) ~\forall a \in [0, \infty)$ such that $x^n = a$. (Notation: $\sqrt[n]{a}$ or $x = a^{\frac{1}{n}}$). We will also introduce the power rules for rational exponents. Let $x, y \in \realn$, $u, v \in \ratn$.
+
+\noindent\begin{minipage}[t]{.33\linewidth}
+\[
+	(x \cdot y)^u = x^u y^u
+\]
+\end{minipage}
+\begin{minipage}[t]{.33\linewidth}
+\[
+	x^u \cdot x^v = x^{u+v}
+\]
+\end{minipage}
+\begin{minipage}[t]{.33\linewidth}
+\[
+	(x^u)^v = x^{u \cdot v}
+\]
+\end{minipage}
+\end{rem}
+
+\begin{thm}
+Let $x, y \in \realn$, $n \in \natn$. Then
+\[
+	0 \le x < y \implies \sqrt[n]{x} < \sqrt[n]{y}
+\]
+
+Let $n, m \in \natn$, $n < m$, $x \in (1, \infty)$, $y \in (0, 1)$. Then
+
+\noindent\begin{minipage}{.5\linewidth}
+\[
+	\sqrt[n]{x} > \sqrt[m]{x}
+\]
+\end{minipage}
+\begin{minipage}{.5\linewidth}
+\[
+	\sqrt[n]{y} < \sqrt[m]{y}
+\]
+\end{minipage}
+\end{thm}
+\begin{proof}
+\reader
+\end{proof}
+
+\begin{thm}
+Let $a \in (0, \infty)$. Then
+
+\noindent\begin{minipage}{.5\linewidth}
+\[
+	\limn \sqrt[n]{n} = 1
+\]
+\end{minipage}
+\begin{minipage}{.5\linewidth}
+\[
+	\limn \sqrt[n]{a} = 1
+\]
+\end{minipage}
+\end{thm}
+\begin{proof}
+Let $\epsilon > 0$. Then
+\begin{equation}
+	\frac{n}{(n + \epsilon)^n} \convinf 0
+\end{equation}
+This means that
+\begin{equation}
+	\exists N \in \natn ~\forall n \ge N: ~~\frac{n}{(n + \epsilon)^n} < 1
+\end{equation}
+Therefore
+\begin{equation}
+	n < (1 + \epsilon)^n \implies 1 - \epsilon < 1 \le \sqrt[n]{n} < 1 + \epsilon \iff \left| \sqrt[n]{n} - 1 \right| < \epsilon
+\end{equation}
+This proves the first statement. The second statement is trivially true for $a = 1$, so let $a > 1$. Then $\exists n \in \natn$ such that $a < n$:
+\begin{align}
+	&\implies 1 < \sqrt[n]{a} < \sqrt[n]{n} \conv{} 1 \\
+	&\implbl{Squeeze} \sqrt[n]{a} \convinf 1
+\end{align}
+Now let $a < 1$. Then $\frac{1}{a} < 1$
+\begin{equation}
+	\limn \sqrt[n]{a} = \limn \frac{1}{\sqrt[n]{\frac{1}{a}}} \convinf \frac{1}{1} = 1
+\end{equation}
+\end{proof}
+
+\begin{defi}
+Let $z \in \cmpln$, $x, y \in \realn$ such that $z = x + iy$.
+\[
+	|z| := \sqrt{z\bar{z}} = \sqrt{x^2 + y^2}
+\]
+\end{defi}
+
+\begin{thm}
+Let $u, v \in \cmpln$. Then
+\begin{align*}
+	|u \cdot v| &= |u||v| & \left| \frac{1}{u} \right| &= \frac{1}{|u|} & |u + v| &\le |u| + |v|
+\end{align*}
+\end{thm}
+\begin{proof}
+\begin{equation}
+	|uv| = \sqrt{uv \cdot \bar{uv}} = \sqrt{u\bar{u} \cdot v\bar{v}} = \sqrt{u\bar{u}} \cdot \sqrt{v\bar{v}} = |u||v|
+\end{equation}
+\begin{equation}
+	\left| \frac{1}{u} \right| |u| = \left| \frac{1}{u} u \right| = |1| \implies \left| \frac{1}{u} \right| = \frac{1}{|u|}
+\end{equation}
+For the final statement, remember that complex numbers can be represented as $z = x + iy$, and then
+\begin{align}
+	&\Re(z) \le |\Re(z)| \le |z| \\
+	&\Im(z) \le |\Im(z)| \le |z|
+\end{align}
+So therefore
+\begin{equation}
+\begin{split}
+	|u + v|^2 &= (u + v) \cdot (\bar{u} + \bar{v}) \\
+	&= u\bar{u} + v\bar{u} + u\bar{v} + v\bar{v} \\
+	&= |u|^2 + 2\Re(\bar{u}v) + |v|^2 \\
+	&\le |u|^2 + 2|\bar{u} v| + |v|^2 \\
+	&= |u|^2 + 2|u||v| + |v|^2 \\
+	&= (|u| + |v|)^2
+\end{split}
+\end{equation}
+\end{proof}
+
+\begin{lem}\label{lem:cmplxnull}
+Let $\cseqdef{z}$, $z \in \cmpln$.
+\[
+	\seq{z} \conv{} z \iff (|z_n - z|) \text{ null sequence}
+\]
+\end{lem}
+\begin{proof}
+Let $x_n = \Re(z_n)$ and $y_n = \Im(z_n)$. Then $x = \Re(z)$ and $y = \Im(z)$. First we prove the "$\impliedby$" direction. Let $(|z_n - z|)$ be a null sequence.
+\begin{equation}
+	0 \le |x_n| - |x| = |\Re(z_n - z)| \le |z_n - z| \conv{} 0
+\end{equation}
+Analogously, this holds for $y_n$ and $y$. We know that $(|x_n - x|)$ is a null sequence if $x_n \conv{} x$ (same for $y_n$ and $y$), therefore
+\begin{equation}
+	\implies z_n \conv{} z
+\end{equation}
+To prove the "$\implies$" direction we use the triangle inequality:
+\begin{equation}
+\begin{split}
+	0 \le |z_n - z| &= |(x_n - x) + i(y_n - y)| \\
+	&\le |x_n - x| + \underbrace{|i(y_n - y)|}_{|y_n - y|} \conv{} 0
+\end{split}
+\end{equation}
+By the squeeze theorem, $|z_n - z|$ is a null sequence.
+\end{proof}
+
+\begin{rem}
+\Cref{lem:cmplxnull} allows us to generalize \Cref{thm:lims} and \Cref{cor:polynomial} for complex sequences.
+\end{rem}
+
+\begin{defi}[Cauchy sequence]
+A sequence $\rseqdef{x}$ (or $\cmpln$) is called Cauchy sequence if
+\[
+	\forall \epsilon > 0 ~\exists N \in \natn ~\forall n, m \ge N: ~~|x_n - x_m| < \epsilon
+\]
+\end{defi}
+
+\begin{thm}[Cauchy convergence test]
+A sequence $\rseqdef{x}$ (or $\cmpln$) converges if and only if it is a Cauchy sequence.
+\end{thm}
+\begin{proof}
+Firstly, let $\seq{x}$ converge to $x$, and let $\epsilon > 0$. Then
+\begin{equation}
+	\exists N \in \natn ~\forall n \ge N: ~~|x_n - x| < \frac{\epsilon}{2}
+\end{equation}
+So therefore $\forall n, m \ge N$:
+\begin{equation}
+	|x_n - x_m| = |x_n -x + x - x_m| \le |x_n - x| + |x - x_m| < \epsilon
+\end{equation}
+This proves the "$\implies$" direction of the theorem. To prove the inverse let $\seq{x}$ be a Cauchy sequence. That means
+\begin{equation}
+	\exists N \in \natn ~\forall n, m \ge N: ~~|x_n - x_m| \le 1
+\end{equation}
+\begin{equation}
+\begin{split}
+	\implies |x_n| = |x_n - x_N + x_N| &\le |x_n - x_N| + |x_N| \\
+	&\le |x_N| + 1 ~~\forall n \ge N
+\end{split}
+\end{equation}
+We will now introduce the two auxiliary sequences
+\begin{align}
+	y_n &= \sup \{x_k \setvert k \ge n \} & z_n &= \inf \{x_k \setvert k \ge n \}
+\end{align}
+$\seq{y}$ and $\seq{z}$ are bounded, and for $\tilde{n} \le n$
+\begin{equation}
+	\{x_k \setvert k \ge \tilde{n} \} \supset \{x_k \setvert k \ge n \}
+\end{equation}
+\begin{align}
+	&\implies y_n = \sup \{ x_k | k \ge n \} \le \sup \{ x_k | k \ge \tilde{n} \} = y_{\tilde{n}} \\
+	&\implies \seq{x} \text{ monotonic decreasing and therefore converging to } y
+\end{align}
+Analogously, this holds true for $\seq{z}$ as well. Trivially,
+\begin{equation}
+	z_n \le x_n \le y_n
+\end{equation}
+If $y = z$, then $\seq{x}$ converges according to the squeeze theorem. Assume $z < y$. Choose $\epsilon > \frac{y - z}{2} > 0$. If $N$ is big enough, then
+\begin{align}
+	\sup \{ x_k \setvert k \ge N \} &= y_N > y - \epsilon \\
+	\inf \{ x_k \setvert k \ge N \} &= z_N < z + \epsilon
+\end{align}
+So for every $N \in \natn$, we know that
+\begin{align}
+	\exists k \ge N&: ~~x_k > y - 2\epsilon \\
+	\exists l \ge N&: ~~x_l < z  + 2\epsilon
+\end{align}
+For these elements the following holds
+\begin{equation}
+	|x_k - x_l| \ge \epsilon = \frac{y - z}{2}
+\end{equation}
+This is a contradiction to our assumption that $\seq{x}$ is a Cauchy sequence, so $y = z$ and therefore $\seq{x}$ converges.
+\end{proof}
+
+\begin{rem}\leavevmode
+\begin{enumerate}[(i)]
+	\item $x_n = (-1)^n$. For this sequence the following holds
+	\[
+		\forall n \in \natn: ~~|x_n - x_{n+1}| = 2 
+	\]
+	So this sequence isn't a Cauchy sequence-
+	
+	\item It is NOT enough to show that $|x_n - x_{n+1}|$ tends to $0$! Example: $\seq{x} = \sqrt{n}$
+	\[
+	\begin{split}
+	\sqrt{n+1} - \sqrt{n} &= (\sqrt{n+1} - \sqrt{n}) \frac{\sqrt{n+1} + \sqrt{n}}{\sqrt{n+1} + \sqrt{n}} \\
+	&= \frac{\cancel{n} + 1 - \cancel{n}}{\sqrt{n+1} + \sqrt{n}} \\
+	&= \frac{1}{\sqrt{n+1} + \sqrt{n}} \convinf 0
+	\end{split}
+	\]
+	However $(\sqrt{n})$ doesn't converge.
+	
+	\item We introduce the following
+	\begin{align*}
+		\text{Limes superior}& & \limsupn x_n &= \limn \sup \{ x_k \setvert k \ge n \} \\
+		\text{Limes inferior}& & \liminfn x_n &= \limn \inf \{ x_k \setvert k \ge n \}
+	\end{align*}
+	$\limsupn x_n \ge \liminfn x_n$ always holds, and if $\seq{x}$ converges then
+	\[
+		x_n \convinf x \iff \limsupn x_n = \liminfn x_n	
+	\]
+\end{enumerate}
+\end{rem}
+
+\begin{defi}
+A sequence $\rseqdef{x}$ is said to be properly divergent to $\infty$ if
+\[
+	\forall k \in (0, \infty) ~\exists N \in \natn ~\forall n \ge N: ~~x_n > k
+\]
+We notate this as
+\[
+	\limn x_n = \infty
+\]
+\end{defi}
+
+\begin{thm}
+Let $\rseqdef{x}$ be a sequence that diverges properly to $\infty$. Then
+\[
+	\limn \frac{1}{x_n} = 0
+\]
+Conversely, if $\seq{y} \subset (0, \infty)$ is a null sequence, then
+\[
+	\limz \frac{1}{y_n} = \infty
+\]
+\end{thm}
+\begin{proof}
+Let $\epsilon > 0$. By condition
+\begin{equation}
+	\exists N \in \natn ~\forall n \ge N: ~~|x_n| > \frac{1}{\epsilon} ~~\left( \iff \frac{1}{|x_n|} < \epsilon \right)
+\end{equation}
+Therefore $\frac{1}{x_n}$ is a null sequence. The second part of the proof is left as an exercise for the reader.
+\end{proof}
+
+\begin{rem}[Rules for computing]
+In this remark we will introduce some basic "rules" for working with infinities. These rules are exclusive to this topic, and are in no way universal! This should become obvious with our first two rules:
+\begin{align*}
+	\frac{1}{\pm\infty} &= 0 & \frac{1}{0} &= \infty
+\end{align*}
+Obviously, division by $0$ is still a taboo, however it works in this case since we are working with limits, and not with absolutes. Let $a \in \realn$, $b \in (0, \infty)$, $c \in (1, \infty)$, $d \in (0, 1)$. The remaining rules are:
+\begin{align*}
+	a + \infty &= \infty	&	a - \infty &= -\infty \\
+	\infty + \infty &= \infty	&	-\infty - \infty &= -\infty \\
+	b \cdot \infty &= \infty	&	b \cdot (-\infty) &= -\infty \\
+	\infty \cdot \infty &= \infty	&	\infty \cdot (-\infty) &= -\infty \\
+	c^{\infty} &= \infty	&	c^{-\infty} &= 0 \\
+	d^{\infty} &= 0		&	d^{-\infty} &= \infty
+\end{align*}
+There are no general rules for the following:
+\begin{align*}
+	&\infty - \infty & &\frac{\infty}{\infty} & &0 \cdot \infty & &1^{\infty}
+\end{align*}
+\end{rem}
+
+\begin{thm}
+Let $\rseqdef{x}$ be a sequence converging to $x$, and let $\nseqdef{k}$ be a sequence such that
+\[
+	\limn k_n = \infty
+\]
+Then
+\[
+	\limn x_{k_n} = x
+\]
+\end{thm}
+\begin{proof}
+Let $\epsilon > 0$. Then
+\begin{equation}
+	\exists N \in \natn ~\forall n \ge N: ~~|x_n - x| < \epsilon
+\end{equation}
+Furthermore
+\begin{equation}
+	\exists \tilde{N} \in \natn ~\forall n \ge \tilde{N}: ~~k_n > N
+\end{equation}
+Therefore
+\begin{equation}
+	\forall n \ge \tilde{N}: ~~|x_{k_n} - x| < \epsilon
+\end{equation}
+\end{proof}
+
+\begin{eg}
+Consider the following sequence
+\[
+	x_n = \frac{n^{2n} + 2n^n}{n^{3n} - n^n}
+\]
+This can be rewritten as
+\[
+	\frac{n^{2n} + 2n^n}{n^{3n} - n^n} = \frac{(n^n)^2 + 2(n^n)}{(n^n)^3 - (n^n)}
+\]
+Introduce the subsequence $k_n = n^n$:
+\[
+	\limk\frac{k^2 + 2k}{k^3 - k} = 0 \implies \limn\frac{n^{2n} + 2n^n}{n^{3n} - n^n} = 0
+\]
+\end{eg}
+\end{document}

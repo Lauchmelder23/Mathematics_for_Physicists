@@ -1,0 +1,84 @@
+\documentclass[../../script.tex]{subfiles}
+
+% !TEX root = ../../script.tex
+
+\begin{document}
+\section{Elementary Inequalities}
+\begin{eg}\leavevmode
+\begin{itemize}
+	\item $x \in \realn \implies x^2 \ge 0$
+	\item $x^2 - 2xy + y^2 = (x - y)^2 \ge 0 ~~\forall x, y \in \realn$
+	\item $x^2 + y^2 \ge 2xy$
+\end{itemize}
+\end{eg}
+
+\begin{thm}[Absolute inequalities]\label{thm:abs}
+Let $x \in \realn$, $c \in [0, \infty)$. Then
+\begin{enumerate}[(i)]
+	\item $-|x| \le x \le |x|$
+	\item $|x| \le c \iff -c \le x \le c$
+	\item $|x| \ge c \iff x \le -c \vee c \le x$
+	\item $|x| = 0 \iff x = 0$
+\end{enumerate}
+\end{thm}
+
+\begin{thm}[Triangle inequality]\label{thm:triangle}
+Let $x, y \in \realn$. Then
+\[
+	|x + y| \le |x| + |y|
+\]
+\end{thm}
+\begin{proof}
+From \Cref{thm:abs} follows $x \le |x|$ and $y \le |y|$.
+\begin{equation}
+	\implies x + y \le |x| + |y|
+\end{equation}
+However, from the same theorem follows $-|x| \le x$ and $-|y| \le y$.
+\begin{align}
+	&\implies -|x|-|y| = x + y \\
+	&\implies |x + y| \le |x| + |y|
+\end{align}
+\end{proof}
+
+\begin{cor}
+$n \in \natn$, $x_1, \cdots, x_n \in \realn$. Then
+\[
+	\left| \sum_{i=1}^n x_i \right| \le \sum_{i=1}^n |x_i|
+\]
+\end{cor}
+\begin{proof}
+Proof by induction. Let $n = 1$:
+\begin{equation}
+	|x_1| \le |x_1|
+\end{equation}
+This statement is trivially true. Now assume the corollary holds for $n \in \natn$. Then
+\begin{equation}
+\begin{split}
+	\left| \sum_{i=1}^{n+1} x_i \right| = \left| \sum_{i=1}^n x_i + x_{n+1} \right| &\le \left| \sum_{i=1}^n  x_n \right| + |x_{n+1}| \\
+	&\le \sum_{i=1}^n |x_i| + |x_{n+1}| \\
+	&= \sum_{i=1}^{n+1} |x_i|
+\end{split}
+\end{equation}
+\end{proof}
+
+\begin{thm}[Bernoulli inequality]\label{thm:bernoulli}
+Let $x \in [-1, \infty)$ and $n \in \natn$. Then
+\[
+	(1 + x)^n \ge 1 + nx
+\]
+\end{thm}
+\begin{proof}
+Proof by induction. Let $n = 1$:
+\begin{equation}
+	1 + x \ge 1 + 1\cdot x
+\end{equation}
+This is trivial. Now assume the theorem holds for $n \in \natn$. Then
+\begin{equation}
+\begin{split}
+	(1 + x)^{n+1} = (1+x)^n (1+x) &\ge (1 + nx)(1 + x) \\
+	&= 1 + (n+1)x + nx^2 \\
+	&\ge 1 + (n+1)x
+\end{split}
+\end{equation}
+\end{proof}
+\end{document}

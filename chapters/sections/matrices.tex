@@ -1,0 +1,107 @@
+\documentclass[../../script.tex]{subfiles}
+
+% !TEX root = ../../script.tex
+
+\begin{document}
+\section{Matrices and Gaussian elimination}
+\begin{defi}
+Let $a_{ij} \in \field$, with $i \in \set{1, \cdots, n}$, $j \in \set{1, \cdots, m}$. Then
+\[
+\begin{pmatrix}
+	a_{11} & a_{12} & \cdots & a_{1m} \\
+	a_{21} & a_{22} & \cdots & a_{2m} \\
+	\vdots & \vdots & \ddots & \vdots \\
+	a_{n1} & a_{n2} & \cdots & a_{nm}
+\end{pmatrix}
+\]
+is called an $n \times m$-matrix. $(n, m)$ is said to be the dimension of the matrix. An alternative notation is
+\[
+	A = (a_{ij}) \in \field^{n \times m}
+\]
+$\field^{n\times m}$ is the space of all $n \times m$-matrices. The following operations are defined for $A, B \in \field^{n \times m}$, $C \in \field^{m \times l}$:
+\begin{enumerate}[(i)]
+	\item Addition
+	\[
+		A + B = 
+		\begin{pmatrix}
+			a_{11} + b_{11} & \cdots & a_{1m} + b_{1m} \\
+			\vdots & \ddots & \vdots \\
+			a_{n1} + b_{n1} & \cdots & a_{nm} + b_{nm}
+		\end{pmatrix}
+	\]
+	
+	\item Scalar multiplication
+	\[
+		\alpha \cdot A = 
+		\begin{pmatrix}
+			\alpha a_{11} & \cdots & \alpha a_{1m} \\
+			\vdots & \ddots & \vdots \\
+			\alpha a_{n1} & \cdots & \alpha a_{nm}
+		\end{pmatrix}
+	\]
+	
+	\item Matrix multiplication
+	\[
+		A \cdot C = 
+		\begin{pmatrix}
+			a_{11}c_{11}+a_{12}c_{21}+\cdots+a_{1m}c_{m1} & \cdots & a_{11}c_{1l}+a_{12}c_{2l}+\cdots+a_{1m}c_{ml} \\
+			\vdots & \ddots & \vdots \\
+			a_{n1}c_{11}+a_{n2}c_{21}+\cdots+a_{nm}c_{m1} & \cdots & a_{n1}c_{1l}+a_{n2}c_{2l}+\cdots+a_{nm}c_{ml}
+		\end{pmatrix}
+	\]
+	or in shorthand notation
+	\[
+		(AC)_{ij} = \series[m]{k} a_{ik}c_{kj}
+	\]
+	
+	\item Transposition
+	
+	The transposed matrix $A^T \in \field^{m \times n}$ is created by writing the rows of $A$ as the columns of $A^T$ (and vice versa).
+	
+	\item Conjugate transposition
+	\[
+		\conj{A} = \left(\overline{A}\right)^T
+	\]
+\end{enumerate}
+\end{defi}
+
+\begin{rem}\leavevmode
+\begin{enumerate}[(i)]
+	\item $\field^{n \times m}$ (for $n, m \in \natn$) is a vector space.
+
+    \item $A \cdot B$ is only defined if  $A$ has as many columns as $B$ has rows.
+    
+    \item $\field^{n \times 1}$ and $\field^{1 \times n}$ can be trivially identified with $\field^n$.
+    
+    \item Let $A, B, C, D, E$ matrices of fitting dimensions and $\alpha \in \field$. Then
+    \begin{align*}
+        (A + B) C &= AC + BC \\
+        A(B + C) &= AB + AC \\
+        A(CE) &= (AC)E \\
+        \alpha (AC) &= (\alpha A) C = A (\alpha C)
+    \end{align*}
+    \begin{align*}
+        (A + B)^T &= A^T + B^T & \conj{(A + B)} &= \conj{A} + \conj{B} \\
+        (\alpha A)^T &= \alpha (A)^T & \conj{(\alpha A)} &= \overline{A} \conj{A} \\
+        (AC)^T &= C^T \cdot A^T & \conj{(AC)} &= \conj{C} \conj{A}
+    \end{align*}
+    \begin{proof}[Proof of associativity]
+        Let $A \in \field^{n \times m}, C \in \field^{m \times l}, E \in \field^{l \times p}$. Furthermore let $i \in \set{1, \cdots, n}, j \in \set{1, \cdots, p}$.
+        
+		\begin{equation}
+		\begin{split}
+            \left((AC)E\right)_{ij} &= \sum_{k=1}^l (AC)_{ik} E_{kj} = \sum_{k=1}^l \left(\sum_{\tilde{k} = 1}^m a_{i\tilde{k}} c_{\tilde{k}k}\right) \cdot e_{kj} \\
+			&= \sum_{k=1}^l \sum_{\tilde{k} = 1}^m a_{i\tilde{k}} \cdot c_{\tilde{k}k} \cdot e_{kj} \\
+			&= \sum_{\tilde{k} = 1}^m a_{i\tilde{k}} \left( \sum_{k=1}^l c_{\tilde{k} k} e_{kj}\right) \\
+			&= \sum_{\tilde{k} = 1}^m a_{i \tilde{k}} \cdot (CE)_{\tilde{k}j} \\
+			&= (A(CE))_{ij}
+        \end{split}	
+		\end{equation}
+
+		\begin{equation}
+			\implies A(CE) = A(CE)
+		\end{equation}
+    \end{proof}
+\end{enumerate}
+\end{rem}
+\end{document}

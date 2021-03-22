@@ -1,0 +1,346 @@
+\documentclass[../../script.tex]{subfiles}
+
+% !TEX root = ../../script.tex
+
+\begin{document}
+\section{Vector Spaces}
+We introduce the new field $\field$ which will stand for any field. It can be either $\realn$, $\cmpln$ or any other set that fulfils the field axioms.
+
+\begin{defi}
+A vector space is a set $V$ with the operations
+
+\noindent\begin{minipage}[t]{.5\linewidth}
+\[
+	\text{Addition} 
+\]
+\[
+\begin{split}
+	+: V \times V &\longrightarrow V \\
+	(x, y) &\longmapsto x + y
+\end{split}
+\]
+\end{minipage}
+\begin{minipage}[t]{.5\linewidth}
+\[
+	\text{Scalar Multiplication} 
+\]
+\[
+\begin{split}
+	\cdot: \field \times V &\longrightarrow V \\
+	(\alpha, y) &\longmapsto \alpha x
+\end{split}
+\]
+\end{minipage}
+We require the following conditions for these operations
+\begin{enumerate}[(i)]
+	\item $\exists 0 \in V ~\forall x \in V: ~~x + 0 = x$
+	\item $\forall x \in V ~\exists (-x) \in V: ~~x + (-x) = 0$
+	\item $\forall x, y \in V: ~~x + y = y + x$
+	\item $\forall x, y, z \in V: ~~(x + y) + z = x + (y + z)$
+	\item $\forall \alpha \in \field ~\forall x, y \in V: ~~\alpha (x + y) = \alpha x + \alpha y$
+	\item $\forall \alpha, \beta \in \field ~\forall x \in V: ~~(\alpha + \beta)x = \alpha x + \beta x$
+	\item $\forall \alpha, \beta \in \field ~\forall x \in V: ~~(\alpha\beta )x = \alpha(\beta x)$
+	\item $\forall x \in V: ~~1 \cdot x = x$
+\end{enumerate}
+Elements from $V$ are called vectors, elements from $\field$ are called scalars.
+\end{defi}
+
+\begin{rem}
+We now have two different addition operations that are denoted the same way:
+\begin{enumerate}[(i)]
+	\item $+: V \times V \rightarrow V$
+	\item $+: \field \times \field \rightarrow \field$
+\end{enumerate}
+Analogously there are two neutral elements and two multiplication operations.
+\end{rem}
+
+\begin{eg}\leavevmode
+\begin{enumerate}[(i)]
+	\item $\field$ is already a vector space
+	\item $V = \field^2$. In the case that $\field = \realn$ this vector space is the two-dimensional Euclidean space. The neutral element is $(0, 0)$, and the inverse is $(\chi_1, \chi_2) \rightarrow (-\chi_1, -\chi_2)$. This can be extended to $\field^n$.
+	\item $\field$-valued sequences:
+	\[
+		V = \set[\chi \in \field ~~\forall n \in \natn]{\seq{\chi}_{n \in \natn}}
+	\]
+	\item Let $M$ be a set. Then the set of all $\field$-valued functions on $M$ is a vector space
+	\[
+		V = \set[f: M \rightarrow \field]{f}
+	\]
+\end{enumerate}
+\end{eg}
+
+\begin{defi}
+Let $V$ be a vector space, let $x, x_1, \cdots, x_n \in V$ and let $M \subset V$.
+\begin{enumerate}[(i)]
+	\item $x$ is said to be a linear combination of $x_1, \cdots, x_n$ if $\exists \alpha_1, \cdots, \alpha_n \in \field$ such that
+	\[
+		x = \sum_{k=1}^n \alpha_k x_k
+	\]
+	
+	\item The set of all linear combinations of elements from $M$ is called the \textit{span}, or the \textit{linear hull} of $M$
+	\[
+		\spn M := \set[n \in \natn, ~\alpha_1, \cdots, \alpha_n \in \field, ~x_1, \cdots, x_n \in V]{\sum_{k=1}^n \alpha_k x_k}
+	\]
+	
+	\item $M$ (or the elements of $M$) are said to be linearly independent if $\forall \alpha_1, \cdots, \alpha_n \in \field, ~x_1, \cdots, x_n \in V$
+	\[
+		\series[n]{k} \alpha_k x_k = 0 \implies \alpha_1 = \alpha_2 = \cdots = \alpha_n = 0
+	\]
+	
+	\item $M$ is said to be a generator (of $V$) if
+	\[
+		\spn M = V
+	\]
+	
+	\item $M$ is said to be a basis of $V$ if it is a generator and linearly independent.
+	
+	\item $V$ is said to be finite-dimensional if there is a finite generator.
+\end{enumerate}
+\end{defi}
+
+\begin{eg}\leavevmode
+\begin{enumerate}[(i)]
+	\item For $V = \realn^2$ consider the vectors $x=(1, 0)$, $y=(1,1)$. These vectors are linearly independent, since
+\[
+	\alpha x + \beta y = \alpha(1, 0) + \beta(1, 1) = (0, 0) \implies \alpha + \beta = 0 \wedge \beta = 0
+\]
+So therefore $\alpha = \beta = 0$. We can show that $\spn\{x, y\} = \realn^2$ because
+\[
+	(\alpha, \beta) = (\alpha - \beta)x + \beta y
+\]
+So $\set{x, y}$ is a generator, hence $\realn^2$ is finite-dimensional.
+
+	\item For $V = \realn^3$ consider $x=(1, -1, 2)$, $y=(2, -1, 0)$, $z=(4, -3, 3)$. These vectors are linearly dependent because
+	\[
+		2x + y - z = (0, 0, 0)
+	\]
+	
+	\item Let $V = \set[f:\realn\rightarrow\realn]{f}$. Consider the vectors
+	\[
+	\begin{split}
+		f_n: \realn &\longrightarrow \realn \\
+		x &\longmapsto x^n
+	\end{split}
+	\]
+	The $f_0, f_1, \cdots, f_n, \cdots$ are linearly independent, because
+	\[
+		0 = \series_{k=0}^n \alpha_k f_k = \series_{k=0}^n \alpha_k x^k
+	\]
+	implies $\alpha_0 = \alpha_1 = \cdots = \alpha_n = 0$. The span of the $f_k$ is the set of all polynomials of $(\le n)$-th degree. The function $x \mapsto (x-1)^3$ is a linear combination of $f_0, \cdots, f_3$:
+	\[
+		(x-1)^3 = x^3 - 3x^2 + 3x - 1
+	\]
+\end{enumerate}
+\end{eg}
+
+\begin{rem}
+Let $V$ be a vector space, $y \in V$ a linear combination of $y_1, \cdots, y_n$, and each of those a linear combination of $x_1, \cdots, x_n$. I.e.
+\[
+	\exists \alpha_1, \cdots, \alpha_n \in \field: ~~y = \series[n]{k} \alpha_k y_k
+\]
+and
+\[
+	\exists \beta_{k,l} \in \field: ~~y_k = \series[n]{l} \beta_{k,l} x_l
+\]
+Then
+\[
+	y = \series[n]{k} \alpha_k y_k = \series[n]{k}\alpha_k\series[n]{l}\beta_{k, l} x_l = \series[n]{l}\underbrace{\left(\series[n]{k}\alpha_k\beta_{k,l}\right)}_{\in \field} x_l
+\]
+So therefore
+\[
+	\spn(\spn(M)) = \spn(M)
+\]
+\end{rem}
+
+\begin{thm}
+Let $V$ be a finite-dimensional vector space, and let $x_1, \cdots, x_n \in V$. Then the following are equivalent
+\begin{enumerate}[(i)]
+	\item $x_1, \cdots, x_n$ is a basis.
+	\item $x_1, \cdots, x_n$ is a minimal generator (Minimal means that no subset is a generator).
+	\item $x_1, \cdots, x_n$ is a maximal linearly independent system (Maximal means that $x_1, \cdots, x_n, y$ is not linearly independent).
+	\item $\forall x \in V$ there exists a unique $\alpha_1, \cdots, \alpha_n \in \field$
+	\[
+		x = \series[n]{k} \alpha_k x_k
+	\]
+\end{enumerate}
+\end{thm}
+\begin{proof}
+First we prove "(i) $\implies$ (ii)". Let $x_1, \cdots, x_n$ be a basis of $V$. By definition $x_1, \cdots, x_n$ is a generator. Assume that $x_2, \cdots, x_n$ is still a generator, then
+\begin{equation}
+	\exists \alpha_2, \cdots, \alpha_n \in \field: ~~x_1 = \series[n]{k} \alpha_k x_k
+\end{equation}
+However this contradicts the linear independence of the basis. Next, to prove "(ii) $\implies$ (iii)" let $x_1, \cdots, x_n$ be a minimal generator. Let $\alpha_1, \cdots, \alpha_n \in \field$ such that
+\begin{equation}
+	0 = \series[n]{k} \alpha_k x_k
+\end{equation}
+Assume that one coefficient is $\ne 0$ (w.l.o.g. $\alpha_1 = 0$). Then
+\begin{equation}
+	x_1 = \sum_{k=2}^n -\frac{\alpha_k}{\alpha_1} x_k
+\end{equation}
+$x_1, \cdots, x_n$ is a generator, i.e. for $x \in V$
+\begin{equation}
+	\exists \beta_1, \cdots, \beta_n \in \field: ~~x = \series[n]{k} \beta_k x_k = \sum_{k=2}^n\left(\beta_k - \frac{\alpha_k}{\alpha_1}\right)x_k
+\end{equation}
+But this implies that $x_2, \cdots, x_n$ is a generator. That contradicts the assumption that $x_1, \cdots, x_n$ was minimal.
+\begin{equation}
+	\implies \alpha_1 = \alpha_2 = \cdots = \alpha_n = 0
+\end{equation}
+Now let $y \in V$. Then 
+\begin{equation}
+	\exists \gamma_1, \cdots, \gamma_n \in \field: ~~y = \series[n]{k} \gamma_k x_k
+\end{equation}
+So $x_1, \cdots, x_n, y$ is linearly dependent, and therefore $x_1, \cdots, x_n$ is maximal. To prove "(iii) $\implies$ (iv)" let $x_1, \cdots, x_n$ be a maximal linearly independent system. If $y \in V$, then
+\begin{equation}
+	\exists \alpha_1, \cdots, \alpha_k, \beta \in \field: ~~\series[n]{k} \alpha_k x_k + \beta y = 0
+\end{equation}
+Assume $\beta = 0$, then consequently
+\begin{equation}
+	x_1, \cdots, x_n \text{ linearly independent} \implies \alpha_1 = \alpha_2 = \cdots = \alpha_n = 0
+\end{equation}
+This is a contradiction, so therefore $\beta \ne 0$:
+\begin{equation}
+	y = \series[n]{k} -\frac{\alpha_k}{\beta} x_k
+\end{equation}
+The uniqueness of these coefficients are left as an exercise for the reader. Finally, to finish the proof we need to show "(iv) $\implies$ (i)". By definition
+\begin{equation}
+	V = \spn\set{x_1, \cdots, x_n}
+\end{equation}
+Hence, $\set{x_1, \cdots, x_n}$ is a generator. In case
+\begin{equation}
+	0 = \series[n]{k} \alpha_k x_k
+\end{equation}
+holds, then $\alpha_1 = \cdots = \alpha_n = 0$ follows from the uniqueness.
+\end{proof}
+
+\begin{cor}
+Every finite-dimensional vector space has a basis.
+\end{cor}
+\begin{proof}
+By condition, there is a generator $x_1, \cdots, x_n$. Either this generator is minimal (then it would be a basis), or we remove elements until it is minimal.
+\end{proof}
+
+\begin{lem}\label{lem:steinitz}
+Let $V$ be a vector space and $x_1, \cdots, x_k \in V$ a linearly independent set of elements. Let $y \in V$, then
+\[
+	x_1, \cdots, x_k, y \text{ linearly independent} \iff  y \notin \spn\set{x_1, \cdots, x_k}
+\]
+\end{lem}
+\begin{proof}
+To prove "$\impliedby$", assume $y \ne \spn\set{x_1,\cdots,x_k}$. Therefore $x_1, \cdots, x_k, y$ must be linearly independent. To see this, consider
+\begin{equation}
+	0 = \series[n]{k} \alpha_k x_k + \beta y ~~\alpha_1, \cdots, \alpha_n \in \field
+\end{equation}
+Then $\beta = 0$, otherwise we could solve the above for $y$, and that would contradict our assumption. The argument works in the other direction as well.
+\end{proof}
+
+\begin{thm}[Steinitz exchange lemma]
+Let $V$ be a finite-dimensional vector space. If $x_1, \cdots, x_m$ is a generator and $y_1, \cdots, y_n$ a linear independent set of vectors, then $n \le m$. In case $x_1, \cdots, x_m$ and $y_1, \cdots, y_n$ are both bases, then $n=m$.
+\end{thm}
+\begin{hproof}
+Let $K \in \set{0, \cdots, \min\set{m, n} - 1}$ and let
+\begin{equation}
+	x_1, \cdots, x_K, y_{K+1}, \cdots, y_n
+\end{equation}
+be linearly independent. Assume that
+\begin{equation}
+	x_{K+1}, \cdots, x_m \in \spn\set{x_1, \cdots, x_k, y_{K+2}, \cdots, y_n}
+\end{equation}
+Then
+\begin{equation}
+	y_{K+1} \in \spn\set{x_1, \cdots, x_m} \subset \spn\set{x_1, \cdots, x_K, y_{K+2}, \cdots, y_m}
+\end{equation}
+This contradicts with the linear independence of $x_1, \cdots, x_K, y_{K+2}, \cdots y_n$. Furthermore, 
+\begin{equation}
+	\exists x_i \in V: ~~x_i \notin \spn\set{x_1, \cdots, x_K, y_{K+ 2}, \cdots, y_n}
+\end{equation}
+W.l.o.g. $x:i = x_{K+1}$. By \Cref{lem:steinitz}, $x_1, \cdots, x_{K+1}, y_{K+2}, \cdots y_n$ is linearly independent. We can now sequentially replace $y_i$ with $x_i$ without losing the linear independence. Assume $n > m$, then this process leads to a linear independent system $x_1, \cdots, x_m, y_{m+1}, \cdots, y_n$. But since $x_1, \cdots, x_m$ is a generator, $y_{m+1}$ is a linear combination of $x_1, \cdots, x_m$. If $x_1, \cdots, x_m$ and $y_1, \cdots, y_n$ are both bases, then we cannot change the roles and therefore $m = n$.
+\end{hproof}
+
+\begin{defi}
+The amount of elements in a basis is said to be the dimension of $V$, and is denoted as $\dim V$ .
+\end{defi}
+
+\begin{eg}\leavevmode
+\begin{enumerate}[(i)]
+	\item Let $V = \realn^n$ (or $\cmpln^n$). Define
+	\[
+		e_k = (0, 0, \cdots, 0, \underset{\substack{\uparrow\\\mathrlap{\text{\hspace{-1.5em}k-th position}}}}{1}, 0, \cdots, 0)
+	\]
+	Then $e_1, \cdots, e_n$ is a basis, in fact, it is the standard basis of $\realn^n$ ($\cmpln^n$).
+	
+	\item Let $V$ be the vector space of polynomials
+	\[
+		V = \set[n \in \natn, ~\alpha_1, \cdots, \alpha_n \in \realn, ~~f(x) = \sum_{k=1}^n \alpha_k x^k ~~\forall x \in \realn]{f:\realn \longrightarrow \realn}
+	\]
+	This space has the basis
+	\[
+		\set[n \in \natn_0]{x \longmapsto x^n}
+	\]
+\end{enumerate}
+\end{eg}
+
+\begin{cor}
+In an $n$-dimensional vector space, every generator has at least $n$ elements, and every linearly independent system has at most $n$ elements.
+\end{cor}
+\begin{proof}
+Let $M \subset \spn\set{x_1, \cdots, x_n}$. Then
+\begin{equation}
+	V = \spn M \subset \spn{x_1, \cdots, x_n}
+\end{equation}
+Hence, $x_1, \cdots, x_n$ is a generator. On the other hand, assume 
+\begin{equation}
+	\exists y \in M \setminus \spn\set{x_1, \cdots, x_n}
+\end{equation}
+Then $x_1, \cdots, x_n, y$ is linearly independent (\Cref{lem:steinitz}), and we can sequentially add elements from $M$ until $x_1, \cdots, x_n, y_{n+1}, \cdots, y_{n+m}$ is a generator.
+\end{proof}
+
+\begin{defi}[Vector subspace]
+Let $V$ be a vector space. A non-empty set $W \subset V$ is called a vector subspace if
+\[
+	\forall x, y \in W ~\forall \alpha \in \field: ~~x + \alpha y \in W
+\]
+\end{defi}
+
+\begin{eg}
+Consider
+\[
+	W = \set[chi \in \realn]{(\chi, \chi) \in \realn^2}
+\]
+This is a subspace, because
+\[
+	(\chi, \chi) + \alpha(\eta, \eta) = (\chi + \alpha\eta, \chi + \alpha\eta)
+\]
+However,
+\[
+	A = \set[\chi^2 + \eta^2 = 1]{(\chi, \eta) \in \realn^2}
+\]
+is not a subspace, because $(1, 0), (0, 1) \in A$, but $(1, 1) \notin A$.
+\end{eg}
+
+\begin{rem}\leavevmode
+\begin{enumerate}[(i)]
+	\item Every subspace $W \subset V$ contains the $0$ and the inverse elements.
+	
+	\item Let $W \subset V$ be a subspace. Then
+	\[
+		\forall x_1, \cdots, x_n \in W, ~\alpha_1, \cdots, \alpha_n \in \field: ~~\series[n]{k} \alpha_k x_k \in W
+	\]
+	Furthermore, $M \subset W \implies \spn M \subset W$.
+	
+	\item $M \subset V$ is a subspace if and only of $\spn M = M$.
+	
+	\item Let $I$ be an index set, and $W_i \subset V$ subspaces. Then
+	\[
+		\bigcap_{i \in I} W_i
+	\]
+	is also a subspace
+	
+	\item The previous doesn't hold for unions.
+	
+	\item Let $M \subset V$:
+	\[
+		\spn M = \bigcap_{W \supset M \text{ subspace of } V} W
+	\]
+\end{enumerate}
+\end{rem}
+\end{document}

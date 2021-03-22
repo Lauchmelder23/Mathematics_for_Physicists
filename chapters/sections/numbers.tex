@@ -1,0 +1,478 @@
+\documentclass[../../script.tex]{subfiles}
+
+% !TEX root = ../../script.tex
+
+\begin{document}
+\section{Numbers}
+\begin{defi}
+The real numbers are a set $\realn$ with the following structure
+\begin{enumerate}[(i)]
+	\item Addition
+	\begin{align*}
+		+: \realn \times \realn \longrightarrow \realn
+	\end{align*}
+	\item Multiplication
+	\begin{align*}
+		\cdot: \realn \times \realn \longrightarrow \realn
+	\end{align*}
+	Instead of $+(x, y)$ and $\cdot(x, y)$ we write $x+y$ and $x \cdot y$.
+	\item Order relations
+	
+	$\le$ is a relation on $\realn$, i.e. $x \le y$ is a statement.
+\end{enumerate}
+\end{defi}
+
+\begin{defi}[Axioms of Addition]\leavevmode
+\begin{enumerate}[label=A\arabic*:]
+	\item Associativity
+	\[
+		\forall a, b, c \in \realn: ~~(a + b) + c = a + (b + c)
+	\]
+	\item Existence of a neutral element
+	\[
+		\exists 0 \in \realn ~\forall x \in \realn: ~~x + 0 = x
+	\]
+	\item Existence of an inverse element
+	\[
+		\forall x \in \realn ~\exists (-x) \in \realn: ~~ x + (-x) = 0
+	\]
+	\item Commutativity
+	\[
+		\forall x, y \in \realn: ~~x + y = y + x
+	\]
+\end{enumerate}
+\end{defi}
+
+\begin{thm}\label{thm:addition}
+$x, y \in \realn$
+
+\begin{enumerate}[(i)]
+	\item The neutral element is unique
+	\item $\forall x \in \realn$ the inverse is unique
+	\item $-(-x) = x$
+	\item $-(x + y) = (-x) + (-y)$
+\end{enumerate}
+\end{thm}
+\begin{proof}\leavevmode
+	\begin{enumerate}[(i)]
+		\item Assume $a, b \in \realn$ are both neutral elements, i.e.
+		\begin{equation}
+			\forall x \in \realn: x + a = x = x + b
+		\end{equation}
+		This also implies that $a + b = a$ and $b + a = b$.
+		\begin{equation}
+			\implies b = b + a \stackrel{\text{A4}}{=} a + b = a
+		\end{equation}
+		Therefore $a = b$.
+		
+		\item Assume $c, d \in \realn$ are both inverse elements of $x \in \realn$, i.e.
+		\begin{equation}
+			x + c = 0 = x + d
+		\end{equation}
+		\begin{equation}
+			c = 0 + c = x + d + c \stackrel{\text{A4}}{=} x + c + d = 0 + d = d
+		\end{equation}
+		Therefore $c = d$.
+		
+		\item \reader
+		
+		\item
+		\begin{equation}
+		\begin{split}
+			x + y + ((-x) + (-y)) &= x + y + (-x) + (-y) \\ 
+			&\eqlbl{A4} x + (-x) + y + (-y) = 0
+		\end{split}
+		\end{equation}
+		Therefore $(-x) + (-y)$ is the inverse element of $(x+y)$, i.e. $-(x + y) = (-x) + (-y)$.
+	\end{enumerate}
+\end{proof}
+
+\begin{defi}[Axioms of Multiplication]\leavevmode
+\begin{enumerate}[label=M\arabic*:]
+	\item $\forall x, y, z \in \realn: ~~(xy)z = x(yz)$
+	\item $\exists 1 \in \realn ~\forall x \in \realn: ~~x1 = x$
+	\item $\forall x \in \realn \setminus \{0\} ~\exists \inv{x} \in \realn: ~~x\inv{x} = 1$
+	\item $\forall x, y \in \realn: ~~xy = yx$
+\end{enumerate}
+\end{defi}
+
+\begin{defi}[Compatibility of Addition and Multiplication]\leavevmode
+\begin{enumerate}[label=R\arabic*:]
+	\item Distributivity
+	\[
+		\forall x, y, z \in \realn: ~~ x\cdot(y + z) = (x \cdot y) + (x \cdot z)
+	\]
+	\item $0 \ne 1$
+\end{enumerate}
+\end{defi}
+
+\begin{thm}
+$x, y \in \realn$
+
+\begin{enumerate}[(i)]
+	\item $x \cdot 0 = 0$
+	\item $-(x \cdot y) = x \cdot (-y) = (-x) \cdot y$
+	\item $(-x) \cdot (-y) = x \cdot y$
+	\item $\inv{(-x)} = -(\inv{x}) ~~(\text{only for } x \ne 0)$
+	\item $xy = 0 \implies x = 0 \vee y = 0$
+\end{enumerate}
+\end{thm}
+\begin{proof}\leavevmode
+\begin{enumerate}[(i)]
+	\item $x \in \realn$
+	\begin{equation}
+		x \cdot 0 \eqlbl{A2} x \cdot (0 + 0)  \eqlbl{R1} x \cdot 0 + x \cdot 0
+	\end{equation}
+	\begin{equation}
+		\stackrel{\text{A3}}{\implies} 0 = x \cdot 0
+	\end{equation}
+	
+	\item $x,y \in \realn$
+	\begin{equation}
+		xy + (-(xy)) \eqlbl{A3} 0 \eqlbl{(i)} x \cdot 0 = x(y + (-y)) \eqlbl{R1} xy + x(-y)
+	\end{equation}
+	\begin{equation}
+		\stackrel{\text{A3}}{\implies} -(xy) = x\cdot(-y)
+	\end{equation}
+	
+	\item \reader
+	
+	\item $x \in \realn$
+	\begin{equation}
+		x \cdot (-\inv{(-x)}) \eqlbl{(ii)} -(x \cdot \inv{(-x)}) \eqlbl{(ii)} (-x) \cdot \inv{(-x)} \eqlbl{M3} 1 \eqlbl{M3} x \cdot \inv{x}
+	\end{equation}
+	\begin{equation}
+		\stackrel{\text{M3}}{\implies} -\inv{(-x)} = \inv{x} \stackrel{\ref{thm:addition} (iii)}{\implies} \inv{(-x)} = -(\inv{x})		
+	\end{equation}
+	
+	\item $x, y \in \realn$ and $y \ne 0$. Then $\exists \inv{y} \in \realn$:
+	\begin{equation}
+		xy = 0 \implies xy\inv{y} \eqlbl{M3} x \cdot 1 \eqlbl{M2} x = 0 = 0 \cdot \inv{y}
+	\end{equation}
+\end{enumerate}
+\end{proof}
+
+\begin{rem}
+A structure that fulfils all the previous axioms is called a  field. We introduce the following notation for $x, y \in \realn, ~y \ne 0$
+\[
+	\frac{x}{y} = x\inv{y}
+\]
+\end{rem}
+
+\begin{defi}[Order relations]\leavevmode
+\begin{enumerate}[label=O\arabic*:]
+	\item Reflexivity
+	\[
+		\forall x \in \realn: ~~x \le x
+	\]
+	
+	\item Transitivity
+	\[
+		\forall x, y, z \in \realn: ~~x \le y \wedge y \le z \implies x \le z
+	\]
+	
+	\item Anti-Symmetry
+	\[
+		\forall x, y \in \realn: ~~x \le y \wedge y \le x \implies x = y
+	\]
+	
+	\item Totality
+	\[
+		\forall x, y \in \realn: ~~x \le y \vee y \le x
+	\]
+	
+	\item 
+	\[
+		\forall x, y, z \in \realn: ~~x \le y \implies x + z \le y + z
+	\]
+	
+	\item 
+	\[
+		\forall x, y \in \realn: ~~0 \le x \wedge 0 \le y \implies 0 \le x \cdot y
+	\]
+\end{enumerate}
+We write $x < y$ for $x \le y \wedge x \ne y$
+\end{defi}
+
+\begin{thm}
+$x, y \in \realn$
+\begin{enumerate}[(i)]
+	\item $x \le y \implies -y \le -x$
+	\item $x \le 0 \wedge y \le 0 \implies 0 \le xy$
+	\item $0 \le 1$
+	\item $0 \le x \implies 0 \le \inv{x}$
+	\item $0 < x \le y \implies \inv{y} \le \inv{x}$
+\end{enumerate}
+\end{thm}
+\begin{proof}\leavevmode
+\begin{enumerate}[(i)]
+	\item 
+	\begin{equation}
+	\begin{split}
+		x \le y &\implbl{O5} x + (-x) + (-y) \le y + (-x) + (-y) \\
+		&\iff -y \le -x
+	\end{split}
+	\end{equation}
+	
+	\item With $y \le 0 \implbl{(i)} 0 \le -y$ and $x \le 0 \implbl{(i)} 0 \le -x$ follows from O6:
+	\begin{equation}
+		0 \le (-x)(-y) = xy
+	\end{equation}
+	
+	\item Assume $0 \le 1$ is not true. From O4 we know that
+	\begin{equation}
+		1 \le 0 \implbl{(ii)} 0 \le 1 \cdot 1 = 1
+	\end{equation}
+	
+	\item \reader
+	
+	\item
+	\begin{equation}
+		0 \le \inv{x} \wedge 0 \le \inv{y} \implbl{O6} 0 \le \inv{x}\inv{y}
+	\end{equation}
+	From $x \le y$ follows $0 \le y - x$
+	\begin{align}
+		&\implbl{O6} 0 \le (y - x)\inv{x}\inv{y} \eqlbl{R1} y\inv{x}\inv{y} - x\inv{x}\inv{y} = \inv{x} - \inv{y} \\
+		&\implbl{O5} \inv{y} \le \inv{x}
+	\end{align}
+\end{enumerate}
+\end{proof}
+
+\begin{rem}
+A structure that fulfils all the  previous axioms is called an ordered field.
+\end{rem}
+
+\begin{defi}
+Let $A \subset \mathbb{R}$, $x \in \realn$.
+\begin{enumerate}[(i)]
+	\item $x$ is called an upper bound of $A$ if $\forall y \in A: ~y \le x$
+	
+	\item $x$ is called a maximum of $A$ if $x$ is an upper bound of $A$ and $x \in A$
+	
+	\item $x$ is called supremum of $A$ is $x$ is an upper bound of $A$ and if for every other upper bound $y \in \realn$ the statement $x \le y$ holds. In other words, $x$ is the smallest upper bound of $A$.
+\end{enumerate}
+$A$ is called bounded above if it has an upper bound. Analogously, there exists a lower bound, a minimum and an infimum. We introduce the notation $\sup A$ for the supremum and $\inf A$ for the infimum.
+\end{defi}
+
+\begin{defi}
+$a, b \in \realn$, $a < b$. We define
+\begin{itemize}
+	\item $(a, b) := \{x \in \realn \setvert a < x \wedge x < b\}$
+	
+	\item $[a, b] := \{x \in \realn \setvert a \le x \wedge x \le b\}$
+	
+	\item $(a, \infty) := \{x \in \realn \setvert a < x\}$
+\end{itemize}
+\end{defi}
+
+\begin{eg}
+	$(-\infty, 1)$ is bounded above ($1$, $2$, $1000$, $\cdots$ are upper bounds), but has no maximum. $1$ is the supremum.
+\end{eg}
+
+\begin{defi}[Completeness of the real numbers]
+Every non-empty subset of $\realn$ with an upper bound has a supremum.
+\end{defi}
+
+\begin{defi}
+A set $A \subset \realn$ is called inductive if $1 \in A$ and 
+\[
+	x \in A \implies x + 1 \in A
+\]
+\end{defi}
+
+\begin{lem}
+Let $I$ be an index set, and let $A_i$ be inductive sets for every $i \in I$. Then $\bigcap_{i \in I} A_i$ is also inductive.
+\end{lem}
+\begin{proof}
+Since $A_i$ is inductive $\forall i \in I$, we know that $1 \in A_i$. Therefore 
+\begin{equation}
+	1 \in \bigcap_{i \in I} A_i
+\end{equation}
+Now let $x \in \bigcap_{i \in I} A_i$, this means that $x \in A_i ~~\forall i \in I$.
+\begin{equation}
+	\implies x + 1 \in A_i ~~\forall i \in I \implies x + 1 \in \bigcap_{i \in I} A_i
+\end{equation}
+\end{proof}
+
+\begin{defi}
+The natural numbers are the smallest inductive subset of $\realn$. I.e.
+\[
+	\bigcap_{A \text{ inductive}} A =: \natn
+\]
+\end{defi}
+
+\begin{thm}[The principle of induction]
+Let $\Phi(x)$ be a statement with a free variable $x$. If $\Phi(1)$ is true, and if $\Phi(x) \implies \Phi(x + 1)$, then $\Phi(x)$ holds for all $x \in \natn$.
+\end{thm}
+\begin{proof}
+Define $A = \{x \in \realn \setvert \Phi(x)\}$. According to the assumptions, $A$ is inductive and therefore $\natn \subset A$. This means that $\forall n \in \natn: ~~\Phi(n)$.
+\end{proof}
+
+\begin{cor}
+$m, n \in \natn$
+\begin{enumerate}[(i)]
+	\item $m + n \in \natn$
+	\item $mn \in \natn$
+	\item $1 \le n ~~\forall n \in \natn$
+\end{enumerate}
+\end{cor}
+\begin{proof}
+We will only proof (i). (ii) and (iii) are left as an exercise for the reader. Let $n \in \natn$. Define $A = \{m \in \natn \setvert m + n \in \natn\}$. Then $1 \in A$, since $\natn$ is inductive. Now let $m \in A$, therefore $n + m \in \natn$.
+\begin{align}
+	&\implies n + m + 1 \in \natn \\
+	&\iff m + 1 \in A
+\end{align}
+Hence $A$ is inductive, so $\natn \subset A$. From $A \subset N$ follows that $\natn = A$.
+\end{proof}
+
+\begin{thm}
+$n \in \natn$. There are no natural numbers between $n$ and $n + 1$.
+\end{thm}
+\begin{hproof}
+Show that $x \in \natn \cap (1, 2)$ implies that $\natn \setminus \{x\}$ is inductive. Now show that if $\natn \cap (n, n+1) = \varnothing$ and $x \in \natn \cap (n + 1, n + 2)$ then $\natn \setminus \{x\}$ is inductive.
+\end{hproof}
+
+\begin{thm}[Archimedian property]
+\[
+	\forall x \in \realn ~\exists n \in \natn: ~~x<n
+\]
+\end{thm}
+\begin{proof}
+If $x < 1$ there is nothing to prove, so let $x \ge 1$. Define the set 
+\begin{equation}
+	A = \{n \in \natn \setvert n \le x\}
+\end{equation}
+$A$ is bounded above by definition. There exists the supremum $s = \sup A$. By definition, $s-1$ is not an upper bound of $A$, i.e. $\exists m \in A: ~~s-1 < m$. Therefore $s \le m + 1$.
+\begin{equation}
+	m \in A \subset \natn \implies m + 1 \in \natn
+\end{equation}
+Since $s$ is an upper bound of $A$, this implies that $m+1 \not\subset A$, so therefore $m + 1 > x$.
+\end{proof}
+
+\begin{cor}\label{cor:minimum}
+Every non-empty subset of $\natn$ has a minimum, and every non-empty subset of $\natn$ that is bounded above has a maximum.
+\end{cor}
+\begin{proof}
+Let $A \subset \natn$. Propose that $A$ has no minimum. Define the set
+\begin{equation}
+	\tilde{A} := \{n \in \natn \setvert \forall m \in A: ~n < m\}
+\end{equation}
+$1$ is a lower bound of $A$, but according to the proposition $A$ has no minimum, so therefore $1 \notin A$. This implies that $1 \in \tilde{A}$. 
+\begin{equation}
+	n \in \tilde{A} \implies n < m ~\forall m \in A
+\end{equation}
+But since there exists no natural number between $n$ and $n+1$, this means that $n+1$ is also a lower bound of $A$, and therefore
+\begin{equation}
+	n+1 \le m ~\forall m \in A \implies n+1 \in \tilde{A}
+\end{equation}
+So $\tilde{A}$ is an inductive set, hence $\tilde{A} = \natn$. Therefore $A = \varnothing$.
+\end{proof}
+
+\begin{defi}
+We define the following new sets:
+\begin{align*}
+	&\intn := \{x \in \realn \setvert x \in \natn_0 \vee (-x) \in \natn_0\}\\
+	&\ratn := \left\{\frac{p}{q} \setvert p, q \in \intn \wedge q \ne 0\right\}
+\end{align*}
+$\intn$ are called integers, and $\ratn$ are called the rational numbers. $\natn_0$ are the natural numbers with the $0$ ($\natn_0 = \natn \cap \{0\}$).
+\end{defi}
+
+\begin{rem}
+\begin{align*}
+	x, y \in \intn &\implies x+y, x\cdot y, (-x) \in \intn \\
+	x, y \in \ratn &\implies x+y, x\cdot y, (-x) \in \ratn \text{ and } \inv{x} \in \ratn \text{ if } x \ne 0
+\end{align*}
+The second statement implies that $\ratn$ is a field.
+\end{rem}
+
+\begin{cor}[Density of the rationals]
+$x, y \in \realn, ~x < y$. Then
+\[
+	\exists r \in \ratn: ~~x < r < y
+\]
+\end{cor}
+\begin{proof}
+This proof relies on the Archimedian property.
+\begin{equation}
+	\exists q \in \natn: ~~ \frac{1}{y-x} < q \left( \iff \frac{1}{q} < y - x \right)
+\end{equation}
+Let $p \in \intn$ be the greatest integer that is smaller than $y \cdot q$. The existence of $p$ is ensured by corollary \Cref{cor:minimum}. Then $\frac{p}{q} < y$ and
+\begin{equation}
+	p + 1 \ge y \cdot q \implies y \le \frac{p}{q} + \frac{1}{q} < \frac{p}{q} + (y - x)
+\end{equation}
+\begin{equation}
+	\implies x < \frac{p}{q} < y
+\end{equation}
+\end{proof}
+
+\begin{defi}[Absolute values]
+We define the following function
+\begin{align*}
+	|\cdot|: \realn &\longrightarrow [0, \infty) \\
+	x &\longmapsto 
+	\begin{cases}
+		x &, x \ge 0 \\
+		-x &, x < 0
+	\end{cases}
+\end{align*}
+\end{defi}
+
+\begin{thm}
+\[
+	x, y \in \realn \implies |xy| = |x||y|
+\]
+\end{thm}
+\begin{proof}
+\reader
+\end{proof}
+
+\begin{defi}[Complex numbers]
+Complex numbers are defined as the set $\cmpln = \realn^2$. Addition and multiplication are defined as mappings $\cmpln \times \cmpln \rightarrow \cmpln$. Let $(x, y), (\tilde{x}, \tilde{y}) \in \cmpln$.
+\begin{align*}
+	(x, y) + (\tilde{x}, \tilde{y}) &:= (x + \tilde{x}, y + \tilde{y}) \\
+	(x, y) \cdot (\tilde{x}, \tilde{y}) &:= (x\tilde{x} - y\tilde{y}, x\tilde{y} + \tilde{x}y)
+\end{align*}
+$\cmpln$ is a field. Let $z = (x, y) \in \cmpln$. We define
+\begin{align*}
+	\real(z) = \Re(z) = x& ~~\text{ the real part} \\
+	\imag(z) = \Im(z) = y& ~~\text{ the imaginary part}
+\end{align*}
+\end{defi}
+
+\begin{rem}\leavevmode
+\begin{enumerate}[(i)]
+	\item We will not prove that $\cmpln$ fulfils the field axioms here, this can be left as an exercise to the reader. However, we will note the following statements
+	\begin{itemize}
+		\item Additive neutral element: $(0, 0)$
+		\item Additive inverse of $(x, y)$: $(-x, -y)$
+		\item Multiplicative neutral element: $(1, 0)$
+		\item Multiplicative inverse of $(x, y) \ne (0, 0)$: $\left( \frac{x}{x^2 + y^2}, -\frac{y}{x^2 + y^2} \right)$
+	\end{itemize}
+	
+	\item Numbers with $y = 0$ are called real.
+	
+	\item The imaginary unit is defined as $i = (0, 1)$
+	\[
+		(0, 1) \cdot (x, y) = (-y, x)
+	\]
+	Especially
+	\[
+		i^2 = (0, 1)^2 = (-1, 0) = -(1, 0) = -1
+	\]
+\end{enumerate}
+We also introduce the following notation
+\[
+	(x, y) = (x, 0) + i\cdot(y, 0) = x + iy
+\]
+\end{rem}
+
+\begin{thm}[Fundamental theorem of algebra]
+Every non-constant, complex polynomial has a complex root. I.e. for $n \in \natn$, $\alpha_0, \cdots, \alpha_n \in \cmpln$, $\alpha_n \ne 0$ there is some $x \in \cmpln$ such that
+\[
+	\sum_{i = 0}^n \alpha_i x^i = \alpha_0 + \alpha_1 x + \alpha_2 x^2 + \cdots + \alpha_n x^n = 0
+\]
+\end{thm}
+\begin{proof}
+Not here.
+\end{proof}
+\end{document}

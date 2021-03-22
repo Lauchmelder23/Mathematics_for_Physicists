@@ -1,0 +1,309 @@
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{Sets and Functions}
+\begin{defi}
+A set is an imaginary "container" for mathematical objects. If $A$ is a set we write
+\begin{itemize}
+	\item $x \in A$ for "$x$ is an element of $A$"
+	\item $x \notin A$ for $\neg x \in A$
+\end{itemize}
+There are some specific types of sets
+\begin{enumerate}[(i)]
+	\item $\varnothing$ is the empty set which contains no elements. Formally: $\exists x \forall y ~y\notin x$
+	\item Finite sets: $\left\{1, 3, 7, 20\right\}$
+	\item Let $\Phi(x)$ be a statement and $A$ a set. Then $\left\{x \in A \,\vert\, \Phi(x)\right\}$ is the set of all elements from $A$ such that $\Phi(x)$ holds.
+\end{enumerate}
+There are relation operators between sets. Let $A, B$ be sets
+\begin{enumerate}[(i)]
+	\item $A \subset B$ means "$A$ is a subset of $B$".
+	\item $A = B$ means "$A$ and $B$ are the same"
+\end{enumerate}
+Each element can appear only once in a set, and there is no specific ordering to these elements. This means that $\{1, 3, 3, 7\} = \{3, 1, 7\}$. There are also operators between sets
+\begin{enumerate}[(i)]
+	\item $A \cup B$ is the union of $A$ and $B$. 
+	\[
+		x \in A \cup B \iff x \in A \vee x \in B
+	\]
+	\item $A \cap B$ is the intersection of $A$ and $B$.
+	\[
+		x \in A \cap B \iff x \in A \wedge x \in B
+	\]
+	This can be expanded to more than two sets ($A \cup B \cup C$). We can also use the following notation. Let $A$ be a set of sets. Then
+	\[
+		\bigcup_{C \in A} C
+	\]
+	is the union of all sets contained in $A$.
+	\item $A \setminus B$ is the difference of $A$ and $B$.
+	\[
+		x \in A \setminus B \iff x \in A \wedge x \notin B
+	\]
+	\item The power set of a set $A$ is the set of all subsets of $A$. Example:
+	\[
+		\mathcal{P}(\{1, 2\}) = \{\varnothing, \{1\}, \{2\}, \{1, 2\}\}
+	\]
+\end{enumerate}
+\end{defi}
+
+\begin{thm}
+	Let $A, B, C$ be sets. Then
+	\begin{align*}
+		A \setminus (B \cup C) &= (A \setminus B) \cap (A \setminus C) \\
+		A \setminus (B \cap C) &= (A \setminus B) \cup (A \setminus C) \\
+		A \cup (B \cap C) &= (A \cup B) \cap (A \cup C) \\
+		A \cap (B \cup C) &= (A \cap B) \cup (A \cap C)
+	\end{align*}
+\end{thm}
+\begin{proof}
+	Let $A, B, C$ be sets. 
+	\begin{equation}
+	\begin{split}
+		x \in A \cap (B \cup C) &\iff x \in A \wedge x \in B \cup C \\
+		&\iff x \in A \wedge (x \in B \vee x \in C) \\
+		&\iff (x \in A \wedge x \in B) \vee (x \in A \wedge x \in C) \\
+		&\iff x \in A \cap B \vee x\ in A \cap C \\
+		&\iff x \in (A \cap B) \cup (A \cap C)
+	\end{split}
+	\end{equation}
+	The other equations are left as an exercise to the reader.
+\end{proof}
+
+\begin{defi}
+	Let $A, B$ be sets. For $x \in A$, $y \in B$ we call $(x, y)$ the ordered pair from $x, y$. The Cartesian product is defined as
+	\[
+		A \times B = \left\{(x, y) \,\vert\, x \in A \wedge y \in B\right\}
+	\]
+\end{defi}
+
+\begin{rem}\leavevmode
+\begin{enumerate}[(i)]
+	\item $(x, y)$ is NOT equivalent to $\{x, y\}$. The former is an ordered pair, the latter a set. It is important to note that
+	\[
+		(x, y) = (a, b) \iff x = a \wedge y = b
+	\]
+	\item This can be extended to triplets, quadruplets, ...
+	\[
+		A \times B \times C = \left\{(x, y, z) \,\vert\, x \in A \wedge y \in B \wedge z \in C \right\}
+	\]
+	We use the notation $A \times A = A^2$
+	\item For $\realn^2$ ($\realn$ are the real numbers) we can view $(x, y)$ as coordinates of a point in the plane.
+\end{enumerate}
+\end{rem}
+
+\begin{defi}
+Let $A$, $B$ be sets. A mapping $f$ from $A$ to $B$ assigns each $x \in A$ exactly one element $f(x) \in B$. $A$ is called the domain and $B$ the codomain.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[ele/.style={fill=black,circle,minimum width=.8pt,inner sep=1pt},every fit/.style={ellipse,draw,inner sep=-2pt}]
+ 
+	\node[ele] (a1) at (0,4) {};    
+	\node[ele] (a2) at (0,3) {};    
+	\node[ele] (a3) at (0,2) {};
+	\node[ele] (a4) at (0,1) {};
+
+	\node[ele] (b1) at (4,4) {};
+	\node[ele] (b2) at (4,3) {};
+	\node[ele] (b3) at (4,2) {};
+	\node[ele] (b4) at (4,1) {};
+ 
+ 	\node[draw,fit= (a1) (a2) (a3) (a4),minimum width=2cm, label=below:$A$] {} ;
+  \node[draw,fit= (b1) (b2) (b3) (b4),minimum width=2cm, label=below:$B$] {} ;  
+  \draw[->,thick,shorten <=2pt,shorten >=2pt] (a1) -- (b4);
+  \draw[->,thick,shorten <=2pt,shorten >=2] (a2) -- (b3);
+  \draw[->,thick,shorten <=2pt,shorten >=2] (a3) -- (b1);
+  \draw[->,thick,shorten <=2pt,shorten >=2] (a4) -- (b4);
+\end{tikzpicture}
+\caption{A mapping $f: A \rightarrow B$}
+\label{fig:mapping}
+\end{figure}
+As shown in figure \ref{fig:mapping}, every element from $A$ is assigned exactly one element from $B$, but not every element from $B$ must be assigned to an element from $A$, and elements from $B$ can be assigned more than one element from $A$. The notation for such mappings is
+\[
+	f: A \longrightarrow B
+\]
+A mapping that has numbers ($\natn$, $\realn$, $\cdots$) as the codomain is called a function.
+\end{defi}
+\newpage
+\begin{eg}\leavevmode
+\begin{enumerate}[(i)]
+	\item 
+	\begin{align*}
+		f: \natn &\longrightarrow \natn \\
+		n &\longmapsto 2n + 1
+	\end{align*}
+	\item 
+	\begin{align*}
+		f: \realn &\longrightarrow \realn \\
+		x &\longmapsto 
+		\begin{cases}
+			0 & x \text{ rational} \\
+			1 & x \text{ irrational}
+		\end{cases}
+	\end{align*}
+	\item Addition on $\natn$
+	\[
+		f: \natn \times \natn \longrightarrow \natn
+	\]
+	Instead of $f(x, y)$ we typically write $x + y$ for addition.
+	\item The identity mapping is defined as
+	\begin{align*}
+		\idf_A: A &\longrightarrow A \\
+		x &\longmapsto x
+	\end{align*}
+\end{enumerate}
+\end{eg}
+
+\begin{rem}[Mappings as sets]\leavevmode
+\begin{enumerate}[(i)]
+	\item A mapping $f: A \rightarrow B$ corresponds to a subset of $F = A \times B$, such that
+	\begin{align*}
+		&\forall x \in A ~\forall y, z \in B ~~(x, y) \in F \wedge (x, z) \in F \implies y = z \\
+		&\forall x \in A ~\exists y \in B ~~(x, y) \in F
+	\end{align*}
+	\item Simply writing "Let the function $f(x) = x^2$..." is NOT mathematically rigorous.
+	\item 
+	\[
+		f \text{ is a mapping from } A \text{ to } B \iff f(x) \text{ is a value in } B
+	\]
+	\item 
+	\[
+		f, g: A \longrightarrow B \text{ are the same mapping} \iff \forall x \in A ~~f(x) = g(x)
+	\]
+\end{enumerate}
+\end{rem}
+
+\begin{defi}
+	We call $f: A \rightarrow B$
+	\begin{itemize}
+		\item injective if $\forall x, \tilde{x} \in A ~~f(x) = f(\tilde{x}) \implies x = \tilde{x}$
+		
+		\item surjective if $\forall y \in B, \exists x \in A ~~f(x) = y$
+
+		\item bijective if $f$ is injective and surjective
+	\end{itemize}
+	\begin{figure}[h]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\begin{tikzpicture}[ele/.style={fill=black,circle,minimum width=.8pt,inner sep=1pt},every fit/.style={ellipse,draw,inner sep=-2pt}]
+ 
+	\node[ele] (a1) at (0,4) {};    
+	\node[ele] (a2) at (0,3) {};    
+	\node[ele] (a3) at (0,2) {};
+	\node[ele] (a4) at (0,1) {};
+
+	\node[ele] (b1) at (4,4) {};
+	\node[ele] (b2) at (4,3.25) {};
+	\node[ele] (b3) at (4,2.5) {};
+	\node[ele] (b4) at (4,1.75) {};
+	\node[ele] (b5) at (4, 1) {};
+ 
+ 	\node[draw,fit= (a1) (a2) (a3) (a4),minimum width=2cm, label=below:$A$] {} ;
+  \node[draw,fit= (b1) (b2) (b3) (b4) (b5),minimum width=2cm, label=below:$B$] {} ;  
+  \draw[->,thick,shorten <=2pt,shorten >=2pt] (a1) -- (b4);
+  \draw[->,thick,shorten <=2pt,shorten >=2] (a2) -- (b3);
+  \draw[->,thick,shorten <=2pt,shorten >=2] (a3) -- (b1);
+  \draw[->,thick,shorten <=2pt,shorten >=2] (a4) -- (b5);
+\end{tikzpicture}
+		\caption{Injective mapping. There is at most one arrow per point in $B$}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+	\centering
+		\begin{tikzpicture}[ele/.style={fill=black,circle,minimum width=.8pt,inner sep=1pt},every fit/.style={ellipse,draw,inner sep=-2pt}]
+ 
+	\node[ele] (b1) at (4,4) {};    
+	\node[ele] (b2) at (4,3) {};    
+	\node[ele] (b3) at (4,2) {};
+	\node[ele] (b4) at (4,1) {};
+
+	\node[ele] (a1) at (0,4) {};
+	\node[ele] (a2) at (0,3.25) {};
+	\node[ele] (a3) at (0,2.5) {};
+	\node[ele] (a4) at (0,1.75) {};
+	\node[ele] (a5) at (0, 1) {};
+ 
+ 	\node[draw,fit= (a1) (a2) (a3) (a4) (a5),minimum width=2cm, label=below:$A$] {} ;
+  \node[draw,fit= (b1) (b2) (b3) (b4),minimum width=2cm, label=below:$B$] {} ;  
+  \draw[->,thick,shorten <=2pt,shorten >=2pt] (a1) -- (b4);
+  \draw[->,thick,shorten <=2pt,shorten >=2] (a2) -- (b3);
+  \draw[->,thick,shorten <=2pt,shorten >=2] (a3) -- (b1);
+  \draw[->,thick,shorten <=2pt,shorten >=2] (a4) -- (b5);
+  \draw[->,thick,shorten <=2pt,shorten >=2] (a5) -- (b2);
+\end{tikzpicture}
+		\caption{Surjective mapping. There is at least one arrow per point in $B$}
+	\end{subfigure}
+	\caption{Visualizations of injective and surjective mappings}
+\end{figure}
+\end{defi}
+
+\begin{eg}\leavevmode
+\begin{enumerate}[(i)]
+	\item 
+	\begin{align*}
+	f: \natn &\longrightarrow \natn \\
+	n &\longmapsto n^2
+	\end{align*}
+	is not surjective (e.g. $n^2 \ne 3$), but injective.
+	\item 
+	\begin{align*}
+	f: \intn &\longrightarrow \natn \\
+	n &\longmapsto n^2
+	\end{align*}
+	is neither surjective nor injective.
+	\item 
+	\begin{align*}
+	f: \natn &\longrightarrow \natn \\
+	n &\longmapsto 
+	\begin{cases}
+		\frac{n}{2} & n \text{even} \\
+		\frac{n+1}{2} & n \text{odd}
+	\end{cases}
+	\end{align*}
+	is surjective but not injective.
+\end{enumerate}
+\end{eg}
+
+\begin{defi}[Function compositing]
+Let $A, ~B, ~C$ be sets, and let $f: A \rightarrow B, ~g: B \rightarrow C$. Then the composition of $f$ and $g$ is the mapping
+\begin{align*}
+	g \circ f : A &\longrightarrow C \\
+	x &\longmapsto g(f(x))
+\end{align*}
+\end{defi}
+
+\begin{rem}
+Compositing is associative (why?), but not commutative. For example let
+
+\noindent\begin{minipage}{.5\linewidth}
+	\begin{align*}
+		f: \natn &\longrightarrow \natn \\
+		n &\longmapsto 2n
+	\end{align*}
+\end{minipage}
+\begin{minipage}{.5\linewidth}
+	\begin{align*}
+		g: \natn &\longrightarrow \natn \\
+		n &\longmapsto n + 3
+	\end{align*}
+\end{minipage}
+Then
+\begin{align*}
+	&f \circ g (n) = 2(n + 3) = 2n + 6 \\
+	&g \circ f (n) = 2n + 3
+\end{align*}
+\end{rem}
+
+\begin{thm}
+Let $f: A \rightarrow B$ be a bijective mapping. Then there exists a mapping $\inv{f}: B \rightarrow A$ such that $f \circ \inv{f} = \emph{\idf}_B$ and $\inv{f} \circ f = \emph{\idf}_A$. $\inv{f}$ is called the inverse function of $f$.
+\end{thm}
+\begin{proof}
+Let $y \in B$ and $f$ bijective. That means $\exists x \in A$ such that $f(x) = y$. Due to $f$ being injective, this $x$ must be unique, since if $\exists \tilde{x} \in A$ s.t. $f(\tilde{x}) = f(x) = y$, then $x = \tilde{x}$. We define $f(x) = y$ and $\inv{f}(y) = x$, therefore
+\begin{equation}
+	f \circ \inv{f}(y) = f(\inv{f}(y)) = f(x) = y = \idf_B(y) \implies f \circ \inv{f} = \idf_B
+\end{equation}
+and equivalently
+\begin{equation}
+	\inv{f} \circ f(x) = \idf_A(x) \implies \inv{f} \circ f = \idf_A
+\end{equation}
+\end{proof}
+\end{document}

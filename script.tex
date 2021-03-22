@@ -1,0 +1,113 @@
+\documentclass[11pt]{report}
+\usepackage{amsmath, amssymb, amstext, physics}
+\usepackage{amsthm, stackrel, xifthen, mathtools}
+\usepackage[makeroom]{cancel}
+\usepackage{hyperref, cleveref}
+\usepackage{enumerate, subcaption}
+\usepackage[shortlabels]{enumitem}
+\usepackage{multicol}
+\usepackage{tikz}
+\usetikzlibrary{calc,trees,positioning,arrows,fit,shapes,angles}
+
+\usepackage{color}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\usepackage{subfiles}
+
+\DeclareMathOperator{\spn}{span}
+%\DeclareMathOperator{\dim}{dim}
+
+\newcommand{\natn}{\mathbb{N}}
+\newcommand{\intn}{\mathbb{Z}}
+\newcommand{\ratn}{\mathbb{Q}}
+\newcommand{\realn}{\mathbb{R}}
+\newcommand{\cmpln}{\mathbb{C}}
+\newcommand{\field}{\mathbb{K}}
+
+\newcommand{\rec}[1]{\frac{1}{#1}}
+\newcommand{\idf}{\text{id}}
+\newcommand{\inv}[1]{{#1}^{-1}}
+\newcommand{\eqlbl}[1]{\stackrel{\text{#1}}{=}}
+\newcommand{\implbl}[1]{\overset{\text{#1}}{\implies}}
+\newcommand{\imag}{\imaginary}
+\newcommand{\limn}{\lim_{n \rightarrow \infty}}
+\newcommand{\limk}{\lim_{k \rightarrow \infty}}
+\newcommand{\limz}{\lim_{n \rightarrow 0}}
+\newcommand{\limsupn}{\limsup_{n \rightarrow \infty}}
+\newcommand{\liminfn}{\liminf_{n \rightarrow \infty}}
+\newcommand{\seq}[1]{(#1_n)}
+\newcommand{\nseqdef}[1]{\seq{#1} \subset \natn}
+\newcommand{\rseqdef}[1]{\seq{#1} \subset \realn}
+\newcommand{\cseqdef}[1]{\seq{#1} \subset \cmpln}
+\newcommand{\rcseqdef}[1]{\seq{#1} \subset \realn \text{ (or } \cmpln \text{)}}
+\newcommand{\series}[2][\infty]{\sum_{#2 = 1}^{#1}}
+\newcommand{\finite}{\text{ finite}}
+\newcommand{\conj}[1]{#1^{\ast}}
+
+\newcommand{\conv}[1]{\xrightarrow{\makebox[2em][c]{$\scriptstyle#1$}}}
+\newcommand{\convinf}{\conv{n \rightarrow \infty}}
+
+\newcommand{\reader}{Left as an exercise for the reader.}
+\newcommand{\setvert}{\,\vert\,}
+\newcommand{\set}[2][]{%
+	\left\{%
+		#2%
+		\ifthenelse{\isempty{#1}}%
+			{}%
+			{\,\middle|\, #1}%
+	\right\}%
+}
+
+\newcommand{\equalexpl}[1]{%
+  \underset{\substack{\big\uparrow\\\mathrlap{\text{\hspace{-1.5em}#1}}}}{=}}
+\newcommand{\leexpl}[1]{%
+  \underset{\substack{\big\uparrow\\\mathrlap{\text{\hspace{-1.5em}#1}}}}{\le}}
+
+\theoremstyle{definition}
+\newtheorem{defi}{Definition}[chapter]
+
+\theoremstyle{remark}
+\newtheorem{eg}[defi]{Example}
+\newtheorem{rem}[defi]{Remark}
+
+\theoremstyle{plain}
+\newtheorem{thm}[defi]{Theorem}
+\newtheorem{lem}[defi]{Lemma}
+\newtheorem{cor}[defi]{Corollary}
+
+\newenvironment{hproof}{%
+  \renewcommand{\proofname}{Heuristic Proof}\proof}{\endproof}
+  
+\Crefname{defi}{Definition}{Definitions}
+\crefname{defi}{Def.}{Defs.}
+\Crefname{rem}{Remark}{Remarks}
+\crefname{rem}{Rem.}{Rems.}
+
+\Crefname{thm}{Theorem}{Theorems}
+\crefname{thm}{Thm.}{Thms.}
+\Crefname{lem}{Lemma}{Lemmas}
+\crefname{lem}{Lem.}{Lems.}
+\Crefname{cor}{Corollary}{Corollaries}
+\crefname{cor}{Cor.}{Cors.}
+
+\begin{document}
+
+\title{Mathemacs for Physicists}
+\author{https://www.github.com/Lauchmelder23}
+\maketitle
+\tableofcontents
+
+\subfile{chapters/FaN.tex}
+
+\subfile{chapters/real_analysis_1.tex}
+
+\subfile{chapters/linear_algebra.tex}
+
+\end{document}
