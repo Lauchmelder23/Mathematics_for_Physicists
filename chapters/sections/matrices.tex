@@ -102,6 +102,399 @@ $\field^{n\times m}$ is the space of all $n \times m$-matrices. The following op
 			\implies A(CE) = A(CE)
 		\end{equation}
     \end{proof}
+
+	\item Matrix multiplication is NOT commutative. First off, $AB$ and $BA$ are only well defined when $A \in \field^{n \times m}$ and $B \in \field^{m \times n}$. Example:
+	\[
+		\begin{pmatrix}
+			0 & 1 \\ 0 & 0
+		\end{pmatrix}
+		\begin{pmatrix}
+			0 & 0 \\ 1 & 0
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			1 & 0 \\ 0 & 0
+		\end{pmatrix}
+		\neq
+		\begin{pmatrix}
+			0 & 0 \\ 1 & 0
+		\end{pmatrix}
+		\begin{pmatrix}
+			0 & 1 \\ 0 & 0
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			0 & 0 \\ 0 & 1
+		\end{pmatrix}
+	\]
+
+	\item Let $n, m \in \natn$. There exists exactly one neutral additive element in $\field^{n \times m}$, which is the zero matrix. 
+	Multiplication with the zero matrix yields a zero matrix.
+
+	\item We define
+	\[
+		\delta_{ij} = \begin{cases}
+				1 ,& i = j \\
+				0 &\text{else}
+		\end{cases}
+	\]
+	The respective matrix $I = (\delta_{ij}) \in \field^{n \times m}$ is called the identity matrix.
+
+	\item $A \ne 0$ and $B \ne 0$ can still result in $AB = 0$:
+	\[
+		\begin{pmatrix}
+			0 & 1 \\ 0 & 0
+		\end{pmatrix}^2
+		=
+		\begin{pmatrix}
+			0 & 0 \\ 0 & 0
+		\end{pmatrix}
+	\]
 \end{enumerate}
+\end{rem}
+
+\begin{eg}[Linear equation system]
+	Consider the following linear equation system
+	\begin{align*}
+		a_{11}x_1 + a_{12}x_2 + \cdots + a_{1m}x_m &= b_1 \\
+		a_{21}x_1 + a_{22}x_2 + \cdots + a_{2m}x_m &= b_2 \\
+		\vdots \\
+		a_{n1}x_1 + a_{n2}x_2 + \cdots + a_{nm}x_m &= b_n \\
+	\end{align*}
+	This can be rewritten using matrices
+	\begin{align*}
+		A = \begin{pmatrix}
+			a_{11} & \cdots & a_{1m} \\
+			\vdots & \ddots & \vdots \\
+			a_{n1} & \cdots & a_{nm}
+		\end{pmatrix} 
+		&&
+		x = \begin{pmatrix}
+			x_1 \\ \vdots \\ x_m
+		\end{pmatrix}
+		&&
+		b = \begin{pmatrix}
+			b_1 \\ \vdots \\ b_n
+		\end{pmatrix}
+	\end{align*}
+	Which results in 
+	\[
+		Ax = B, ~~~A \in \field^{m \times n}, x \in \field^{m \times 1}, b \in \field^{n \times 1}	
+	\]
+	Such an equation system is called homogeneous if $b = 0$.
+\end{eg}
+
+\begin{thm}
+Let $A \in \field^{n \times m}, b \in \field^n$. The solution set of the homogeneous equation system $Ax = 0$, (that means $\set[Ax = 0]{x \in \field^{m}} \subset \field^m$) is a linear subspace.
+If $x$ and $\tilde{x}$ are solutions of the inhomogeneous system $Ax = b$, then $x-\tilde{x}$ solves the corresponding homogeneous problem.
+\end{thm}
+\begin{proof}
+	$A \cdot 0 = 0$ shows that $Ax = 0$ has a solution. Let $x, y$ be solutions, i.e. $Ax = 0$ and $Ay = 0$. Then $\forall \alpha \in \field$:
+	\begin{equation}
+		A(x + \alpha y) = Ax + A(\alpha y) = \underbrace{Ax}_0 + \alpha(\underbrace{Ay}_0) = 0
+	\end{equation}
+	\begin{equation}
+		\implies x + \alpha y \in \set[Ax = 0]{x \in \field^m}
+	\end{equation}
+
+	Next, let $x, \tilde{x}$ be solutions of $Ax = b$, i.e.
+	\begin{equation}
+		Ax = b, ~A\tilde{x} = b
+	\end{equation}
+	Then
+	\begin{equation}
+		A(x - \tilde{x}) = Ax - A\tilde{x} = b - b = 0
+	\end{equation}
+	Therefore, $x - \tilde{x}$ is the solution of the homogeneous equation system
+\end{proof}
+
+\begin{rem}[Finding all solutions]
+	First find a basis $e_1, \cdots, e_k$ of 
+	\[
+		\set[Ax = 0]{x \in \field^m}
+	\] 
+	Next find some $x_0 \in \field^m$ such that $Ax_0 = b$. 
+	Then every solution of $Ax = b$ can be written as
+	\[
+		x = x_0 + \alpha_1 e_1 + \cdots + \alpha_k e_k
+	\]
+\end{rem}
+
+\begin{eg}
+	Let 
+	\begin{align*}
+		A = \begin{pmatrix}
+			1 & 2 & 0 & 0 & 1 \\
+			0 & 0 & 1 & 0 & 0 \\
+			0 & 0 & 0 & 1 & -1 \\
+			0 & 0 & 0 & 0 & 0
+		\end{pmatrix}
+		&&
+		b = \begin{pmatrix}
+			1 \\ 2 \\ 3 \\ 4
+		\end{pmatrix}
+		&&
+		c = \begin{pmatrix}
+			3 \\ 2 \\ 1 \\ 0
+		\end{pmatrix}
+	\end{align*}
+	Then $Ax = b$ has no solution, since the fourth row would state $0 = 4$. However, $Ax = c$ has the particular solution
+	\[
+		x = \begin{pmatrix}
+			3 \\ 0 \\ 2 \\ 1 \\ 0
+		\end{pmatrix}	
+	\]
+	If we consider the homogeneous problem $Ay = 0$, we can come up with the solution 
+	\[
+		y = \begin{pmatrix}
+			-2 \\ 1 \\ 0 \\ 0 \\ 0
+		\end{pmatrix}
+		y_2 + 
+		\begin{pmatrix}
+			-1 \\ 0 \\ 0 \\ 1 \\ 1
+		\end{pmatrix}
+		y_5
+	\]
+	and in turn find the set of solutions
+	\begin{align*}
+		\set[Ay = 0]{y \in \field^5} &= \spn\set{(-2, 1, 0, 0, 0)^T, (-1, 0, 0, 1, 1)^T} \\
+		\set[Ax = c]{x \in \field^5} &= \set{(3, 0, 2, 1, 0)^T + \alpha(-2, 1, 0, 0, 0)^T + \beta(-1, 0, 0, 1, 1)^T}
+	\end{align*}
+\end{eg}
+
+\begin{defi}[Row Echelon Form]
+	A zero row is a row in a matrix containing only zeros. The first element of a row that isn't zero is called the pivot.
+
+	A matrix in row echelon form must meet the following conditions
+	\begin{enumerate}[(i)]
+		 \item Every zero row is at the bottom
+		 \item The pivot of a row is always strictly to the right of the pivot of the row above it
+	\end{enumerate}
+
+	A matrix in reduced row echelon form must additionally meet the following conditions
+	\begin{enumerate}[(i)]
+		\item All pivots are $1$
+		\item The pivot is the only non-zero element of its column
+	\end{enumerate}
+\end{defi}
+
+\begin{rem}
+	Let $A \in \field^{n \times m}$ and $b \in \field^n$. If $A$ is in reduced row echelon form, then $Ax = b$ can be solved through trivial rearranging.
+\end{rem}
+
+\begin{defi}[Matrix row operations]
+Let $A$ be a matrix. Then the following are row operations
+\begin{enumerate}[(i)]
+	\item Swapping of rows $i$ and $j$
+	\item Addition of row $i$ to row $j$
+	\item Multiplication of a row by $\lambda \ne 0$
+	\item Addition of row $i$ multiplied by $lambda$ to row $j$
+\end{enumerate}
+\end{defi}
+
+\begin{thm}[Gaussian Elimination]
+Every matrix can be converted into reduced row echelon form in finitely many row operations.
+\end{thm}
+\begin{proof}[Heuristic Proof]
+	If $A$ is a zero matrix the proof is trivial. But if it isn't:
+	\begin{itemize}
+		\item Find the first column containing a non-zero element.
+			\begin{itemize}
+				\item Swap rows such that this element is in the first row
+			\end{itemize}
+		\item Multiply every other row with multiples of the first row, such that all other entries in that column disappear.
+		\item Repeat, but ignore the first row this time
+	\end{itemize}
+	At the end of this the matrix will be in reduced row echelon form.
+\end{proof}
+
+\begin{defi}
+	$A \in \field^{n \times n}$ is called invertible if there exists a multiplicative inverse. I.e.
+	\[
+		\exists B \in \field^{n \times n}: ~~AB = BA = I
+	\]
+	We denote the multiplicative inverse as $\inv{A}$
+\end{defi}
+
+\begin{rem}
+	We have seen matrices $A \ne 0$ such that $A^2 = 0$. Such a matrix is not invertible.
+\end{rem}
+
+\begin{thm}
+	Let $A, B, C \in \field^{n \times n}$, $B$ invertible and $A = BC$. Then
+	\[
+		A \text{ invertible} \iff C \text{ invertible}
+	\]
+	Especially, the product of invertible matrices is invertible.
+\end{thm}
+\begin{proof}
+	Without proof.
+\end{proof}
+
+\begin{rem}
+	Matrix multiplication with $A$ from the left doesn't "mix" the columns of matrix $B$
+\end{rem}
+
+\begin{thm}
+	Let $A$ be a matrix, and let $\tilde{A}$ be the result of row operations applied to $A$. Then
+	\[
+		\exists T \text{ invertible}: ~~\tilde{A} = TA
+	\]
+	We say: The left multiplication with $T$ applies the row operations.
+\end{thm}
+\begin{proof}[Heuristic proof]
+	You can find invertible matrices $T_1, \cdots, T_n$ that each apply one row operation. Then we can see that
+	\begin{equation}
+		\tilde{A} = \underbrace{T_n T_{n-1} \cdots T_1}_T A
+	\end{equation}
+	Since $T$ is the product of invertible matrices, it must itself be invertible.
+\end{proof}
+
+\begin{cor}
+	Let $A \in \field^{n \times m}$, $b \in \field^n$, $T \in \field^{n \times m}$. Then $Ax = b$ and $TAx = Tb$ have the same solution sets.
+\end{cor}
+\begin{proof}
+	If $Ax = b$ it is trivial that
+	\begin{equation}
+		Ax = b \implies TAx = Tb
+	\end{equation}
+	If $TAx = Tb$, then
+	\begin{equation}
+		Ax = \inv{T}TAx = \inv{T}Tb = b
+	\end{equation}
+\end{proof}
+
+\begin{lem}
+	Let $A \in field^{n \times m}$ be in row echelon form. Then
+	\[
+		A \text{ invertible} \iff \text{ The last row is not a zero row}	
+	\]
+	and
+	\[
+		A \text{ invertible} \iff \text{ All diagonal entries are non-zero}
+	\]
+\end{lem}
+\begin{proof}
+	Let $A$ be invertible with a zero-row as its last row. Then
+	\begin{equation}
+		(0, \cdots, 0, 1) \cdot A = (0, \cdots, 0, 0)
+	\end{equation}
+	Multiplying with $\inv{A}$ from the right would result in a contradiction. Therefore the last row of $A$ can't be a zero row.
+
+	Now let the diagonal entries of $A$ be non-zero. This means we can use row operations to transform $A$ into the identity matrix, i.e.
+	\begin{equation}
+		\exists T \text{ invertible}: ~~TA = I \implies A = \inv{T}
+	\end{equation}
+\end{proof}
+
+\begin{cor}
+	Let $A \in \field^{n \times n}$. Then 
+	\[
+		A \text{ invertible} \iff \text{Every row echelon form has non-zero diagonal entries}	
+	\]
+	and
+	\[
+		A \text{ invertible} \iff \text{The reduced row echelon form is the identity matrix}	
+	\]
+\end{cor}
+\begin{proof}
+	Every row echelon form of $A$ has the form $TA$ with $T$ an invertible matrix. Especially, $\exists S \text{ invertible}$ such that $SA$ is 
+	in reduced row echelon form. Then
+	\begin{equation}
+		TA \text{ invertible} \iff A \text{ invertible}
+	\end{equation}
+\end{proof}
+
+\begin{rem}
+	Let $A \in \field^{n \times n}$ be invertible, $B \in \field^{n \times m}$. Our goal is to compute $\inv{A}B$. First, write $(A \,\vert\, B)$.
+	Now apply row operations until we reach the form $(I \,\vert\, \tilde{B})$. Let $S$ be the matrix realising these operations, i.e. $SA = I$. 
+	Then $\tilde{B} = SB = \inv{A}B$. If $B = I$ this can be used to compute $\inv{A}$.
+\end{rem}
+
+\begin{eg}
+	Let
+	\[
+		A = \begin{pmatrix}
+			1 & 1 & 1 \\ 
+			0 & 1 & 1 \\
+			0 & 0 & 1
+		\end{pmatrix}	
+	\]
+	Rewrite this as 
+	\[
+		\left(
+		\begin{array}{@{}ccc|ccc@{}}
+			1 & 1 & 1 & 1 & 0 & 0 \\
+			0 & 1 & 1 & 0 & 1 & 0 \\
+			0 & 0 & 1 & 0 & 0 & 1
+		\end{array}
+		\right)	
+	\]
+	Turn this into
+	\[
+		\left(
+		\begin{array}{@{}ccc|ccc@{}}
+			1 & 1 & 0 & 1 & 0 & -1 \\
+			0 & 1 & 0 & 0 & 1 & -1 \\
+			0 & 0 & 1 & 0 & 0 & 1
+		\end{array}
+		\right)	
+	\]
+	And finally
+	\[
+		\left(
+		\begin{array}{@{}ccc|ccc@{}}
+			1 & 0 & 0 & 1 & -1 & 0 \\
+			0 & 1 & 0 & 0 & 1 & -1 \\
+			0 & 0 & 1 & 0 & 0 & 1
+		\end{array}
+		\right)	
+	\]
+	The right part of the above matrix is $\inv{A}$.
+\end{eg}
+
+\begin{defi}
+	Let $A \in \field^{n \times m}$ and let $z_1, \cdots, z_n \in \field^{1 \times m}$ be the rows of $A$. The row space of $A$ is defined as 
+	\[
+		\spn\set{z_1, \cdots, z_n}	
+	\]
+	The dimension of the row space is the row rank of the matrix. Analogously this works for the column space and the column rank.
+	Later we will be able to show that row rank and column rank are always equal. They're therefore simply called rank of the matrix.
+\end{defi}
+
+\begin{thm}
+	The row operations don't effect the row space.
+\end{thm}
+\begin{proof}
+	It is obvious that multiplication with $\lambda$ and swapping of rows don't change the row space. Furthermore it is clear that every linear combination of
+	$z_1 + z_2, z_2, \cdots, z_n$ is also a linear combination of $z_1, z_2, \cdots, z_n$, and vice versa.
+\end{proof}
+
+\begin{thm}
+	Let $A$ be in row echelon form. Then the non-zero rows of the matrix are a basis of the row space of the matrix.
+\end{thm}
+\begin{proof}
+	Let $z_1, \cdots, z_k \in \field^{1 \times n}$ be the non-zero rows of $A$. They create the space $\spn\set{z_1, \cdots, z_n}$, 
+	since $z_k, \cdots z_n$ are only zero rows. Analogously,
+	\begin{equation}
+		\alpha_1 z_1 + \alpha_2 z_2 + \cdots + \alpha_k z_k = 0
+	\end{equation}
+	Let $j$ be the index of the column of the pivot of $z_1$. Then $z_2, \cdots, z_k$ have zero entries in the $j$-th column. Therefore
+	\begin{equation}
+		\alpha_1 \underbrace{z_{ij}}_{\ne 0} = 0 \implies \alpha_1 = 0
+	\end{equation}
+	By inductivity, this holds for every row.
+\end{proof}
+
+\begin{rem}
+	\begin{enumerate}[(i)]
+		\item To compute the rank of $A$, bring $A$ into row echelon form and count the non-zero rows.
+		
+		\item Let $v_1, \cdots, v_m \in \field^n$. To find a basis for 
+		\[
+			\spn\set{v_1, \cdots v_m}
+		\]
+		write $v_1, \cdots, v_m$ as rows of a matrix and bring it into row echelon form.
+	\end{enumerate}
 \end{rem}
 \end{document}
