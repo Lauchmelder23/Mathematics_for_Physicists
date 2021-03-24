@@ -1,0 +1,272 @@
+\documentclass[../../script.tex]{subfiles}
+% !TEX root = ../../script.tex
+
+\begin{document}
+\section{Scalar Product}
+
+In this section $V$ will always denote a vector space and $\field$ a field (either $\realn$ or $\cmpln$).
+
+\begin{defi}
+    A scalar product is a mapping
+    \[
+        \innerproduct{\cdot}{\cdot}: V \times V \longrightarrow \field  
+    \]
+    that fulfils the following conditions:
+    $\forall v_1, v_2, w_1, w_2 \in V, ~~\lambda \in \field$
+    \begin{align*}
+        \text{Linearity} && &\innerproduct{v_1}{w_1 + \lambda w_2} = \innerproduct{w_1}{w_1} + \lambda\innerproduct{v_1}{w_2} \\
+        \text{Conjugated symmetry} && &\innerproduct{v_1}{w_1} = \conj{\innerproduct{w_1}{v_1}} \\
+        \text{Positivity} && &\innerproduct{v_1}{v_1} \ge 0 \\
+        \text{Definedness} && &\innerproduct{v_1}{v_2} = 0 \implies v_1 = 0 \\
+        \text{Conjugated linearity} && &\innerproduct{v_1 + \lambda v_2}{w_1} = \innerproduct{v_1}{w_1} + \conj{\lambda} \innerproduct{v_2}{w_1} \\
+    \end{align*}
+    The mapping
+    \begin{align*}
+        \norm{\cdot}: V &\longrightarrow \field \\
+        v &\longmapsto \sqrt{\innerproduct{v}{v}}
+    \end{align*}
+\end{defi}
+
+\begin{eg}
+    On $\realn^n$ the following is a scalar product
+    \[
+        \innerproduct{(x_1, x_2, \cdots, x_n)^T}{(y_1, y_2, \cdots, y_n)^T} = \series[n]{k} x_ky_k
+    \]
+    The norm is then equivalent to the Pythagorean theorem
+    \[
+        \norm{v} = \sqrt{\innerproduct{v}{v}} = \sqrt{x_1^2 + x_2^2 + \cdots + x_n^2}
+    \]
+    Analogously for $\cmpln^n$
+    \[
+        \innerproduct{(u_1, u_2, \cdots, u_n)^T}{(v_1, v_2, \cdots, v_n)^T} = \series[n]{k} \conj{u_k}v_k
+    \]
+\end{eg}
+
+\begin{rem}
+\begin{itemize}
+    \item The length of $v \in V$ is $\norm{v}$
+    \item The distance between elements $v, w \in V$ is $\norm{v-w}$
+    \item The angle $\phi$ between $v, w \in V$ is $\cos \phi = \frac{\innerproduct{v}{w}}{\norm{v}\cdot\norm{w}}$
+\end{itemize}
+\end{rem}
+
+\begin{thm}
+    Let $v, w \in V$. Then 
+    \begin{align*}
+        \text{Cauchy-Schwarz-Inequality} && &|\innerproduct{v}{w}| \le \norm{v}\norm{w} \\
+        \text{Triangle Inequality} && &\norm{v + w} \le \norm{v} + \norm{w}
+    \end{align*}
+\end{thm}
+\begin{proof}
+    For $\lambda \in \field$ we know that
+    \begin{equation}
+    \begin{split}
+        0 \le \innerproduct{v - \lambda w}{v - \lambda w} &= \innerproduct{v - \lambda w}{v} - \lambda\innerproduct{v - \lambda w}{w} \\
+        &= \innerproduct{v}{v} - \conj{\lambda}\innerproduct{w}{v} - \lambda\innerproduct{v}{w} + \underbrace{\lambda\conj{\lambda}}_{|\lambda|^2}\innerproduct{w}{w}
+    \end{split}
+    \end{equation}
+    Let $\lambda = \frac{\innerproduct{w}{v}}{\norm{w}^2}$. Then 
+    \begin{equation}
+    \begin{split}
+        0 &\le \norm{v}^2 - \frac{\conj{\innerproduct{w}{v}}}{\norm{w}^2} \cdot \innerproduct{w}{v} - \frac{\innerproduct{w}{v}}{\norm{w}^2} \cdot \innerproduct{v}{w} + \frac{|\innerproduct{w}{v}|^2}{\norm{w}^4} \norm{w}^2 \\
+        &= \norm{v}^2 - \frac{|\innerproduct{w}{v}|^2}{\norm{w}^2} - \cancel{\frac{|\innerproduct{w}{v}|^2}{\norm{w}^2}} + \cancel{\frac{|\innerproduct{w}{v}|^2}{\norm{w}^2}} \\
+        &= \norm{v}^2 - \frac{|\innerproduct{w}{v}|^2}{\norm{w}^2}
+    \end{split}
+    \end{equation}
+    Through the monotony of the square root this implies that
+    \begin{equation}
+        |\innerproduct{w}{v}| \le \norm{v} \norm{w}
+    \end{equation}
+    To prove the triangle inequality, consider
+    \begin{equation}
+    \begin{split}
+        ||v + w||^2 &= \innerproduct{v+w}{v+w} \\
+        &= \underbrace{\innerproduct{v}{v}}_{\norm{v}^2} + \innerproduct{v}{w} + \underbrace{\innerproduct{w}{v}}_{\conj{\innerproduct{v}{w}}} + \underbrace{\innerproduct{w}{w}}_{\norm{w}^2} \\
+        &\le \norm{v}^2 + 2 \cdot \Re\innerproduct{v}{w} + \norm{w}^2 \\
+        &\le \norm{v}^2 + 2\norm{v}\norm{w} + \norm{w}^2 \\
+        &= (\norm{v} + \norm{w})^2
+    \end{split}
+    \end{equation}
+    Using the same argument as above, this implies
+    \begin{equation}
+        \norm{v + w} \le \norm{v} + \norm{w}
+    \end{equation}
+\end{proof}
+
+\begin{defi}
+    $v, w \in V$ are called orthogonal if
+    \[
+        \innerproduct{v}{w} = 0
+    \]
+    The elements $v_1, \cdots, v_m \in V$ are called an orthogonal set if they are non-zero and they are pairwise orthogonal. I.e.
+    \[
+        \forall i,j \in \set{1, \cdots, m}: \innerproduct{v_i}{v_j} = 0
+    \]
+    If $\norm{v_i} = 1$, then the $v_i$ are called an orthonormal set. If their span is $V$ they are an orthonormal basis.
+\end{defi}
+
+\begin{thm}
+    If $v_1, \cdots, v_n$ are an orthonormal set, they are linearly independent.
+\end{thm}
+\begin{proof}
+    Let $\alpha_1, \cdots, \alpha_n \in \field$, such that 
+    \begin{equation}
+        0 = \alpha_1 v_1 + \alpha_2 v_2 + \cdots + \alpha_n v_n
+    \end{equation}
+    Then 
+    \begin{equation}
+    \begin{split}
+        0 &= \innerproduct{v_i}{0} = \innerproduct{v_i}{\alpha_1v_1 + \alpha_2v_2 + \cdots + \alpha_nv_n} \\
+        &= \alpha_1\innerproduct{v_i}{v_1} + \alpha_2\innerproduct{v_i}{v_2} + \cdots + \alpha_n\innerproduct{v_i}{v_n} \\
+        &= \alpha_i \innerproduct{v_i}{v_i} ~~i \in \set{1, \cdots, n}
+    \end{split}
+    \end{equation}
+    Since $v_i$ is not a zero vector, $\innerproduct{v_i}{v_i} \ne 0$, and thus $\alpha_i = 0$. Since $i$ is arbitrary, the $v_i$ are linearly independent.
+\end{proof}
+
+\begin{eg}
+    \begin{enumerate}[(i)]
+        \item The canonical basis in $\realn^n$ is an orthonormal basis regarding the canonical scalar product.
+        \item Let $\phi \in \realn$. Then 
+        \begin{align*}
+            v_1 = (\cos\phi, \sin\phi)^T && v_2 = (-\sin\phi, \cos\phi)^T
+        \end{align*}
+        are an orthonormal basis for $\realn^2$
+    \end{enumerate}
+\end{eg}
+
+\begin{thm}
+    Let $v_1, \cdots, v_n$ be an orthonormal basis of $V$. Then for $v \in V$:
+    \[
+       v = \series[n]{i} \innerproduct{v_i}{v} v_i 
+    \]
+\end{thm}
+\begin{proof}
+    Since $v_1, \cdots, v_n$ is a basis,
+    \begin{equation}
+        \exists \alpha_1, \cdots, \alpha_n \in \field: ~~v = \series[n]{i} \alpha_i v_i
+    \end{equation}
+    And therefore, for $j \in \set{1, \cdots, n}$
+    \begin{equation}
+        \innerproduct{v_j}{v} = \series[n]{i} \alpha_i \innerproduct{v_j}{v_i} = \alpha_j \underbrace{\innerproduct{v_j}{v_j}}_{\norm{v_j}^2 = 1}
+    \end{equation}
+\end{proof}
+
+\begin{thm}
+    Let $A \in \field^{m \times n}$ and $\innerproduct{\cdot}{\cdot}$ the canonical scalar product on $\field^n$. Then 
+    \[
+        \innerproduct{v}{Aw} = \innerproduct{A^Hv}{w}
+    \]
+\end{thm}
+\begin{proof}
+    First consider
+    \begin{multicols}{2}
+    \begin{subequations}
+        \noindent
+        \begin{equation}
+            (Aw)_i = \series[n]{j} A_{ij} w_i
+        \end{equation}
+        \begin{equation}
+            (A^H w)_j = \series[n]{i} A_{ji} v_i
+        \end{equation}
+    \end{subequations}
+    \end{multicols}
+    Now we can compute
+    \begin{equation}
+    \begin{split}
+        \innerproduct{v}{Aw} &= \series[n]{i} \conj{v_i} (Aw)_i = \series[n]{i}\left(\conj{v_i} \cdot \series[n]{j} A_{ij} w_j \right) = \series[n]{i}\series[n]{j} A_{ij} \conj{v_i}w_j \\
+        &= \series[n]{j} \left(\series[n]{i} A{ij} \conj{v_i} \right) w_j = \series[n]{j} \left(\conj{\series[n]{i} \conj{A_{ij}} v_i}\right) w_j \\
+        &= \series[n]{j} \conj{(A^H v)_j} \cdot w_j \\
+        &= \innerproduct{A^H v}{w}
+    \end{split}
+    \end{equation}
+\end{proof}
+
+\begin{defi}
+    A matrix $A \in \realn^{n \times n}$ is called orthogonal if 
+    \[
+        A^T A = AA^T = I
+    \]
+    or 
+    \[
+        A^T = A^{-1}
+    \]
+    The set of all orthogonal matrices
+    \[
+        O(n) := \set[A^T A = I]{A \in \realn{n \times n}}
+    \]
+    is called the orthogonal group.
+    \[
+        SO(n) = \set[A^TA = I \wedge \det A = 1]{A = \realn{n \times n}} \subset O(n)
+    \]
+    is called the special orthogonal group.6
+\end{defi}
+
+\begin{eg}
+    Let $\phi \in [0, 2\pi]$, then 
+    \[
+        A = \begin{pmatrix}
+            \cos \phi & -\sin \phi \\
+            \sin \phi & \cos \phi
+        \end{pmatrix}
+    \]
+    is orthogonal.
+\end{eg}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item Let $A, B \in \field^{n \times n}$, then
+        \[
+            AB = I \implies BA = I
+        \]
+
+        \item \[
+            1 = \det I = \det A^TA = \det A^T \cdot \det A = {\det}^2 A
+        \]
+
+        \item The $i$-$j$-component of $A^TA$ is equal to the canonical scalar product of the $i$-th row of $A^T$ and the $j$-th column of $A$.
+        Since the rows of $A^T$ are the columns of $A$, we can conclude that 
+        \[
+            A \text{ orthogonal} \iff \innerproduct{r_i}{r_j} = \delta_{ij}
+        \]
+        where the $r_i$ are the columns of $A$. In this case, the $r_i$ are an orthonormal basis on $\realn^n$. This works analogously for the rows.
+
+        \item Let $A$ be orthogonal, and $x, y \in \realn^n$
+        \begin{align*}
+            \innerproduct{Ax}{Ay} &= \innerproduct{A^TAx}{y} = \innerproduct{x}{y} \\
+            \norm{Ax} &= \sqrt{\innerproduct{Ax}{Ax}} = \sqrt{\innerproduct{x}{x}} = \norm{x}
+        \end{align*}
+        $A$ perserves scalar products, lengths, distances and angles. These kinds of operations are called mirroring and rotation.
+
+        \item Let $A, B \in O(n)$
+        \[
+            (AB)^T \cdot (AB) = B^TA^TAB = B^TIB = I
+        \] 
+        This implies $(AB) \in O(n)$. It also implies $I \in O(n)$. Now consider $A \in O(n)$. Then 
+        \[
+           (\inv{A})^T \inv{A} = (A^T)^T \cdot A^T = AA^T = I 
+        \]
+        This implies $\inv{A} \in O(T)$. Such a structure (a set with a multiplication operation, neutral element and multiplicative inverse) is called a group.
+    \end{enumerate}
+\end{rem}
+
+\begin{eg}
+    $O(n)$, $SO(n)$, $\realn \setminus \set{0}$, $\cmpln \setminus \set{0}$, $Gl(n)$ (set of invertible matrices) and $S_n$ are all groups.
+\end{eg}
+
+\begin{defi}
+    A matrix $U \in \cmpln^{n \times n}$ is called unitary if 
+    \[
+        U^H U = I = UU^H
+    \]
+    We also introduce
+    \[
+        \set[U^HU = I]{U \in \cmpln{n \times n}}
+    \]
+    the unitary group, and 
+    \[
+        \set[U^HU = I \wedge \det U = 1]{U \in \cmpln{n \times n}}
+    \]
+    the special unitary group.
+\end{defi}
+\end{document}
