@@ -1,0 +1,255 @@
+\documentclass[../../script.tex]{subfiles}
+
+% !TEX root = ../../script.tex
+
+\begin{document}
+\section{The Determinant}
+
+In this section we always define $A \in \field^{n \times n}$ and $z_1, \cdots, z_n$ the row vectors of $A$. We declare the mapping
+\[
+    \det: \field^{n \times n} \longrightarrow \field
+\]
+and define
+\[
+    \det(A) := \det(z_1, z_2, \dots, z_n)  
+\]
+
+\begin{defi}
+    There exists exactly one mapping $\det$ such that
+    \begin{enumerate}[(i)]
+        \item It is linear in the first row, i.e.
+        \[
+            \det(z_1 + \lambda\tilde{z_1}, z_2, \cdots, z_n) = \det(z_1, z_2, \cdots, z_n) + \lambda \det(\tilde{z_1}, z_2, \cdots, z_n)  
+        \]
+
+        \item If $\tilde{A}$ is obtained from $A$ by swapping two rows
+        \[
+            \det(A) = -\det(\tilde{A})  
+        \]
+
+        \item $\det(I) = 1$
+    \end{enumerate}
+    This mapping is called the determinant, and we write
+    \[
+        \det A = \begin{vmatrix}
+            a_{11} & \cdots & a_{1n} \\
+            \vdots & \ddots & \vdots \\
+            a_{n1} & \cdots & a_{nn} \\
+        \end{vmatrix}  
+    \]
+\end{defi}
+
+\begin{eg}
+    \[
+        \begin{vmatrix}
+            a_{11} & a_{12} \\
+            a_{21} & a_{22}
+        \end{vmatrix}  
+        = a_{11}a_{22} - a_{21}a_{12}
+    \]
+    \begin{align*}
+        \begin{vmatrix}
+            a_{11} & a_{12} & a_{13} \\
+            a_{21} & a_{22} & a_{23} \\
+            a_{31} & a_{32} & a_{33} \\
+        \end{vmatrix} 
+        = &a_{11}a_{22}a_{33} + a_{12}a_{23}a_{31} + a_{13}a_{21}a_{32} \\
+        &- a_{31}a_{22}a_{13} - a_{32}a_{23}a_{11} - a_{33}a_{21}a_{12}  
+    \end{align*}
+\end{eg}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item Every determinant is linear in every row
+        \item If two rows are equal then $\det(A) = 0$
+        \item If one row (w.l.o.g. $z_1$) is a linear combination of the others, so 
+        \[
+            z_1 = \alpha_2z_2 + \alpha_3z_3 + \cdots + \alpha_nz_n, ~~\alpha_1, \cdots, \alpha_n \in \field  
+        \]
+        then
+        \begin{align*}
+            \det(z_1, z_2, \cdots, z_n) = &\alpha_2 \underbrace{\det(z_2, z_2, z_3, \cdots, z_n)}_0 + \\
+            &\alpha_3 \underbrace{\det(z_3, z_2, z_3, \cdots, z_n)}_0 + \\
+            &\cdots + \\
+            &\alpha_n \underbrace{\det(z_n, z_2, z_3, \cdots, z_n)}_0 \\
+            &= 0
+        \end{align*}
+
+        \item Adding a multiple of a row to another doesn't change the determinant
+    
+        \item Define 
+        \begin{align*}
+            T_{ij} && \text{ swaps rows } i \text{ and } j \\
+            M_i(\lambda) && \text{ multiplies row } i \text{ with } \lambda \ne 0 \\
+            L_{ij}(\lambda) && \text{ adds } \lambda \text{-times row } j \text{ to row } i \\
+        \end{align*}
+        Then 
+        \begin{align*}
+            \det(T_{ij} A) &= -\det(A) \\
+            \det(L_{ij}(\lambda) A) &= \det(A) \\
+            \det(M_i(\lambda) A) &= \lambda\det(A)
+        \end{align*}
+    \end{enumerate}
+\end{rem}
+
+\begin{lem}
+    Let $\det$ be the determinent, and $A, B \in \field^{n \times n}$. Let $A$ be in row echelon form, then
+    \[
+        \det(AB) = a_{11} \cdot a_{22} \cdot \cdots \cdot a_{nn} \cdot \det(B)
+    \]
+\end{lem}
+\begin{proof}
+    First consider the case of $A$ not being invertible. This means that the last row of $A$ is a zero row, which in turn means that $\det(A) = 0$.
+    This also means that the last row of $AB$ is a zero row and therefore $\det(AB) = 0$.
+
+    Now let $A$ be invertible. This means that all the diagonal entries are non-zero. It is possible to bring $A$ into diagonal form without changing
+    the diagonal entries themselves. So, w.l.o.g. let $A$ be in diagonal form:
+    \begin{equation}
+        A = M_n(a_{nn}) \cdot \cdots \cdot M_2(a_{22})M_1(a_{11}) I
+    \end{equation}
+    and thus
+    \begin{equation}
+        \begin{split}
+        \det(AB) &= \det(M_n(a_{nn}) \cdot \cdots \cdot M_2(a_{22})M_1(a_{11}) B) \\       
+        &= a_{nn} \cdot \cdots \cdot a_{22} \cdot a_{11} \det(B) 
+    \end{split}
+    \end{equation}
+\end{proof}
+
+\begin{rem}
+    For $B = I$ this results in 
+    \[
+        \det(A) = a_{11} a_{22} \cdots a_{nn}
+    \]
+\end{rem}
+
+\begin{thm}
+    Let $A, B \in \field^{n \times n}$. Then 
+    \[
+        \det AB = \det A \cdot \det B  
+    \]
+\end{thm}
+\begin{proof}
+    Let $i, j \in \set{1, \cdots, n}$ and $\lambda \ne 0$. Then 
+    \begin{subequations}
+        \begin{equation}
+            \det(T_{ij} AB) = -\det(AB)
+        \end{equation}
+        \begin{equation}
+            \det(L_{ij}(\lambda) AB) = \det(AB)
+        \end{equation}
+    \end{subequations}
+    Bring $A$ with $T_{ij}$ and $L_{ij}(\lambda)$ operations into row echelon form. Then 
+    \begin{equation}
+        \det(AB) = a_{11}a_{22} \cdots a_{nn} \cdot \det(B)
+    \end{equation}
+    and therefore
+    \begin{equation}
+        \det(AB) = \det A  \cdot \det B
+    \end{equation}
+\end{proof}
+
+\begin{cor}
+    \[
+        A \in \field^{n \times n} \text{ invertible } \iff \det A \ne 0   
+    \]
+\end{cor}
+\begin{proof}
+    Row operations don't effect the invertibility or the determinant (except for the sign) of a matrix. Therefore we can limit ourselves to matrices in 
+    row echelon form (w.l.o.g.). Let $A$ be in row echelon form, then 
+    \begin{equation}
+        \begin{split}
+            \det A \ne 0 &\iff a_{11} a_{22} \cdots a_{nn} \ne 0 \\
+            &\iff a_{11} \ne 0, a_{22} \ne 0, \cdots, a_{nn} \ne 0 \\
+            &\iff A \text{ invertible since diagonal entries are non-zero}
+        \end{split}
+    \end{equation}
+\end{proof}
+
+\begin{thm}
+    \[
+        \det A = \det A^T  
+    \]
+\end{thm}
+\begin{proof}
+    First consider the explicit representation of row operations:
+    \begin{subequations}
+    \begin{equation}
+            T_{ij} = \kbordermatrix{
+                  &   & j &   & i &   \\
+                  & 1 &   &   &   &   \\
+                i &   & 0 &   & 1 &   \\
+                  &   &   & 1 &   &   \\
+                j &   & 1 &   & 0 &   \\
+                  &   &   &   &   & 1 \\
+              }
+        \end{equation}
+        \begin{equation}
+            L_{ij}(\lambda) = \kbordermatrix{
+                  &   &   &   & j &   \\
+                  & 1 &   &   &   &   \\
+                i &   & 1 &   & \lambda &   \\
+                  &   &   & 1 &   &   \\
+                  &   &   &   & 1 &   \\
+                  &   &   &   &   & 1 \\
+              }
+        \end{equation}   
+    \end{subequations}  
+    Thus we can see
+    \begin{subequations}
+        \begin{equation}
+            \det(T_{ij}) = \det(T_{ij}^T) = -1
+        \end{equation}
+        \begin{equation}
+            \det(L_{ij}(\lambda)) = \det(L_{ij}(\lambda)^T) = 1
+        \end{equation}
+    \end{subequations}
+    Let $T$ be one of those matrices. Then 
+    \begin{equation}
+    \begin{split}
+        \det((TA)^T) &= \det(A^T \cdot T^T) \\
+        &= \det A^T \cdot \det T^T \\
+        &= \det A^T \cdot \det T \\
+    \end{split}
+    \end{equation}
+    and 
+    \begin{equation}
+        \det TA = \det A \cdot \det T
+    \end{equation}
+    And therefore 
+    \begin{equation}
+        \det((TA)^T) = \det(TA) \iff \det A^T = \det A
+    \end{equation}
+    Now w.l.o.g. let $A$ be in row echelon form. Let $A$ be non-invertible, i.e. the last row is a zero row. Thus $\det A = 0$. 
+    This implies that $A^T$ has a zero column. Row operations that bring $A^T$ into row echelon form (w.l.o.g.) perserve this zero column. Therefore the
+    resulting matrix must also have a zero column, and thus $\det(A^T) = 0$.
+
+    Now assume $A$ is invertible, and use row operations to bring $A$ into a diagonalised form (w.l.o.g.). For diagonalised matrices we know that
+    \begin{equation}
+        A = A^T \implies \det A = \det A^T
+    \end{equation}
+\end{proof}
+
+\begin{rem}
+    Let $A_{ij}$ be the matrix you get by removing the $i$-th row and the $j$-th column from $A$.
+    \[
+        \det A = \sum_{i=1}^n (-1)^{i+j} \cdot a_{ij} \cdot \det(A_{ij}), ~~j \in \set{1, \cdots, n}
+    \]
+\end{rem}
+
+\begin{rem}[Leibniz formula]
+    Let $n \in \natn$, and let there be a bijective mapping
+    \[
+        \sigma: \set{1, \cdots, n} \longrightarrow \set{1, \cdots, n}  
+    \]
+    $\sigma$ is a permutation. The set of all permutations is labeled $S_n$, and it contains $n!$ elements. Then 
+    \[
+        \det A = \sum_{\sigma \in S_n} \sgn(\sigma) \prod_{i=1}^n a_{i, \sigma(i)}
+    \]
+    A permutation that swaps exactly two elements is called elementary permutation. Every permutation can be written as a number of consecutively executed elementary permutations.
+    \[
+        \sgn(\sigma) = (-1)^k
+    \]
+    where $\sigma$ is the permutation in question and $k$ is the number of elementary permutations it consists of.
+\end{rem}
+\end{document}

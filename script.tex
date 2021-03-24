@@ -7,6 +7,7 @@
 \usepackage[shortlabels]{enumitem}
 \usepackage{multicol}
 \usepackage{tikz}
+\usepackage{kbordermatrix}
 \usetikzlibrary{calc,trees,positioning,arrows,fit,shapes,angles}
 
 \usepackage{color}
@@ -23,6 +24,7 @@
 
 \DeclareMathOperator{\spn}{span}
 %\DeclareMathOperator{\dim}{dim}
+\DeclareMathOperator{\sgn}{sgn}
 
 \newcommand{\natn}{\mathbb{N}}
 \newcommand{\intn}{\mathbb{Z}}
@@ -53,6 +55,9 @@
 
 \newcommand{\conv}[1]{\xrightarrow{\makebox[2em][c]{$\scriptstyle#1$}}}
 \newcommand{\convinf}{\conv{n \rightarrow \infty}}
+
+\renewcommand{\kbldelim}{(}
+\renewcommand{\kbrdelim}{)}
 
 \newcommand{\reader}{Left as an exercise for the reader.}
 \newcommand{\setvert}{\,\vert\,}
@@ -99,7 +104,7 @@
 
 \begin{document}
 
-\title{Mathemacs for Physicists}
+\title{Mathematics for Physicists}
 \author{https://www.github.com/Lauchmelder23/Mathematics}
 \maketitle
 \tableofcontents
