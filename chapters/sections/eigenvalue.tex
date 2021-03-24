@@ -13,6 +13,305 @@
     \[
         \set[Av = \lambda v]{v \in \field^n} =: E_{\lambda}
     \]
-    eigenspace belonging to $\lambda$
+    eigenspace belonging to $\lambda$.
 \end{defi}
+
+\begin{eg}
+    Let 
+    \[
+        A = \begin{pmatrix}
+            2 & 1 & -1 \\
+            0 & 1 & 0 \\
+            0 & 0 & 1
+        \end{pmatrix}
+    \]
+    Then 
+    \begin{align*}
+        A \cdot \begin{pmatrix}
+            1 \\ 0 \\ 0
+        \end{pmatrix}
+        &= \begin{pmatrix}
+            2 \\ 0 \\ 0
+        \end{pmatrix}
+        = 2 \cdot \begin{pmatrix}
+            1 \\ 0 \\ 0
+        \end{pmatrix} \\
+        A \cdot \begin{pmatrix}
+            1 \\ -1 \\ 0
+        \end{pmatrix}
+        &= \begin{pmatrix}
+            1 \\ -1 \\ 0
+        \end{pmatrix}
+        = 1 \cdot \begin{pmatrix}
+            1 \\ -1 \\ 0
+        \end{pmatrix} \\
+        A \cdot \begin{pmatrix}
+            1 \\ 0 \\ 1
+        \end{pmatrix}
+        &= \begin{pmatrix}
+            1 \\ 0 \\ 1
+        \end{pmatrix}
+        = 1 \cdot \begin{pmatrix}
+            1 \\ 0 \\ 1
+        \end{pmatrix}
+    \end{align*}
+    The eigenspaces are 
+    \begin{align*}
+        E_2 &= \set[\kappa \in \realn]{\kappa \cdot \begin{pmatrix}1\\0\\0\end{pmatrix}} \\
+        E_1 &= \set[\kappa, \rho \in \realn]{\kappa \cdot \begin{pmatrix}1\\-1\\0\end{pmatrix} + \rho \cdot \begin{pmatrix}1\\0\\1\end{pmatrix}} 
+             = \spn\set{\begin{pmatrix}1\\-1\\0\end{pmatrix}, \begin{pmatrix}1\\0\\1\end{pmatrix}}
+    \end{align*}
+\end{eg}
+
+\begin{rem}
+    The eigenspace to an eigenvalue $\lambda$ is a linear subspace.
+\end{rem}
+
+\begin{rem}
+    We want to find $\lambda \in \field$, $v \in \field^n$ such that
+    \[
+        Av = \lambda v \iff (\underbrace{A - \lambda I}_{\in \field^{n \times n}}) v = 0
+    \]
+    If $(A - \lambda I)$ is invertible, then $v = 0$. So the interesting case is when $(A - \lambda I)$ not invertible.
+    \[
+        (A - \lambda I) \text{ not invertible} \iff \det(A - \lambda I) = 0
+    \]
+    This determinant is called the characteristic polynomial. This polynomial has degree $n$, and the eigenvalues are the roots of that polynomial.
+    So let $\lambda$ be an eigenvalue of $A$, then 
+    \[
+        (A - \lambda I) v = 0
+    \]
+    is a linear equation system for the components of $v$.
+\end{rem}
+
+\begin{eg}
+    Let 
+    \[
+        A = \begin{pmatrix}
+            0 & 1 \\ -1 & 0
+        \end{pmatrix}
+        \in \cmpln^{2 \times 2}
+    \]
+    The characteristic polynomial is
+    \[
+        \det(A - \lambda I) = \begin{vmatrix}
+            -\lambda & 1 \\ -1 & -\lambda
+        \end{vmatrix}
+        = \lambda^2 + 1
+    \]
+    Its roots are 
+    \begin{multicols}{2}
+        \noindent
+        \[ \lambda_1 = i \]
+        \[ \lambda_2 = -i \]
+    \end{multicols}
+    \noindent To find the eigenvector belonging to $\lambda_1$, we declare $v_1 = (x, y) \in \cmpln^2$ and solve the linear equation system 
+    \begin{multicols}{2}\noindent
+        \[ (A - \lambda_1 I) v_1 = 0 \]
+        \begin{align*}
+            -ix + 1y &= 0 \\
+            -1x - iy &= 0 \\
+        \end{align*}
+    \end{multicols}
+    \noindent It has the solutions $x = -i$ and $y = 1$, so 
+    \[
+        v_1 = \begin{pmatrix}
+            -i \\ 1
+        \end{pmatrix}
+    \]
+    Doing the same for $v_2$ yields 
+    \[
+        v_2 = \begin{pmatrix}
+            i \\ 1
+        \end{pmatrix}    
+    \]
+    It is to be noted that the eigenvectors aren't unique (multiples of eigenvectors are also eigenvectors).
+\end{eg}
+
+\begin{eg}
+    Let $D$ be a diagonal matrix, with the diagonal entries $\lambda_j$. Then 
+    \[
+        \det(D - \lambda I) = \begin{vmatrix}
+            \lambda_1 - \lambda & & & \\
+            & \lambda_2 - \lambda & & \\
+            & & \ddots & \\
+            & & & \lambda_n - \lambda \\
+        \end{vmatrix}
+    \]
+    The roots (eigenvalues) are $\lambda_1, \lambda_2, \cdots, \lambda_n$, and the eigenvectors are $De_i = \lambda_i e_i$.
+\end{eg}
+
+\begin{defi}
+    $A \in \field^{n \times n}$ is called diagonalizable if there exists a basis of $\field^n$ that consists of eigenvectors.
+\end{defi}
+
+\begin{thm}
+    A matrix $A \in \field^{n \times n}$ is diagonalizable, if and only if there exists a diagonal matrix $D$ and a invertible matrix $T$ such that 
+    \[
+        D = \inv{T}AT
+    \]
+\end{thm}
+\begin{proof}
+    Let $e_1, e_2, \cdots, e_n$ be the canonical basis of $\field^n$. Define $TD\inv{T} = A$, and let $\lambda_1, \cdots, \lambda_n$ be the diagonal entries of $D$.
+    Then we know that 
+    \begin{equation}
+        De_i = \lambda_ie_i, ~~\forall i \in \set{1, \cdots n}
+    \end{equation}
+    Since $T$ is invertible, the $Te_1, \cdots Te_n$ form a basis. 
+    \begin{equation}
+        A(Te_i) = T(\inv{T}AT)e_i = TDe_i = T\lambda_i e_i = \lambda_i (Te_i)
+    \end{equation}
+    Therefore $Te_i$ is an eigenvector of $A$ to the eigenvalue $\lambda_i$. Now let $v_1, \cdots, v_n$ be a basis of $\field^n$ and 
+    \begin{equation}
+        Av_i = \lambda_iv_i, ~~\lambda_1, \cdots, \lambda_n \in \field^n
+    \end{equation}
+    Write write $v_1, \cdots, v_n$ as the columns of a matrix, therefore 
+    \begin{subequations}
+        \begin{equation}   
+            T = (v_1, v_2, \cdots, v_n)                 
+        \end{equation}  
+        \begin{equation}
+            D = \begin{pmatrix}
+                \lambda_1 & & \\
+                & \vdots & \\
+                & & \lambda_n
+            \end{pmatrix}
+        \end{equation}
+    \end{subequations}
+    So $Te_i = v_i$, and thus 
+    \begin{equation}
+        A(Te_i) = Av_i = \lambda_iv_i = \lambda_i(Te_i) = T\lambda_ie_i = TDe_i
+    \end{equation}
+    This means that $(AT - TD)e_i = 0$, $\forall i \in \set{1, \cdots, n}$.
+    \begin{equation}
+        \implies AT = TD
+    \end{equation}
+    $T$ is invertible (left as an exercise for the reader), and thus 
+    \begin{equation}
+        \implies \inv{T}AT = D
+    \end{equation}
+\end{proof}
+
+\begin{eg}
+    \begin{enumerate}[(i)]
+        \item Let 
+        \[
+            A = \begin{pmatrix}
+                0 & 1 \\ -1 & 0
+            \end{pmatrix}
+        \]
+        The eigenvalues and eigenvectors are 
+        \begin{multicols}{2}\noindent
+            \[
+                A \cdot \begin{pmatrix}
+                    -i \\ 1
+                \end{pmatrix}
+                =
+                i \begin{pmatrix}
+                    -i \\ 1
+                \end{pmatrix}
+            \]
+            \[
+                A \cdot \begin{pmatrix}
+                    i \\ 1
+                \end{pmatrix}
+                =
+                -i \begin{pmatrix}
+                    i \\ 1
+                \end{pmatrix}
+            \]
+        \end{multicols}
+        \noindent Therefore 
+        \[
+            T = \begin{pmatrix}
+                -i & i \\ 1 & 1
+            \end{pmatrix}
+        \]
+        which has the inverse 
+        \[
+            \inv{T} = \frac{1}{2} \begin{pmatrix}
+                i & 1 \\ -i & 1
+            \end{pmatrix}
+        \]
+        Finally,
+        \[
+            \inv{T}AT = \frac{1}{2}
+            \begin{pmatrix}
+                i & 1 \\ -i & 1
+            \end{pmatrix}
+            \begin{pmatrix}
+                1 & 1 \\ i & -i
+            \end{pmatrix}
+            = \frac{1}{2}
+            \begin{pmatrix}
+                2i & 0 \\ 0 & -2i
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+                i & 0 \\ 0 & -i
+            \end{pmatrix}
+        \]
+        This is a diagonal matrix, therefore $A$ is diagonalizable.
+
+        \item The matrix 
+        \[
+            \begin{pmatrix}
+                0 & 1 \\ 0 & 0
+            \end{pmatrix}
+        \]
+        is not diagonalizable since its only eigenvector is $(1, 0)^T$.
+    \end{enumerate}
+\end{eg}
+
+\begin{rem}
+    For diagonal matrices the following is true 
+    \[
+        \begin{pmatrix}
+            \lambda_1 & & & \\
+            & \lambda_2 & & \\
+            & & \ddots & \\
+            & & & \lambda_3 \\
+        \end{pmatrix}^k
+        =
+        \begin{pmatrix}
+            \lambda_1^k & & & \\
+            & \lambda_2^k & & \\
+            & & \ddots & \\
+            & & & \lambda_3^k \\
+        \end{pmatrix}
+    \]
+    If $\inv{T}AT = D$ (where $D$ is a diagonal matrix), then 
+    \[
+        D^k = (\inv{T}AT)^k = \underbrace{\inv{T}AT \cdot \inv{T}AT \cdot \cdots}_{k \text{ times}} = \inv{T}A^kT
+    \]
+    \[
+        \implies A^k = TD^k\inv{T}
+    \]
+\end{rem}
+
+\begin{thm}
+    Let $A \in \realn^{n \times n}$ be a symmetric matrix, i.e. $A = A^T$. (Or if $A \in \cmpln^{n \times n}$ a self-adjoint matrix $A = A^H$).
+    Then $A$ has an orthonormal basis consisting of eigenvectors and is diagonalizable.
+\end{thm}
+\begin{proof}
+    Let $\lambda \in \cmpln$ be an eigenvalue of $A \in \field^{n \times n}$ with eigenvector $v \in \field^n$ and $A = A^H$. Then 
+    \begin{equation}
+        \lambda\innerproduct{v}{v} = \innerproduct{v}{\lambda v} = \innerproduct{v}{Av} = \innerproduct{A^Hv}{v} = \innerproduct{Av}{v} = \innerproduct{\lambda v}{v} = \conj{\lambda} \innerproduct{v}{v}
+    \end{equation}
+    Therefore
+    \begin{equation}
+        (\lambda - \conj{\lambda})\underbrace{\innerproduct{v}{v}}_0 = 0
+    \end{equation}
+    \begin{equation}
+        \implies (\lambda - \conj{\lambda}) = 0 \implies \lambda = \conj{\lambda} \implies \lambda \in \realn
+    \end{equation}
+    Now let $\lambda, \rho \in \realn$ be eigenvalues to the eigenvectors $v, w$, and require $\lambda \ne \rho$. Then 
+    \begin{equation}
+        \rho\innerproduct{v}{w} = \innerproduct{v}{Aw} = \innerproduct{Av}{w} = \conj{\lambda}\innerproduct{v}{w} = \lambda\innerproduct{v}{w}
+    \end{equation}
+    And thus 
+    \begin{equation}
+        \underbrace{(\rho - \lambda)}_{\ne 0} \underbrace{\innerproduct{v}{w}}_{=0} = 0 \implies v \perp w
+    \end{equation}
+\end{proof}
 \end{document}
