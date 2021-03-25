@@ -54,9 +54,12 @@
 \newcommand{\rseqdef}[1]{\seq{#1} \subset \realn}
 \newcommand{\cseqdef}[1]{\seq{#1} \subset \cmpln}
 \newcommand{\rcseqdef}[1]{\seq{#1} \subset \realn \text{ (or } \cmpln \text{)}}
+\newcommand{\anyseqdef}[2][x]{\seq{#1} \subset #2}
 \newcommand{\series}[2][\infty]{\sum_{#2 = 1}^{#1}}
 \newcommand{\finite}{\text{ finite}}
 \newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\oball}[1][\epsilon]{B_{#1}}
+\newcommand{\closure}[1]{\overline{#1}}
 
 \newcommand{\conv}[1]{\xrightarrow{\makebox[2em][c]{$\scriptstyle#1$}}}
 \newcommand{\convinf}{\conv{n \rightarrow \infty}}
@@ -111,8 +114,18 @@
 \begin{document}
 \title{Mathematics for Physicists}
 \author{\href{https://www.github.com/Lauchmelder23/Mathematics}{https://www.github.com/Lauchmelder23/Mathematics}}
-\maketitle
-\doclicenseThis
+
+\begin{titlepage}
+  \begin{center}
+    \vspace*{5cm}
+    \Huge{Mathematics for Physicists}\\[1cm]
+    \Large{https://www.github.com/Lauchmelder23/Mathematics}\\
+    \Large{Alma Mater Lipsiensis}\\[0,5cm]
+    \normalsize{\today} \\[7,5cm]
+  \end{center}
+  \doclicenseThis
+\end{titlepage}
+
 \tableofcontents
 
 \subfile{chapters/FaN.tex}

@@ -1,0 +1,52 @@
+\documentclass[../script.tex]{subfiles}
+%! TEX root = ../../script.tex
+
+\begin{document}
+\section{Limits and Functions}
+
+In this chapter we will introduce the notation
+\[
+    \oball(x) = (x - \epsilon, x + \epsilon)
+\]
+
+\begin{defi}
+    Let $D \subset \realn$ and $x \in \realn$. $x$ is called a boundary point of $D$ if 
+    \[
+        \forall \epsilon > 0: ~~D \cap \oball(x) \ne 0
+    \]
+    The set of all boundary points of $D$ is called closure and is denoted as $\closure{D}$.
+\end{defi}
+
+\begin{eg}
+    \begin{enumerate}[(i)]
+        \item $x \in D$ is always a boundary point of $D$, because 
+        \[
+            x \in D \cap \oball(x)
+        \]
+
+        \item Boundary points don't have to be elements of $D$. If $D = (0, 1)$, then $0$ and $1$ are boundary points, because 
+        \[
+            \frac{\epsilon}{2} \in (0, 1) \cap \oball(0) = (-\epsilon, \epsilon) ~~\forall \epsilon > 0
+        \]
+
+        \item Let $D = \ratn$. Every $x \in \realn$ is a boundary point, because $\forall \epsilon > 0$, $\oball(x)$ contains at least one rational number. I.e. $\closure{\ratn} = \realn$.
+    \end{enumerate}
+\end{eg}
+
+\begin{rem}
+    If $x$ is a boundary point, then 
+    \[
+        \forall \epsilon > 0 ~\exists y \in D: ~~|x - y| < \epsilon 
+    \]
+    If $x$ is not a boundary point, then 
+    \[
+        \exists \epsilon > 0 ~\forall y \in D: ~~|x - y| \ge \epsilon 
+    \]
+\end{rem}
+
+\begin{thm}
+    \[
+        x \in \realn \text{ is a boundary point of } D \subset \realn \iff \exists \anyseqdef{D} \text{ such that } x_n \rightarrow x
+    \]
+\end{thm}
+\end{document}
