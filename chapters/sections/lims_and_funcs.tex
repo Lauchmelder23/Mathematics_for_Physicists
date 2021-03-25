@@ -49,4 +49,580 @@ In this chapter we will introduce the notation
         x \in \realn \text{ is a boundary point of } D \subset \realn \iff \exists \anyseqdef{D} \text{ such that } x_n \rightarrow x
     \]
 \end{thm}
+\begin{proof}
+    Let $x$ be a boundary point of $D$. Then 
+    \begin{equation}
+        \forall n \in \natn ~\exists x_n \in D \cap \left( x - \frac{1}{n}, x+ \frac{1}{n} \right)
+    \end{equation}
+    The resulting sequence $\seq{x}$ is in $D$, and 
+    \begin{equation}
+        |x - x_n| \le \frac{1}{n}
+    \end{equation}
+    holds. Therefore, $x_n$ converges to $x$. Now let $\anyseqdef{D}$, with $x_n \rightarrow x$. This means
+    \begin{equation}
+        \forall \epsilon > 0 ~\exists N \in \natn: ~~|x - x_N| < \epsilon
+    \end{equation}
+    Then 
+    \begin{equation}
+        x_N \in D \cap \oball(x)
+    \end{equation}
+    Since $\epsilon$ is arbitrary, $x$ is a boundary point of $D$.
+\end{proof}
+
+\begin{defi}
+    Let $D \subset \realn$ and $f: D \rightarrow \realn$. Let $x_0$ be a boundary point of $D$. 
+    We say that $f$ converges to $y \in \realn$ for $x \rightarrow x_0$ and write
+    \[
+        \lim_{x \rightarrow x_0} f(x) = y
+    \]
+    if
+    \[
+        \forall \epsilon > 0 ~\exists \delta > 0: ~~|x-x_0| < \delta \implies |f(x) - f(y)| < \epsilon
+    \]
+\end{defi}
+
+\begin{rem}
+    This definition only makes sense for boundary points $x_0$ of $D$. The most imoprtant case is 
+    \[
+        D = (x_0 - a, x_0 + a) \setminus \set{x_0}
+    \]
+\end{rem}
+
+\begin{eg}
+\begin{enumerate}[(i)]
+    \item Let $a \in \realn$
+    \begin{align*}
+        f: \realn &\longrightarrow \realn \\
+        x &\longmapsto ax
+    \end{align*}
+    Consider $a \ne 0$: Let $\epsilon > 0$. We want that 
+    \[
+        |f(x) - 0| = |a||x| \stackrel{!}{<} \epsilon
+    \]
+    Choose $\delta = \frac{\epsilon}{|a|}$. Then we have 
+    \[
+        |x| = |x - 0| < \delta \implies |f(x) - 0| = |a||x| < |a| \delta = |a| \frac{\epsilon}{|a|} = \epsilon
+    \]
+    Therefore 
+    \[
+        \lim_{x \rightarrow 0} f(x) = 0
+    \]
+
+    \item Consider 
+    \begin{align*}
+        f: \realn &\longrightarrow \realn \\
+        x &\longmapsto \begin{cases}
+            1 ,& x > 0 \\
+            -1 ,& x < 0 \\
+        \end{cases}
+    \end{align*}
+    $f$ doesn't converge for $x \rightarrow 0$. Assume $y \in \realn$ is the limit of $x$ at $0$. This means that there is a $\delta > 0$ such that
+    \[
+        |f(x) - y| < 1 \text{ if } |x| = |x - 0| < \delta
+    \]
+    Then, for any $x \in (0, \delta)$ we have 
+    \[
+        2 = |f(x) - f(-x)| \le \underbrace{|f(x) - y|}_{< 1} + \underbrace{|y - f(-x)|}_{< 1} < 2
+    \]
+    which is a contradiction.
+\end{enumerate}
+\end{eg}
+
+\begin{thm}
+    Let $f: D \rightarrow \realn$, $x_0$ a boundary point of $D$ and $y \in \realn$. Then 
+    \[
+        \lim_{x \rightarrow x_0} f(x) = y \iff \forall \anyseqdef{D} \text{ with } x_n \longrightarrow x_0: ~~\limn f(x_n) = x_0
+    \]
+\end{thm}
+\begin{proof}
+    Assume that $\lim_{x \rightarrow x_0} f(x)$ and that there is $\anyseqdef{D}$ converging to $x$.
+    Let $\epsilon > 0$, then
+    \begin{equation}
+        \exists \delta > 0: ~~|x - x_0| < \delta \implies |f(x) - y| < \epsilon
+    \end{equation}
+    Since $x_n \rightarrow x_0$, we know that 
+    \begin{equation}
+        \exists N \in \natn ~\forall n > N: ~~|x_n - x_0| < \delta
+    \end{equation}
+    For such $n$, the epsilon criterion $|f(x_n) - y| < \epsilon$ also holds, and thus 
+    \begin{equation}
+        f(x_n) \convinf y
+    \end{equation}
+    Now to prove the "$\impliedby$" direction, assume that $\lim_{x \rightarrow x_0} f(x) \ne y$, i.e.
+    \begin{equation}
+        \exists \epsilon > 0 ~\forall \delta > 0 ~\exists x \in D: ~~|x - x_0| < \delta \wedge |f(x) - y| \ge \epsilon
+    \end{equation}
+    Choose $\forall x \in \natn$ one $x_n$ such that
+    \begin{equation}
+        |x_n - x_0| < \frac{1}{n} \text{ but } |f(x_n) - y| \ge \epsilon
+    \end{equation}
+    Then $x_n \rightarrow x_0$, but $|f(x_n) - y| \ge \epsilon ~\forall n \in \natn$, so 
+    \begin{equation}
+        \limn f(x_n) \ne y
+    \end{equation}
+    This indirectly proves "$\impliedby$".
+\end{proof}
+
+\begin{eg}
+    Consider $D = \realn \subset \set{0}$, we want to prove
+    \[
+        \lim_{x \rightarrow 0} \frac{1}{1-x} = 1
+    \]
+    So let $\anyseqdef{D}$ with $x_n \rightarrow 0$. Then 
+    \[
+        \frac{1}{1-x_n} \convinf 1
+    \]
+    \[
+        \implies \lim_{x \rightarrow 0} \frac{1}{1-x} = 1
+    \]
+    However, the limit $\lim_{x \rightarrow 1}$ doesn't exist. Let $x_n = \frac{1}{n} + 1$ with $x_n \rightarrow 1$. Then 
+    \[
+        \frac{1}{1 - (\frac{1}{n} + 1)} = -n \convinf -\infty
+    \]
+    This doesn't converge, thus there is no limit.
+\end{eg}
+
+\begin{cor}
+    Let $f, g: D \rightarrow \realn$, $x_0$ a boundary point and $y, z \in \realn$ such that 
+    \begin{align*}
+        \lim_{x \rightarrow x_0} f(x) = y && \lim_{x \rightarrow x_0} g(x) = z
+    \end{align*}
+    Then 
+    \begin{align*}
+        \lim_{x \rightarrow x_0} (f(x) + g(x)) &= y+z \\  
+        \lim_{x \rightarrow x_0} (f(x) \cdot g(x)) &= y \cdot z
+    \end{align*}
+    If $z \ne 0$, then 
+    \[
+        \lim_{x \rightarrow x_0} (\frac{f(x)}{g(x)}) = \frac{y}{z}
+    \]
+\end{cor}
+\begin{proof}
+    Here we will only prove the last statement.
+    Let $\lim_{x \rightarrow x_0} = z \ne 0$. Then 
+    \begin{equation}
+        \exists \delta > 0 ~\forall x \in \oball[\delta](x_0): ~~|g(x) - z| < |z|
+    \end{equation}
+    $g$ doesn't have any roots on $\oball[\delta](x_0)$. Let $\anyseqdef{D \cap \oball[\delta](x_0)}$ converge to $x_0$.
+    According to prerequisites, we have 
+    \noindent\begin{subequations}
+        \begin{multicols}{2}
+            \noindent
+            \begin{equation}
+                \limn f(x_n) = y
+            \end{equation}
+            \begin{equation}
+                \limn g(x_n) = z \ne 0
+            \end{equation}
+        \end{multicols}
+    \end{subequations}
+    \noindent Thus 
+    \begin{equation}
+        \implies \limn \frac{f(x_n)}{g(x_n)} = \frac{y}{z} \implies \lim_{x \rightarrow x_0} \frac{f(x)}{g(x)} = \frac{y}{z}
+    \end{equation}
+\end{proof}
+
+\begin{cor}[Squeeze Theorem]
+    Let $f, g, h: D \rightarrow \realn$ and $x$ a boundary point of $D$. If for $y \in \realn$
+    \[
+        \lim_{x \rightarrow x_0} f(x) = y = \lim_{x \rightarrow x_0} h(x)
+    \]
+    and
+    \[
+        f(x) \le g(x) \le h(x) ~~\forall x \in \oball(x_0)
+    \]
+    then 
+    \[
+        \lim_{x \rightarrow x_0} g(x) = y
+    \]
+\end{cor}
+
+\begin{eg}
+    Consider $\exp(x)$. We already know that 
+    \[
+        1 + x \le \exp(x) ~~\forall x \in \realn
+    \]
+    This also implies that 
+    \[
+        1 - x \le \exp(-x) = \frac{1}{\exp(x)} ~~\forall x \in \realn
+    \]
+    So 
+    \[
+        1 + x \le \exp(x) \le \frac{1}{1 - x}
+    \]
+    The limits of these terms are 
+    \begin{align*}
+        \lim_{x \rightarrow 0} (1+x) = 1 && \lim_{x \rightarrow 0} \left(\frac{1}{1-x}\right) = 1
+    \end{align*}
+    And using the squeeze theorem this results in 
+    \[
+        \lim_{x \rightarrow 0} \exp(0) = 1
+    \]
+\end{eg}
+
+\begin{defi}
+    Let $f: D \rightarrow \realn$ and $x_0$ a boundary point of $D$. We say $f$ diverges to infinity for $x \rightarrow x_0$ and write 
+    \[
+        \lim_{x \rightarrow x_0} f(x) = \infty
+    \]
+    if 
+    \[
+        \forall K \in (0, \infty) ~\exists \delta > 0: ~~|x - x_0| < \delta \implies f(x) \ge K
+    \]
+\end{defi}
+
+\begin{defi}
+    Let $D \subset \realn$ be unbounded above. We say $f$ converges for $x \rightarrow \infty$ to $y \in \realn$ and write 
+    \[
+        \lim_{x \rightarrow \infty} f(x) = y
+    \]
+    if 
+    \[
+        \forall \epsilon > 0 ~\exists K \in (0, \infty) ~\forall x > K: ~~|f(x) - y| < \epsilon
+    \]
+\end{defi}
+
+\begin{rem}
+    Let $f: D \rightarrow \cmpln$ and $x_0$ a boundary point of $D$. Then 
+    \begin{align*}
+        &\limes{x}{x_0} f(x) = y \in \cmpln \\
+        \iff & \limes{x}{x_0} \Re(f(x)) = \Re(y) \wedge \limes{x}{x_0} \Im(f(x)) = \Im(y) \\
+        \iff & \limes{x}{x_0} |f(x) - y| = 0
+    \end{align*}
+\end{rem}
+
+\begin{defi}
+    Let $D \subset K$, $f:D \rightarrow K$ and $x_0 \in D$. $f$ is called continuous in $x_0$ if 
+    \[
+        \forall \epsilon > 0 ~\exists \delta > 0: ~~|x - x_0| < \delta \implies |f(x) - f(x_0)| < \epsilon
+    \]
+    If $f$ is continuous in every point of $D$, we call $f$ continuous.
+
+    $f$ is called Lipschitz 
+    continuous if 
+    \[
+        \exists L \in (0, \infty) ~\forall x, y \in D: ~~|f(x) - f(y)| \le L|x - y|
+    \]
+    $L$ is called Lipschitz constant
+\end{defi}
+
+\begin{rem}
+    Let $f: D \rightarrow \field$
+    \[
+        f \text{ is continuous in } x_0 \in D \iff \limes{x}{x_0} f(x) = f(x_0)
+    \]
+\end{rem}
+
+\begin{eg}
+    We want to show that 
+    \begin{align*}
+        f: \realn &\longrightarrow \realn \\
+        x &\longmapsto x^2
+    \end{align*}
+    is continuous. To do that, let $x_0 \in \realn$, $\epsilon > 0$. We want
+    \[
+        |f(x) - f(x_0)| = |x^2 - x_0^2| = |x - x_0||x + x_0| \must[\le] \epsilon
+    \]
+    So we choose 
+    \[
+        \delta = \min \set{1, \frac{\epsilon}{2|x_0| + 1}} > 0
+    \]
+    Then for every $x$ with $|x - x_0| < \delta$
+    \begin{align*}
+        |f(x) - f(x_0)| &= |x - x_0||x + x_0| \le \delta(|x| + |x_0|) \le \delta(|x_0| + \delta + |x_0|) \\
+        &\le \delta(2|x_0| + 1) \le \frac{\epsilon}{2|x_0| + 1}(2|x_0| + 1) = \epsilon
+    \end{align*}
+\end{eg}
+
+\begin{thm}
+    Every Lipschitz continuous function is continuous
+\end{thm}
+\begin{proof}
+    Let $f: D \rightarrow \field$ be a Lipschitz continuous function with Lipschitz constant $L > 0$. I.e.
+    \begin{equation}
+        \forall x, y \in D: ~~|f(x) - f(y)| \le L|x - y|
+    \end{equation}
+    Let $x_0 \in \realn$ and $\epsilon > 0$. Choose $\delta = \frac{\epsilon}{L}$. Then $|x - x_0| < \delta$ implies 
+    \begin{equation}
+        |f(x) - f(x_0)| \le L|x - x_0| \le L \cdot \delta = \epsilon
+    \end{equation}
+\end{proof}
+
+\begin{eg}
+    \begin{enumerate}[(i)]
+        \item Consider the constant function $x \mapsto c$, $c \in \field$.
+        \[
+            |f(x) - f(y)| = |c - c| = 0 \le 1 \cdot |x - y|
+        \]
+
+        \item Consider the linear function $x \mapsto cx$, $c \in \field$.
+        \[
+            |f(x) - f(y)| = |cx - cy| = |c||x - y|
+        \]
+    \end{enumerate}
+    These two functions are Lipschitz continuous, and therefore continuous.
+    \begin{enumerate}[(i)]\setcounter{enumi}{2}
+        \item Consider $x \mapsto \Re(x)$. Then 
+        \[
+            |\Re(x) - \Re(y)| = |\Re(x - y)| \le |x - y|
+        \]
+        Analogously this works for $\Im(x)$. Both of those are Lipschitz continuous.
+
+        \item Lipschitz continuity depends on $D$. E.g.
+        \begin{align*}
+            f: [0, 1] &\longrightarrow \realn \\
+            x &\longmapsto x^2
+        \end{align*}
+        is Lipschitz continuous:
+        \[
+            |f(x) - f(y)| = |x-y||x+y| \le 2 \cdot |x - y|
+        \]
+        However,
+        \begin{align*}
+            g: \realn &\longrightarrow \realn \\
+            x &\longmapsto x^2
+        \end{align*}
+        is NOT Lipschitz continuous, because 
+        \[
+            \frac{|g(n+1) - g(n)|}{(n+1) - n} = 2n + 1 \convinf \infty
+        \]
+    \end{enumerate}
+\end{eg}
+
+\begin{rem}
+    Let $f: D \rightarrow \field$.
+    \begin{gather*}
+        f \text{ is continuous in } x_0 \in D \\
+        \iff \\ 
+        \forall \anyseqdef{D} \text{ with } x_n \rightarrow x_0: ~~\limn f(x_n) = f(x_0)   
+    \end{gather*}
+    If $f, g$ are continuous in $x_0$, then $f+g$ and $f \cdot g$ are also continuous in $x_0$, and if $g(x_0) \ne 0$ then $f/g$ is also continuous in $x_0$.
+    Notably, polynomials are continuous. A rational function (the quotient of two polynomials) is continuous in all points that are not roots of the denominator.
+\end{rem}
+
+\begin{thm}
+    Let $D \subset \field$, and let 
+    \begin{subequations}
+    \begin{gather}
+        f: D \longrightarrow \field \text{ continuous in } x_0 \in D \\
+        g: f(D) \longrightarrow \field \text{ continuous in } f(x_0)
+    \end{gather}
+    \end{subequations}
+    Then $g \circ f$ is also continuous in $x_0$.
+\end{thm}
+\begin{proof}
+    Let $\epsilon > 0$. Since $g$ is continuous in $f(x_0)$, 
+    \begin{equation}
+        \exists \delta_1 > 0: ~~|y - f(x_0)| < \delta_1 \implies |g(y) - g(f(x_0))| < \epsilon
+    \end{equation}
+    Since $f$ is continuous in $x_0$,
+    \begin{equation}
+        \exists \delta_2 > 0: ~~|x - x_0| < \delta_2 \implies |f(x) - f(x_0)| < \delta_1
+    \end{equation}
+    For such $x$ the following holds 
+    \begin{equation}
+        |(g \circ f)(x) - (g \circ f)(x_0)| = |g(f(x)) - g(f(x_0))| < \epsilon
+    \end{equation}
+    which implies that $g \circ f$ is continuous in $x_0$.
+\end{proof}
+
+\begin{eg}
+    Consider the following mappings
+    \begin{align*}
+        &f: \realn \longrightarrow \realn, ~~x \longmapsto |x| \\
+        &g: \realn \longrightarrow \realn \setminus \set{-1}, ~~y \longmapsto \frac{1 - y}{1 + y} \\
+        &h: \realn \longrightarrow \realn, ~~x \longmapsto \frac{1 - |x|}{1 + |x|}
+    \end{align*}
+    It is clear that $h = g \circ f$. Since $f$, $g$ are continuous, $h$ must also be continuous.
+\end{eg}
+
+\begin{eg}
+    The functions $\exp$, $\sin$ and $\cos$ are continuous. We know that 
+    \[
+        \limes{h}{0} \frac{\exp(k) - 1}{h} = 1
+    \]
+    From this follows that 
+    \[
+        \limes{h}{0} \exp(k) = \exp(0) = 0
+    \]
+    Thus, $\exp$ is continuous in $0$. Let $x_0 \in \realn$, then 
+    \begin{align*}
+        \limes{x}{x_0} \exp(x) &= \limes{h}{0} \exp(x_0 + h) = \limes{h}{0} \exp(x_0)\exp(h) \\
+        &= \exp(x_0) - \limes{h}{0} \exp(h) = \exp{x_0}
+    \end{align*}
+    Now, consider the function $x \mapsto \exp(ix)$. For $x_0 \in \realn$
+    \begin{align*}
+        |\underbrace{\exp(i(x_0 + h))}_{\exp(ix_0) \dot \exp(ih)} - \exp(i h_0)| &= \underbrace{|\exp(ix_0)|}_1|\exp(ih) - 1| \\
+        &\le 1 \cdot \left| \sum_{k = 0}^{\infty} \frac{(ih)^k}{k!} - 1 \right| = \left| \series{k} \frac{(ih)^k}{k!} \right| \\
+        &\le \series{k} \left| \frac{(ih)^k}{k!} \right| \\
+        &= \series{k} \frac{|h|^k}{k!} = \sum_{k = 0}^{\infty} \frac{|h|^k}{k!} - 1 = \exp(|h|) - 1
+    \end{align*}
+    For $h \rightarrow 0$, the absolute function converges $|h| \rightarrow 0$, and therefore 
+    \[
+        \lim{h}{0} |\exp(i(x_0 + h)) - \exp(ix)| = 0
+    \]
+    due to the squeeze theorem. I.e., $x \mapsto \exp(ix)$ is also continuous. Thus 
+    \begin{align*}
+        \cos x = \Re(\exp(ix)) && \sin x = \Im(\exp(ix))
+    \end{align*}
+    are also continuous due to the concatination of continuous functions.
+\end{eg}
+
+\begin{lem}
+    Let $a, b \in \realn$ with $a < b$, and let
+    \[
+        f: [a, b] \longrightarrow \realn
+    \]
+    be a continuous function. Furthermore, let $y \in \realn$. Now if the set 
+    \[
+        \set[f(x) \ge y]{x \in [a, b]}
+    \]
+    is non-empty, it has a smallest element.
+\end{lem}
+\begin{proof}
+    Let $M$ be non-empty. Set $x_0 = \inf\set{M}$. Then it is to be shown that $x_0 \in M$, or that $f(x_0) \ge y$.
+    There exists a sequence $\anyseqdef{M}$ such that $x_n \rightarrow x_0$. Because of the continuity of $f$, 
+    \begin{equation}
+        f(x_0) = f(\limn x_n) = \limn f(x_n) \ge y
+    \end{equation}
+    holds, thus $x_0 \in M$.
+\end{proof}
+
+\begin{thm}[Extreme value theorem]
+    Let $a, b \in \realn$ with $a < b$, and let $f: [a, b] \rightarrow \realn$ continuous.
+    Then the function $f$ attains a maximum, i.e.
+    \[
+        \exists x_0 \in [a, b] ~\forall x \in [a, b]: ~~f(x) \le f(x_0)
+    \]
+\end{thm}
+\begin{proof}
+    First we show that $f$ is bounded. Assume $f$ is unbounded above, i.e.
+    \begin{equation}
+        \set[f(x) \ge n]{x \in [a, b]} =: M_n, ~~n \in \natn
+    \end{equation}
+    According to the last lemma, every $M_n$ has a smallest element $x_n$.
+    The sequence $(x_n)_{n \in \natn}$ is monotonically increasing ($M_{n+1} \subset M_n$) and bounded above by $b$.
+    Thus, $x_n$ converges to some $x_0 \in [a, b]$. Now consider the sequence $(f(x_n))_{n \in \natn}$. By definition 
+    \begin{equation}
+        \limn f(x_n) \ge \limn n = \infty
+    \end{equation}
+    And since $f$ is continuous, $\limn f(x_n) = f(x_0)$ must hold. This contradicts the assumption, so $f$ is bounded.
+
+    Now set 
+    \begin{equation}
+        y = \sup\set[{x \in [a, b]}]{f(x)}
+    \end{equation}
+    In case $f$ is equal to $y$ everywhere, there is nothing to show. So assume that there are values for which $f \ne y$.
+    According to the definition of the supremum, the sets 
+    \begin{equation}
+        \set[f(x) \ge y - \frac{1}{n}]{x \in [a, b]}
+    \end{equation}
+    are non-empty for all $n \in \natn$, and thus they have a smallest element $x_n$.
+    The sequence $(x_n)_{n \in \natn}$ is monotonically increasing and bounded, i.e. it converges to $x_0 \in [a, b]$.
+    Therefore
+    \begin{equation}
+        y \ge f(x_0) = \limn f(x_n) \ge \limn y - \frac{1}{n} = y
+    \end{equation}
+    From this follows 
+    \begin{equation}
+        f(x_0) = y \implies f(x_0) \text{ upper bound of } \set[{x \in [a, b]}]{f(x)}
+    \end{equation}
+\end{proof}
+
+\begin{thm}[Intermediate value theorem]
+    Let $a, b \in \realn$ with $a < b$, and $f: [a, b] \rightarrow \realn$ a continuous function with $f(a) < f(b)$.
+    \[
+        y \in (f(a), f(b)) \implies \exists x_0 \in (a, b): ~~f(x_0) = y
+    \]
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{eg}
+    $\cos$ has in $[0, 2]$ exactly one root. Consider the definition 
+    \[
+        \cos x = \sum_{k = 0}^{\infty} \frac{(-1)^k x^{2k}}{(2k)!}
+    \]
+    We know that $\cos 0 = 1$. Furthermore we can show that 
+    \[
+        -1 = \underbrace{1 - \frac{2^2}{2!}}_{\text{2nd partial sum}} \le \cos(2) \le \underbrace{1 - \frac{2^2}{2!} + \frac{2^4}{4!}}_{\text{3rd partial sum}} < 0
+    \]
+    The intermediate value theorem tells us that there exists a root in $[0, 2]$. Now we need to show that $\cos$ is strictly monotonically decreasing on $[0, 2]$.
+    Choose $z \in [0, 2]$. Then 
+    \[
+        z \le \sin z \le z - \frac{z^3}{3!}
+    \]
+    The addition theorem tells us that 
+    \[
+        \cos(x) - \cos(y) = -2 \sin\left(\frac{x+y}{2}\right) \sin\left(\frac{x-y}{2}\right) < 0
+    \]
+    for $x, y \in (0, 2]$ and $x > y$. Thus $\cos$ is strictly monotonically decreasing on $[0, 2]$.
+\end{eg}
+
+\begin{cor}
+    Let $I$ be an interval and $f: I \rightarrow \realn$ continuous. Then $f(I)$ is also an interval.
+\end{cor}
+\begin{proof}
+    \reader
+\end{proof}
+
+\begin{thm}
+    Let $I$ be an interval, $f: I \rightarrow \realn$ continuous. If $f$ is strictly monotonically increasing, then the inverse function
+    $\inv{f}: f(I) \rightarrow I$ exists and is continuous.
+\end{thm}
+\begin{hproof}
+    $f(I)$ is an interval, and $f$ is injective. This is because if $f(x) = f(\tilde{x})$, then $x = \tilde{x}$ or else $f$ wouldn't be strictly monotonic.
+    This means
+    \begin{equation}
+        \exists g: f(I) \longrightarrow \realn: ~~f(x) = y \iff g(y) = x
+    \end{equation}
+    Let $y_0 \in f(I)$ and $\epsilon > 0$. We require that $x_0$ is not a boundary point of $I$. Then choose $0 < \tilde{\epsilon} < \epsilon$ such that 
+    $(x_0 - \tilde{\epsilon}, x_0 + \tilde{epsilon}) \in I$. Choose 
+    \begin{equation}
+        \delta = \min \set{\underbrace{f(x_0 + \tilde{\epsilon}) - y_0}_{> 0}, \underbrace{y_0 - f(x_0 - \tilde{\epsilon})}_{> 0}} > 0
+    \end{equation}
+    If $y \in f(I)$ with $|y - y_0| < \delta$ then 
+    \begin{equation}
+        f(x_o - \tilde{epsilon}) \le x_0 - \delta < y < y_0 + \delta \le f(x_0 + \tilde{\epsilon})
+    \end{equation}
+    From the strict monotony of $g$ we can conclude
+    \begin{equation}
+        x_0 - \tilde{epsilon} < g(y) < x_0 + \tilde{\epsilon}
+    \end{equation}
+    so 
+    \begin{equation}
+        |g(y) - g(y_0)| = |g(y) - x_0| < \tilde{\epsilon} < \epsilon
+    \end{equation}
+    Thus, $g$ is continuous in $y_0$. Since $y_0 \in f(I)$ was chose arbitrarily, all of $g$ is continuous.
+    To prove the monotony of $g$, assume $y < \tilde{y}$ and $g(y) \ge g(\tilde{y})$ for $y, \tilde{y} \in f(I)$. From the monotony of $f$ we know that 
+    \begin{equation}
+        y \ge \tilde{y}
+    \end{equation}
+    which is a contradiction, so $g$ is strictly monotonic.
+\end{hproof}
+
+\begin{eg}
+    \begin{enumerate}[(i)]
+        \item Let $n \in \natn$ and consider 
+        \begin{align*}
+            f: [0, \infty) &\longrightarrow \realn \\
+            x &\longmapsto x^n
+        \end{align*}
+        $f$ is continuous and strictly monotonically increasing. Thus the inverse function 
+        \[
+            \sqrt[n]{\cdot}: [0, \infty) \longrightarrow \realn^+
+        \]
+        is also continuous.
+
+        \item Consider $\exp: \realn \rightarrow \realn$. It's clear that $\exp(\realn) = (0, \infty)$, so the mapping 
+        \[
+            \ln: (0, \infty) \rightarrow \realn
+        \]
+        is continuous and strictly monotonically increasing.
+
+        \item Equal arguments can be made for the trigonometric functions.
+    \end{enumerate}
+\end{eg}
+
 \end{document}
