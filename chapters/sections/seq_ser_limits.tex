@@ -1,0 +1,188 @@
+\documentclass[../../script.tex] {subfiles}
+%! TEX root = ../../script.tex
+
+\begin{document}
+\section{Sequences, Series and Limits}
+
+\begin{defi}[Sequences and Convergence]
+    Let $\metric$ be a metric space. A sequence is a mapping $\natn \rightarrow X$. We write $\seq{x}_{n \in \natn}$ or $\seq{x}$.
+
+    The sequence $\seq{x}$ is said to be convergent to $x \in X$ if
+    \[
+        \forall \epsilon > 0 ~\exists N \in \natn ~\forall n \ge N: ~~d(x_n, x) < \epsilon
+    \]
+    $x$ is said to be the limit, and sequences that aren't convergent are called divergent.
+\end{defi}
+
+\begin{rem}
+    On $\realn$ the metric is the Euclidian metric $|\cdot|$, therefore this new definition of convergence is merely a generalization of the old one.
+\end{rem}
+
+\begin{thm}
+    Let $\seq{x}$ be a sequence in the metric space $\metric$ and $x \in X$. Then the following statements are equivalent:
+    \begin{enumerate}[(i)]
+        \item $\seq{x}$ converges to $x$
+        \item $\forall \epsilon > 0$ $\oball(x)$ contains all but finitely many elements of the sequence (almost every (a.e.) element)
+        \item $(d(x, x_n))$ is a null sequence
+    \end{enumerate}
+\end{thm}
+\begin{proof}
+    (ii) is merely a reformulation of (i), and $(ii) \iff (iii)$ follows from
+    \begin{equation}
+        d(x_n, x) = |d(x_n, x) - 0|
+    \end{equation}
+\end{proof}
+
+\begin{thm}
+    Let $\left(x^{(n)}\right) = (x_1^{(n)}, x_2^{(n)}, \cdots, x_d^{(n)}) \subset \realn^d$ and 
+    \[
+        x = (x_1, \cdots, x_d) \in \realn^d
+    \]
+    $\left(x^{(n)}\right)$ is said to converge to $x$ if and only if $x_i^{(n)}$ converges to $x_i$ for all $i$ in $\set{1, \cdots, d}$
+\end{thm}
+\begin{proof}
+    For $y = (y_1, \cdots, y_d) \in \realn^d$ we have
+    \begin{equation}
+        \norm{y_i} < \norm{y} ~~\forall i \in \set{1, \cdots, d}
+    \end{equation}
+    If $\left(x^{(n)}\right)$ converges to $x$, then
+    \begin{equation}
+        \abs{x_i^{(n)} - x_i} \le \norm{x^{(n)} - x} \conv{} 0
+    \end{equation}
+    If $(x_i^{(n)})$ converges to $x_i ~~\forall i \in \set{1, \cdots d}$, then
+    \begin{equation}
+        \forall \epsilon > 0 ~\exists N \in \natn ~\forall n > N: ~~\abs{x_i^{(n)} - x_i} < \frac{\epsilon}{\sqrt{d}} ~~\forall i \in \set{1, \cdots d}
+    \end{equation}
+    Thus
+    \begin{equation}
+    \begin{split}
+        \norm{x^{(n)} - x} &= \sqrt{(x_1^{(n)} - x_1)^2 + (x_2^{(n)} - x_2)^2 + \cdots + (x_d^{(n)} - x_d)^2} \\
+        &\le \sqrt{\frac{\epsilon^2}{d} + \frac{\epsilon^2}{d} + \cdots + \frac{\epsilon}{2}} \\
+        &= \epsilon
+    \end{split}
+    \end{equation}
+    So $\left(x^{(n)}\right)$ converges to $x$.
+\end{proof}
+
+\begin{thm}
+    Every convergent sequence has exactly one limit and is bounded.
+\end{thm}
+\begin{proof}
+    Assume that $x, y$ are limits of $(x_n)$ with $x \ne y$. Then $d(x, y) > 0$. There exists $N_1, N_2 \in \natn$, such that
+    \begin{subequations}
+    \begin{align}
+        d(x_n, x) &< \frac{d(x, y)}{2} ~~\forall n \ge N_1 \\
+        d(x_n, x) &< \frac{d(x, y)}{2} ~~\forall n \ge N_2
+    \end{align}
+    \end{subequations}
+    From this follows that
+    \begin{equation}
+        d(x, y) \le d(x, x_n) + d(x_n, y) < d(x, y) ~~\forall \max\set{N_1, N_2}
+    \end{equation}
+    which is a contradiction, thus sequences can have only one limit.
+
+    Now if $\seq{x}$ converges to $x$, then 
+    \begin{equation}
+        \exists N \in \natn ~\forall n \ge N: ~~d(x_n, x) < 1
+    \end{equation}
+    Then 
+    \begin{equation}
+        d(x_n, x) \le \max\set{d(x_1, x), d(x_2, x), \cdots, d(x_{N-1}, x), 1}
+    \end{equation}
+\end{proof}
+
+\begin{thm}
+    Let $\normed$ be a normed space over $\field$. Let $\seq{x}, \seq{y} \subset V$ be sequences with limits $x, y \in V$ 
+    and $\anyseqdef[\lambda]{\field}$ a sequence with limit $\lambda \in \field$. Then 
+    \begin{align*}
+        x_n + y_n \longrightarrow x + y && \lambda_n x_n \longrightarrow \lambda x
+    \end{align*}
+\end{thm}
+\begin{proof}
+    \reader
+\end{proof}
+
+\begin{defi}[Cauchy sequences and completeness]
+    A sequence $\seq{x}$ in a metric space $\metric$ is called Cauchy sequence if 
+    \[
+        \forall \epsilon > 0 ~\exists N \in \natn: ~~d(x_n, x_m) < \epsilon ~~\forall m, n \ge N
+    \]
+    A metric space is complete if every Cauchy sequence converges. A complete normed space is called Banach space.
+\end{defi}
+
+\begin{eg}
+    \item $(\realn, \abs{\cdot})$ and $(\cmpln, \abs{\cdot})$ are complete 
+    \item $(\ratn, \abs{\cdot})$ is not complete
+\end{eg}
+
+\begin{thm}
+    Every convering series is a Cauchy sequence
+\end{thm}
+\begin{proof}
+    Let $\seq{x} \conv{} x$. This means that 
+    \begin{equation}
+        \forall \epsilon > 0 ~\epsilon N \in \natn: ~~d(x_n, x) < \frac{\epsilon}{2} ~~\forall n \ge N
+    \end{equation}
+    Then 
+    \begin{equation}
+        d(x_n, x_m) \le d(x_n, x) + d(x, x_m) < \epsilon ~~\forall m, n \ge N
+    \end{equation}
+\end{proof}
+
+\begin{thm}
+    $\realn^n$ with the Euclidian norm is complete.
+\end{thm}
+\begin{proof}
+    Let $\left(x^{(n)}\right) \subset \realn^n$ be a Cauchy sequence. We know that 
+    \begin{equation}
+        \forall y \in \realn^n: ~~\abs{y_i} \le \norm{y} ~~\forall i \in \set{1, \cdots, n}
+    \end{equation}
+    We also know that $(x_i^{(n)})$ are Cauchy sequences because 
+    \begin{equation}
+        \abs{(x_i^{(n)} - x_i^{m})} \le \norm{x^{(n)} - x^{(m)}} ~~\forall i \in \set{1, \dots, n}
+    \end{equation}
+    Thus $x_i^{(n)} \conv{} x_i$ and therefore $\left(x^{(n)}\right) \conv{} x$.
+\end{proof}
+
+\begin{defi}[Series and (absolute) convergence]
+    Let $\normed$ be a normed space and $\anyseqdef{V}$. The series 
+    \[
+        \series{k} x_k
+    \]
+    is the sequence of partial sums
+    \[
+        s_n = \series[n]{k} x_k
+    \]
+    If the series converges then $\series{k} x_k$ also denotes the limit. 
+    The series is said to absolutely convergent if 
+    \[
+        \series{k} \norm{x_k} < \infty
+    \]
+\end{defi}
+
+\begin{thm}
+    In Banach spaces every absolutely convergent series is convergent.
+\end{thm}
+\begin{proof}
+    Let $\normed$, $\anyseqdef{V}$ and require $\series{n} \normed{x_n} < \infty$. We need to show that $s_n = \series[n]{k} x_k$ is a Cauchy sequence.
+    Let $\epsilon > 0$ and $t_n = \series[n]{k} \norm{x_k}$. $\seq{t}$ is convergent in $\realn$, and thus a Cauchy sequence.
+    I.e. 
+    \begin{equation}
+        \exists N \in \natn: ~~|t_n - t| < \epsilon ~~\forall m, n \ge N
+    \end{equation}
+    For $n > m > N$:
+    \begin{equation}
+        \norm{s_n - s_m} = \norm{\sum_{k=m+1}^n x_k} \le \sum_{k=m+1}^n \norm{x_k} = t_n - t_m = |t_n - t_m| < \epsilon
+    \end{equation}
+\end{proof}
+
+\begin{thm}
+    Let $\normed$ be a Banach space, $\series{k} x_k$ absolutely convergent and let $\sigma: \natn \rightarrow \natn$ be a bijective mapping. Then 
+    \[
+        \series{k} x_k = \series{k} x_{\sigma(k)}
+    \]
+\end{thm}
+\begin{proof}
+    Analogous to $\Cref{259}$
+\end{proof}
+\end{document}

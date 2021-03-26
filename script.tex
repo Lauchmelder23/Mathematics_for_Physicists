@@ -50,7 +50,7 @@
 \newcommand{\limz}{\lim_{n \rightarrow 0}}
 \newcommand{\limsupn}{\limsup_{n \rightarrow \infty}}
 \newcommand{\liminfn}{\liminf_{n \rightarrow \infty}}
-\newcommand{\seq}[1]{(#1_n)}
+\newcommand{\seq}[1]{\left(#1_n\right)}
 \newcommand{\nseqdef}[1]{\seq{#1} \subset \natn}
 \newcommand{\rseqdef}[1]{\seq{#1} \subset \realn}
 \newcommand{\cseqdef}[1]{\seq{#1} \subset \cmpln}
@@ -59,9 +59,18 @@
 \newcommand{\series}[2][\infty]{\sum_{#2 = 1}^{#1}}
 \newcommand{\finite}{\text{ finite}}
 \newcommand{\conj}[1]{\overline{#1}}
-\newcommand{\oball}[1][\epsilon]{B_{#1}}
 \newcommand{\closure}[1]{\overline{#1}}
 \newcommand{\must}[1][=]{\stackrel{!}{#1}}
+
+\newcommand{\metric}[1][X]{(#1, d)}
+\newcommand{\dnorm}{\norm{\cdot}}
+\newcommand{\normed}[1][V]{(#1, \dnorm)}
+\newcommand{\supnorm}[1]{\norm{#1}_{\infty}}
+
+\newcommand{\oball}[1][\epsilon]{B_{#1}}
+\newcommand{\cball}[1][\epsilon]{K_{#1}}
+\newcommand{\Oball}{\oball[r]}
+\newcommand{\Cball}{\cball[r]}
 
 \newcommand{\conv}[1]{\xrightarrow{\makebox[2em][c]{$\scriptstyle#1$}}}
 \newcommand{\convinf}{\conv{n \rightarrow \infty}}
@@ -141,5 +150,6 @@
 \subfile{chapters/real_analysis_1.tex}
 \subfile{chapters/linear_algebra.tex}
 \subfile{chapters/real_analysis_2.tex}
+\subfile{chapters/topo_of_metr_spaces.tex}
 
 \end{document}
