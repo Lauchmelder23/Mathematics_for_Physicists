@@ -1,12 +1,12 @@
 \documentclass[11pt]{report}
 \usepackage{amsmath, amssymb, amstext, physics}
-\usepackage{amsthm, stackrel, xifthen, mathtools}
+\usepackage{amsthm, stackrel, xifthen, mathtools, graphicx}
 \usepackage[makeroom]{cancel}
 \usepackage{hyperref, cleveref}
 \usepackage{enumerate, subcaption}
 \usepackage[shortlabels]{enumitem}
 \usepackage{multicol}
-\usepackage{tikz}
+\usepackage{tikz, pgfplots}
 \usepackage{kbordermatrix}
 \usetikzlibrary{calc,trees,positioning,arrows,fit,shapes,angles}
 
@@ -86,6 +86,15 @@
   \underset{\substack{\big\uparrow\\\mathrlap{\text{\hspace{-1.5em}#1}}}}{=}}
 \newcommand{\leexpl}[1]{%
   \underset{\substack{\big\uparrow\\\mathrlap{\text{\hspace{-1.5em}#1}}}}{\le}}
+
+\newsavebox{\mathbox}\newsavebox{\mathquote}
+\makeatletter
+\newcommand{\mathquotes}[1]{% \mathquotes{<stuff>}
+  \savebox{\mathquote}{\text{``}}% Save quotes
+  \savebox{\mathbox}{$\displaystyle #1$}% Save <stuff>
+  \raisebox{\dimexpr\ht\mathbox-\ht\mathquote\relax}{``}#1\raisebox{\dimexpr\ht\mathbox-\ht\mathquote\relax}{''}
+}
+\makeatother
 
 \theoremstyle{definition}
 \newtheorem{defi}{Definition}[chapter]
