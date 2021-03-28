@@ -5,6 +5,365 @@
 \section{Partial and Total Differentiability}
 
 \begin{defi}
-
+    Let $U \subset \realn^n$ be open, $x \in (x_1, \cdots, x_n) \in U$ and define the function $f: U \rightarrow \realn^m$.
+    The mapping $f$ is said to be partially differentiable in $x$ in terms of $x_i$ if 
+    \[
+        t \longmapsto f(x_1, \cdots, x_{i-1}, t, x_{i+1}, \cdots, x_n)
+    \]
+    is differentiable in $x_i$, i.e.
+    \[
+        \partial_i f(x) = \limes{h}{0} \frac{f(x_1, \cdots, x_{i-1}, x_i + h, x_{i+1}, \cdots, x_n) - f(x_1, \cdots, x_n)}{h}
+    \]
+    exists. $\partial_i f(x)$ is said to be the partial derivative of $f$ in $x$ in terms of $x_i$. Another notation is 
+    \[
+        \pdv{f}{x_i}
+    \]
+    This mapping is said to be partially differentiable in $x$ if it is partially differentiable in terms of $x_i ~~\forall i \in \set{1, \cdots, n}$.
 \end{defi}
+
+\begin{eg}
+    Consider 
+    \begin{align*}
+        f: \realn^2 &\longrightarrow \realn \\
+        (x, y) &\longmapsto \begin{cases}
+            1, & x = 0 \vee y = 0 \\
+            0, & \text{else}
+        \end{cases}
+    \end{align*}
+    $f$ is partially differentiable in $(0, 0)$, but not continuous.
+\end{eg}
+
+\begin{thm}
+    Let $U \subset \realn$ be open, $x \in U$ and $f: U \rightarrow \field$.
+    \begin{gather*}
+        f \text{ is differentiable in } x \\
+        \iff \\
+        \exists a \in \field, \phi: U \rightarrow \field: ~~f(y) = f(x) + a(y - x) + \phi(y) ~~\forall y \in U
+    \end{gather*}
+    and 
+    \[
+        \limes{y}{x} \frac{\phi(x)}{\abs{y - x}} = 0
+    \]
+\end{thm}
+\begin{proof}
+    We will first prove the "$\impliedby$" direction. So let $a, \phi$ be as demanded in the theorem. Then 
+    \begin{equation}
+        \frac{f(y) - f(x)}{y - x} = a + \frac{\phi(y)}{\abs{y - x}} \cdot \frac{\abs{y - x}}{y - x} \conv{y \rightarrow x} a
+    \end{equation}
+    which means $f$ is differentiable in $x$ and $f'(x) = a$. Now let $f$ be differentiable, and set
+    \begin{equation}
+        \phi(y) = f(y) - f(x) - f'(x)(y - x)
+    \end{equation}
+    Which is equivalent to the equation in the theorem, with $a = f'(x)$. Then
+    \begin{equation}
+        \limes{y}{x} \frac{\phi(x)}{\abs{y - x}} = \left( \frac{f(y) - f(x)}{y - x} - f'(x) \right) \cdot \frac{y - x}{\abs{y - x}} = 0
+    \end{equation}
+\end{proof}
+
+\begin{defi}
+    Let $U \subset \realn^n$, $x \in U$ and $f: U \rightarrow \realn^m$.
+    $f$ is said to be (totally) differentiable in $x$ if a matrix $A \in \realn^{m \times n}$ and a mapping $\phi: U \rightarrow \realn^m$ exist, such that
+    \[
+        f(y) = f(x) + A(y - x) + \phi(x) ~~\forall y \in U
+    \]
+    and 
+    \[
+        \limes{y}{x} \frac{\phi(y)}{\norm{y - x}} = 0
+    \]
+    $f$ is said to be (totally) differentiable if it is (totally) differentiable in every point $x \in U$.
+\end{defi}
+
+\begin{thm}
+    Let $U \subset \realn^n$ be open, $x \in U$ and $f: U \rightarrow \realn^m$ with 
+    \[
+        f = (f_1, \cdots, f_m), ~~f_1, \cdots, f_m: U \longrightarrow \realn
+    \]
+    If $f$ is totally differentiable in $x$, then it is partially differentiable as well, and the matrix $A$ is given by
+    \[
+        a_{ji} = \partial_i f_j(x)
+    \]
+\end{thm}
+\begin{proof}
+    Let $A, \phi$ be as demanded above. Let $e_1, \cdots, e_n$ be the canonical basis for $\realn^n$. 
+    We insert $y = x + he_i$ and receive 
+    \begin{equation}
+        f(x + he_i) = f(x) + h \cdot Ae_i + \phi(x + he_i)
+    \end{equation}
+    By rearranging this yields
+    \begin{equation}
+        \frac{f(x + he_i) - f(x)}{h} = Ae_i + \frac{\phi(x + he_i)}{|h|} \cdot \frac{|h|}{h} \conv{h \rightarrow 0} Ae_i
+    \end{equation}
+    Thus, $f$ is partially differentiable in $x$ in terms of $x_i$ with $\partial_i f(x) = Ae_i$.
+\end{proof}
+
+\begin{defi}
+    The matrix $(\partial_i f_j(x))_{ij}$ is called the Jacobian matrix of $f$ in $x$. 
+    We write $Df(x)$. If $f$ is totally differentiable, then $Df(x)$ is said to be the (total) derivative of $f$ in $x$.
+
+    For $m = 1$ (so $f: \realn^n \rightarrow \realn$), the Jacobian matrix has one column, and we call it gradient
+    \[
+        Df(x) =: \grad f(x)
+    \]
+    Note: I will adhere to the physical notation of the gradient, using the Nabla operator $\nabla$.
+\end{defi}
+
+\begin{eg}
+    Let $A \in \realn^{m \times n}$ and define 
+    \begin{align*}
+        f_A: \realn^n &\longrightarrow \realn^m \\
+        x &\longmapsto Ax
+    \end{align*}
+    Then we have 
+    \[
+        f_A(y) = Ay = Ax + A(y - x) = f_A(x) - f_A(y - x)
+    \]
+    Thus, $f_A$ is differentiable $(\phi = 0)$ and the derivative is 
+    \[
+        Df_A(x) = A ~~\forall x \in \realn^n
+    \]
+    For another example, let 
+    \begin{align*}
+        f: (0, \infty) \times (0, 2\pi) &\longrightarrow \realn^2 \\
+        (r, \phi) &\longmapsto (r \cos \phi, r \sin \phi)
+    \end{align*}
+    Then $f$ is partially differentiable.
+    \[
+        Df(r, \phi) = \begin{pmatrix}
+            \cos\phi & -r\sin\phi \\
+            \sin\phi & r\cos\phi
+        \end{pmatrix}
+    \]
+    So $f$ is also totally differentiable (We'll get back to this later).
+\end{eg}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item Let $U \subset \realn^n$ be open and $f: U \rightarrow \realn^m$ differentiable, 
+        then the derivative $Df$ is a function $U \rightarrow \realn^{m \times n}$
+
+        \item Total differentiability is also called local linear approximation. Linearity is the property
+        \[
+            A(x + \lambda y) = Ax + \lambda Ay ~~\forall x, y \in \realn^n ~\lambda \in \realn
+        \]
+
+        \item For arbitrary vector spaces $V, W$, a mapping $V \rightarrow W$ is said to be linear if 
+        \[
+            A(x + \lambda y) = Ax + \lambda Ay ~~\forall x, y \in \realn^n ~\lambda \in \realn
+        \]
+        So we can analogously define differentiability for mappings $f: V \rightarrow W$ between arbitrary normed vector spaces.
+
+        \item $f$ is totally differentiable in $x$ if and only if the Jacobian matrix  exists and 
+        \[
+            \limes{x}{y} \frac{f(y) - f(x) - Df(x)(y-x)}{\norm{y-x}} = 0
+        \]
+
+        \item Let $f = (f_1, \cdots, f_m)$ with $f_1, \cdots, f_m: U \rightarrow \realn$.
+        \[
+            f \text{ totally differentiable} \iff f_i \text{ totally differentiable } ~\forall i \in \set{1, \cdots, n}
+        \]
+        The Jacobian matrix $Df_i(x)$ is the $i$-th row of $Df(x)$.
+
+        \item Total differentiability implies continuity.
+        \item Partial and total differentiability are local properties.
+        \item The mapping $h \mapsto Df(x) \cdot h$ is linear.
+        \item The derivative $x \mapsto Df(x)$ is not linear in general.
+    \end{enumerate}
+\end{rem}
+
+\begin{thm}[Chain rule]
+    Let $U \subset \realn^n$ be open, $V \subset \realn^m$ open, $x \in U$, $g: U \rightarrow V$ differentiable in $x$, and $f: V \rightarrow \realn^k$ differentiable in $g(x)$.
+    Then $f \circ g$ is differentiable and 
+    \[
+        D(f \circ g) = Df(g(x)) \cdot Dg(x)
+    \]
+\end{thm}
+\begin{proof}
+    Differentiability of $g$ in $x$ means
+    \begin{equation}
+        \exists \phi_g: U \longrightarrow \realn^m: ~~g(y) - g(x) = D_g(x)(y-x) + \phi_g(y)
+    \end{equation}
+    Differentiability of $f$ in $g(x)$ means 
+    \begin{equation}
+        \exists \phi_f: V \rightarrow \realn^k:: ~\limes{z}{g(x)} \phi_f(z) \inv{\norm{z - g(x)}} = 0
+    \end{equation}
+    and 
+    \begin{equation}
+        f(z) = f(g(x)) + D_f(g(x))(z - g(x)) + \phi_f(z)
+    \end{equation}
+    Now set $z = g(y)$, then 
+    \begin{equation}
+        \begin{split}
+            \underbrace{f(g(y))}_{(f \circ g)(y)} = \underbrace{f(g(x))}_{(f \circ g)(x)} &+ D_f(g(x)) \cdot D_g(x)(y-x) \\
+            &+ (D_f(g(x)) \phi_g(y) + \phi_f(g(y)))
+        \end{split}
+    \end{equation}
+    And we finally need to show 
+    \begin{equation}
+        \frac{D_f(g(x)) \phi_g(y) + \phi_f(g(y))}{\norm{y - x}} \conv{y \rightarrow x} 0
+    \end{equation}
+    We know that 
+    \begin{equation}
+        Df(g(x)) \frac{\phi_g(y)}{\norm{y - x}} \conv{} 0
+    \end{equation}
+    because
+    \begin{equation}
+        z \longmapsto Df(g(x)) z \text{ linear and thus continuous}
+    \end{equation}
+    We define a new mapping 
+    \begin{equation}
+    \begin{split}
+        \psi: U &\longrightarrow \realn \\
+        z &\longmapsto \begin{cases}
+            \phi_f(z) - \inv{\norm{z - g(x)}}, & z \ne g(x) \\
+            0, & z = g(x)
+        \end{cases}
+    \end{split}
+    \end{equation}
+    $\psi$ is continuous in $g(x)$. Then $\forall y \in U$ we have 
+    \begin{equation}
+        \frac{\phi_f(g(y))}{\norm{y - x}} = \underbrace{\psi(g(y))}_{\conv{y \rightarrow x} 0} \cdot \frac{\norm{g(y) - g(x)}}{\norm{y - x}}
+    \end{equation}
+    and
+    \begin{equation}
+    \begin{split}
+        \frac{\norm{g(y) - g(x)}}{\norm{y - x}} &= \norm{Dg(x) \frac{y - x}{\norm{y - x}} + \frac{\phi_g(y)}{\norm{y - x}}} \\
+        &\le \underbrace{\norm{Dg(x) \frac{y - x}{\norm{y - x}}}}_{\le \norm{Dg(x)}} + \underbrace{\norm{\frac{\phi_g(y)}{\norm{y - x}}}}_{\conv{y \rightarrow x} 0}
+    \end{split}
+    \end{equation}
+    thus $\psi$ is bounded.
+    \begin{equation}
+        \implies \psi(g(y)) \cdot \frac{\norm{g(y) - g(x)}}{\norm{y - x}} \conv{} 0
+    \end{equation}
+\end{proof}
+
+\begin{thm}
+    Let $U \subset \realn^n$ and $f: U \longrightarrow \realn^m$. If $\forall x \in U$ the partial derivatives $\partial_i f(x)$ exist and are continuous $\forall i \in \set{1, \cdots, n}$.
+    then $f$ is totally differentiable.
+\end{thm}
+\begin{proof}
+    Without proof.
+\end{proof}
+
+\begin{defi}
+    Let $U \subset \realn^n$ be open. $f: U \rightarrow \realn^m$ is said to be continuously differentiable if all partial derivatives exist and are continuous.
+    The vector space of all such functions is denoted as $C^1(U, \realn^m)$, or in the special case $m=1$ as $C^1(U)$.
+\end{defi}
+
+\begin{eg}
+    \begin{enumerate}
+        \item Coming back to a previous example, we consider 
+        \[
+            Df(r, \phi) = \begin{pmatrix}
+                \cos \phi & -r \sin \phi \\
+                \sin \phi & \cos \phi
+            \end{pmatrix}
+        \]
+        Thus, $f$ is continuously differentiable, and therefore totally differentiable.
+
+        \item Let $N \in \natn$ and $c_{\eta} \in \field$ for every multiindex $\eta \in \natn_0^n$ with $\abs{\eta} \le N$.
+        Then the polynomial
+        \begin{align*}
+            P: \realn^n &\longrightarrow \field \\
+            x &\longmapsto \sum_{\substack{\eta \\ \abs{\eta} \le N}} c_{\eta} x^{\eta}
+        \end{align*}
+        is continuously differentiable, and therefore totally differentiable.
+        \begin{align*}
+            \partial_i x^{\eta} &= \partial_i \left( x_1^{\eta_1}, x_2^{\eta_2}, \cdots, x_n^{\eta_n} \right) \\
+            &= \eta_i x_1^{\eta_1} \cdots x_{i-1}^{\eta_{i-1}} x_i^{\eta_{i-1}} x_{i+1}^{\eta_{i+1}} \cdots x_n^{\eta_n} 
+        \end{align*}
+        This is another polynomial, and therefore continuous.
+    \end{enumerate}
+\end{eg}
+
+We introduce the following new notation, for $x, y \in \realn^n$:
+\begin{align*}
+    \oline &:= \set[t \in (0, 1)]{x + t(y - x)} \\
+    \cline &:= \set[{t \in [0, 1]}]{x + t(y - x)}
+\end{align*}
+They denote the connecting line between $x$ and $y$.
+
+\begin{center}
+    \begin{tikzpicture}
+        \draw (0, 0) circle [radius=2pt] node[above left] {$x$};
+        \draw (3, 1.5) circle [radius=2pt] node[above right] {$y$};
+
+        \draw (0, 0) -- node[below right] {$\oline$} (3, 1.5);
+    \end{tikzpicture}
+\end{center}
+
+\begin{thm}[Intermediate value theorem for $\realn$-valued functions]
+    Let $U \subset \realn^n$ be oppen, $x, y \in U$ and $\cline \subset U$.
+    Now let $f: U \rightarrow \realn$ differentiable on $\oline$ and continuous in $x, y$. Then 
+    \[
+        \exists \xi \in \cline: ~~f(y) - f(x) = Df(\xi) (y-x)
+    \]
+\end{thm}
+\begin{proof}
+    Consider 
+    \begin{equation}
+    \begin{split}
+        g: [0, 1] &\longrightarrow \realn \\
+        t &\longmapsto f(x + t(y - x))
+    \end{split}
+    \end{equation}
+    Apply the one dimensional intermediate value theorem. Due to the chain rule, $g$ fulfils the prerequisites.
+    $\exists \theta \in (0, 1)$ such that
+    \begin{equation}
+        f(y) - f(x) = g(1) - g(0) = g(\theta) = Df(x + \theta(y - x))(y - x)
+    \end{equation}
+    For $\xi = x + \theta(y - x)$ follows the initial statement.
+\end{proof}
+
+\begin{thm}[Intermediate value theorem]
+    Let $U \subset \realn^n$ be open, $\cline \subset U$ and $f: U \rightarrow \realn^m$ differentiable on $\oline$ and continuous in $x, y$. Then 
+    \[
+        \exists \xi \in \oline: ~~\norm{f(y) - f(x)} \le \norm{Df(\xi)(y - x)}
+    \]
+\end{thm}
+\begin{proof}
+    For $a \in \realn^m$, consider the (real) helper function 
+    \begin{equation}
+        a^Tf(x) = \innerproduct{a}{f(x)}
+    \end{equation}
+    According to the previous theorem
+    \begin{equation}
+        \exists \xi \in \oball: ~~a^T f(y) - a^T f(x) = a^T D f(\xi)(y - x)
+    \end{equation}
+    In this implication the chain rule has been applied. We can rewrite this using the scalar product
+    \begin{equation}
+        \begin{split}
+            \norm{f(y) - f(x)}^2 &= \abs{\innerproduct{f(y) - f(x)}{Df(\xi)(y-x)}} \\
+            &\le \norm{f(y) - f(x)}\norm{Df(\xi)(y - x)}
+        \end{split}
+    \end{equation}
+\end{proof}
+
+\begin{cor}
+    Let $U \subset \realn^n$ be open and $f: U \rightarrow \realn^m$ a differentiable function.
+    \[
+        Df = 0 \text{ on } U \implies \exists V \subset U: f \text{ constant on } V
+    \]
+\end{cor}
+\begin{proof}
+    Let $x \in U$, choose $\epsilon > 0$ such that $\oball(x) \subset U$. Then 
+    \begin{equation}
+        \forall y \in \oball(x) ~\exists \xi \in \oline: ~~\norm{f(y) - f(x)} \le \norm{Df(\xi)(y - x)} = 0
+    \end{equation}
+    This implies 
+    \begin{equation}
+        \norm{f(y) - f(x)} = 0 \implies f(y) = f(x) ~~\forall y \in \oball(x)
+    \end{equation}
+\end{proof}
+
+\begin{rem}
+    Functions with vanishing derivatives must be constant. Consider 
+    \begin{align*}
+        f: (-2, -1) \cup (1, 2) &\longrightarrow \\
+        x &\longmapsto \begin{cases}
+            -1, & x < 0 \\
+            1, & x > 0
+        \end{cases}
+    \end{align*}
+    Local constancy implies constancy on connected sets.
+\end{rem}
 \end{document}
