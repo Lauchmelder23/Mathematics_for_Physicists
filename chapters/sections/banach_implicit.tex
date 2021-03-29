@@ -1,0 +1,255 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section[Banach Fixed-Point \& Implicit Functions]{The Banach Fixed-Point Theorem and the Implicit Function Theorem}
+
+\begin{thm}[Banach Fixed-Point Theorem]
+    Let $\metric$ be a complete metric space, and $\phi: X \rightarrow X$ strictly contractive, i.e.
+    \[
+        \exists C \in (0, 1): ~~d(\phi(x), \phi(y)) \le C d(x, y) ~~\forall x, y \in X
+    \]
+    Then there exists exactly one fixed point $x$ of $\phi$, i.e. $\phi(x) = x$.
+\end{thm}
+\begin{proof}
+    First, $\phi$ is Lipschitz continuous, and thus continuous.
+    Let $x_0 \in X$, and recursively define $x_{n+1} = \phi(x_n)$. Then 
+    \begin{equation}
+        d(x_{n+1}, x_n) = d(\phi(x_n), \phi(x_{n-1})) \le C d(x_n, x_{n-1})
+    \end{equation}
+    and via induction
+    \begin{equation}
+        d(x_{n+k}, x_{n+k-1}) \le C^k d(x_n, x_{n-1}) ~~\forall k, n \in \natn
+    \end{equation}
+    Especially,
+    \begin{equation}
+        d(x_n, x_{n-1}) \le C^{n-1} d(x_1, x_0)
+    \end{equation}
+    Using the triangle inequality we can compute 
+    \begin{equation}
+        \begin{split}
+            d(x_{n+k}, x_{n-1}) &\le d(x_{n+k}, x_{n+k-1}) + d(x_{n+k-1}, x_{n+k-2}) + \cdots + d(x_n, x_{n-1}) \\
+            &\le (C^k + C^{k-1} + C^{k-2} + \cdots + 1) d(x_n, x_{n-1}) \\
+            &\le \frac{1 - C^{k+1}}{1 - C} \cdot d(x_n, x_{n-1}) \\
+            &\le \frac{1 - C^{k+1}}{1 - C} C^{n-1} d(x_1, x_0) \\
+            &\le \frac{C^{n-1}}{1 - C} d(x_1, x_0) \conv{n \rightarrow \infty} 0
+        \end{split}
+    \end{equation}
+    This means
+    \begin{equation}
+        \forall \epsilon > 0 ~\exists N \in \natn: ~~d(x_{n+k}, x_{n-1}) < \epsilon ~~\forall n > N ~\forall k \in \natn
+    \end{equation}
+    Which in turn means that $\seq{x}$ is a Cauchy sequence, and thus convergent. $\seq{x}$ converges to $x \in X$
+    \begin{equation}
+        x = \limn x_n = \limn \phi(x_{n - 1}) = \phi(\limn x_{n-1}) = \phi(x)
+    \end{equation}
+    To prove the uniqueness, let $x, y$ both be fixed points. Then 
+    \begin{equation}
+        d(x, y) = d(\phi(x), \phi(y)) \le C d(x, y)
+    \end{equation}
+    Since $C < 1$, we have
+    \begin{equation}
+        d(x, y) \implies x = y
+    \end{equation}
+\end{proof}
+
+\begin{rem}
+The Banach fixed-point theorem implies that every map that is within the area it is mapping, 
+will have a point on the map that lies directly on top of the point in the real world that it maps. 
+\end{rem}
+
+\begin{eg}
+    Consider the equation 
+    \[
+        x - y^2 = 0
+    \]
+    with the solutions 
+    \begin{align*}
+        y = \sqrt{x} && y = -\sqrt{x}
+    \end{align*}
+    on $(0, \infty)$.
+    For a point $(\xi, \eta)$ that solves the equation, there exists a neighbourhood $U$ and a function $f$ such that 
+    all solutions of the equation on $U$ are of the form $(x, f(x))$.
+\end{eg}
+
+\begin{rem}
+    Let $F: \realn^P \times \realn^Q \rightarrow \realn^Q$, and consider $x_1, \cdots, x_P \in \realn$ as independent variables, and
+    $y_1, \cdots, y_Q \in \realn$ as dependent variables of the equation system
+    \[
+        F(x, y) = 0, ~~x = (x_1, \cdots, x_P), y = (y_1, \dots, y_Q)
+    \]
+    Let $(\xi, \eta)$ be a solution. The question is wether a $f: \realn^P \rightarrow \realn^Q$ exists, such that $(x, f(x))$ are solutions $\forall x \in U$,
+    where $U$ is a neighbourhood of $\xi$.
+    \[
+        x \longmapsto F(x, f(x))
+    \]
+    If $F$ is differentiable, then let $D_y F(x, \eta) \in \realn^{Q \times Q}$ denote the total derivative of the function. Analogously this works for $y$ as the variable.
+    We approximately have
+    \[
+        F(x, y) \approx F(x, \eta) + D_y F(x, \eta)(y - \eta) = 0
+    \]
+\end{rem}
+
+\begin{thm}[Implicit Function Theorem]
+    Let $U \subset \realn^P, V \subset \realn^Q$ be open, and \[F: U \times V \rightarrow \realn^Q\] continuously differentiable.
+    Choose $\xi \in U, \eta \in V$ such that $F(\xi, \eta) = 0$, and $D_y F(\xi, \eta)$ invertible.
+    Then there exists a neighbourhood $\tilde{U} \subset U$ of $\xi$, a neighbourhood $\tilde{V} \subset V$ of $\eta$ and 
+    a continuous function $f: \tilde{U} \rightarrow \tilde{V}$ such that $f(\xi) = \eta$ and \[F(x, f(x)) = 0 ~~\forall x \in \tilde{U}\].
+\end{thm}
+\begin{proof}
+    Set $D = D_yF(\xi, \eta)$. Then consider 
+    \begin{equation}
+        \begin{split}
+            \phi: \text{function} &\longrightarrow \text{function} \\
+            \phi(g)(x) &\longmapsto g(x) - \inv{D}F(x, g(x))
+        \end{split}
+    \end{equation}
+    where $g: \realn^P \rightarrow \realn^Q$. Then we have 
+    \begin{equation}
+        \phi(g) = g \iff \inv{D}F(x, g(x)) = 0 \iff F(x, g(x)) = 0
+    \end{equation}
+    Since this is a fixed point problem, our goal is to apply the Banach fixed-point theorem.
+    Let $I: \realn^Q \rightarrow \realn^Q$ be the identity mapping. Then the function 
+    \begin{equation}
+        (x, y) \longmapsto \norm{I - \inv{D}D_yF(x, y)}
+    \end{equation}
+    is continuous and vanishes in $(\xi, \eta)$.
+    $\exists \delta, \epsilon > 0$ such that $\oball[\delta](\xi) \subset U$, and $\oball(\eta) \subset V$ and 
+    \begin{equation}
+        \norm{I - \inv{D}D_yF(x, y)} \le \frac{1}{2} ~~\forall x \in \oball[\delta](\xi), y \in \oball(\eta)
+    \end{equation}
+    Because of the continuity of 
+    \begin{equation}
+        x \longmapsto \norm{\inv{D} F(x, \eta)}
+    \end{equation}
+    we can choose a (possibly smaller) $\delta > 0$, such that 
+    \begin{equation}
+        \norm{\inv{D}F(x, \eta)} \le \frac{\epsilon}{4} ~~\forall x \in \oball[\delta](\xi) = \tilde{U}
+    \end{equation}
+    Now let $X$ denote the set of all continuous functions $g: \tilde{U} \rightarrow \realn^Q$
+    \begin{subequations}
+        \begin{equation}\label{eq:i}
+            g(\xi) = \eta
+        \end{equation}
+        \begin{equation}\label{eq:ii}
+            \norm{g(x) - \eta} \le \frac{\epsilon}{2} ~~\forall x \in \tilde{U}
+        \end{equation}
+    \end{subequations}
+    $\Cref{eq:ii}$ implies that $g(x) \in \oball(\eta) \subset V$.
+    Furthermore $X$ is a subset of $C_B(\tilde{U}, \realn^Q)$, which is a complete set with the norm 
+    \begin{equation}
+        \supnorm{g} = \sup\set[x \in \tilde{U}]{\norm{g(x)}}
+    \end{equation}
+    $X$ is non-empty (for example, it contains $g(\xi) = \eta$) and bounded, which means $X$ is also complete.
+    Now, for a fixed $x \in \tilde{U}$ and $\tilde{V} \subset \oball(\eta)$ consider the mapping
+    \begin{equation}
+        \begin{split}
+            \Phi: \tilde{V} &\longrightarrow \realn^Q \\
+            y &\longmapsto y - \inv{D}F(x, y)
+        \end{split}
+    \end{equation}
+    From the intermediate value theorem we can conclude
+    \begin{equation}
+        \begin{split}
+            \norm{\Phi(y) - \Phi(z)} &\le \sup_{y \in \tilde{V}} \underbrace{\norm{I - \inv{D}D_yF(x, y)}}_{D\Phi(x, y)} \norm{y - z} \\
+            &\le \frac{1}{2} \norm{y - z}
+        \end{split}
+    \end{equation}
+    Now, for $g_1, g_2 \in X$ and $x \in \tilde{U}$ we can see that 
+    \begin{equation}
+        \begin{split}
+            \norm{\phi(g_1)(x) - \phi(x_2)(x)} &= \norm{\Phi(g_1(x)) - \Phi(g_2(x))} \\
+            &\le \frac{1}{2} \norm{g_1(x) - g_2(x)}
+        \end{split}
+    \end{equation}
+    and by choosing the supremum over all $x \in \tilde{U}$ we can see that 
+    \begin{equation}
+        \supnorm{\phi(g_1) - \phi(g_2)} \le \frac{1}{2} \supnorm{g_1 - g_2}
+    \end{equation}
+    Thus $\phi$ is strictly contractive on $x$. It is only left to show that $\phi(X) \subset X$.
+    From the definition of $\phi$ we have $\forall g \in X$
+    \begin{equation}
+        \phi(g)(\xi) = g(\xi) = \eta
+    \end{equation}
+    So $\phi(g)$ is continuous, and finally 
+    \begin{equation}
+        \begin{split}
+            \norm{\phi(g)(x) - \eta} &\le \norm{\phi(g)(x) - \phi(\eta)(x)} + \norm{\phi(\eta)(x) - \eta} \\
+            &\le \frac{1}{2} \underbrace{\norm{g(x) - \eta}}_{\le \frac{\epsilon}{2}} + \underbrace{\norm{\inv{D}F(x, \eta)}}_{\le \frac{\epsilon}{4}} \\
+            &\le \frac{\epsilon}{2}
+        \end{split}
+    \end{equation}
+    Thus, $\phi$ maps $X$ to $X$, and the Banach fixed-point theorem tells us 
+    \begin{equation}
+        \exists! f \in X: ~~\phi(f) = f \iff F(x, f(x)) = 0 ~~\forall x \in \tilde{U}
+    \end{equation}
+\end{proof}
+
+\begin{rem}[About uniqueness]
+    We know there is exactly one function $f$ in $X$ such that 
+    \[
+        F(x, f(x)) = 0 ~~\forall x \in \tilde{U}
+    \]
+    $f(x)$ the only solution in $\tilde{V}$, for $x \in \tilde{U}$, because if $F(x, y) = 0$ for $y \in V$, then 
+    \[
+        \norm{y - f(x)} = \norm{\Phi(y) - \Phi(f(x))} \le \frac{1}{2} \norm{y - f(x)}
+    \]
+    which implies $y = f(x)$
+\end{rem}
+
+\begin{thm}
+    There is a possibly smaller neighbourhood $\tilde{U}$ around $\xi$ on which $f \in C^1(\tilde{U}, \tilde{V})$. The derivative is given by 
+    \[
+        D f(x) = -\inv{\left( D_y F(x, f(x)) \right)} Dx F(x, f(x))
+    \]
+\end{thm}
+\begin{proof}
+    Without proof.
+\end{proof}
+
+\begin{cor}[Inverse Function Theorem]
+    Let $U \subset \realn^n$ and $f: U \rightarrow \realn^m$ continuously differentiable.
+    If $Df(\xi)$ is invertible for some $\xi \in U$, then there exists a neighbourhood $\tilde{U}$ around $\xi$ and a neighbourhood
+    $\tilde{V}$ around $f(\xi) =: \eta$ such that $f$ bijectively maps $\tilde{U}$ to $\tilde{V}$, and the inverse function 
+    \begin{align*}
+        g: \tilde{V} &\longrightarrow \tilde{U} \\
+        y &\longmapsto \inv{f}(y)
+    \end{align*}
+    is continuously differentiable. Furthermore
+    \[
+        Dg(\eta) = \inv{\left(Df(\xi)\right)}
+    \]
+\end{cor}
+\begin{hproof}
+    Use the implicit function theorem on the equation system 
+    \begin{equation}
+        F(x, y) = f(x) - y = 0
+    \end{equation}
+    and solve that for $x$.
+\end{hproof}
+
+\begin{eg}[Inverse function of the complex exponential function]
+    Let 
+    \begin{align*}
+        z \longmapsto \exp(z)
+    \end{align*}
+    be a function $\realn^2 \rightarrow \realn^2$, i.e. $z = x + yi$ and 
+    \[
+        \exp(z) = \exp(x) \exp(yi) = \exp(x) (\cos y + i\sin y)
+    \]
+    Consider 
+    \begin{align*}
+        \phi: \realn^2 &\longrightarrow \realn^2 \\
+        (x, y) &\longmapsto (\exp(x)\cdot\cos y, \exp(x)\cdot\sin y)
+    \end{align*}
+    This mapping is continuously differentiable (analytic even) and $D\phi(x, y)$ is invertible everywhere.
+    Thus $\phi$ has a locally differentiable inverse function on $\exp(\cmpln)$ (the logarithm).
+
+    One can show that $\exp(\cmpln) = \cmpln \setminus \set{0}$. Typically, the main branch of the complex logarithm is defined as 
+    \begin{align*}
+        \ln: &\cmpln \setminus \set[x \le 0]{x \in \realn} \\
+        \implies \realn \times (-\pi, \pi)
+    \end{align*}
+    One can choose from many other domains, however there is no continuous logarithm on $\cmpln \setminus \set{0}$.
+\end{eg}
+\end{document}
