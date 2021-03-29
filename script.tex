@@ -9,7 +9,10 @@
 \usepackage{tikz, pgfplots}
 \usepackage{kbordermatrix}
 \usepackage{fancyhdr}
-\usetikzlibrary{calc,trees,positioning,arrows,fit,shapes,angles}
+\usepackage{pdfpages}
+\usetikzlibrary{calc,trees,positioning,arrows,fit,shapes,angles,patterns}
+
+\graphicspath{assets}
 
 \usepackage{color}
 \usepackage{hyperref}
@@ -66,6 +69,7 @@
 \newcommand{\dnorm}{\norm{\cdot}}
 \newcommand{\normed}[1][V]{(#1, \dnorm)}
 \newcommand{\supnorm}[1]{\norm{#1}_{\infty}}
+\newcommand{\cnorm}[2][1]{\norm{#2}_{C_{#1}}}
 
 \newcommand{\oball}[1][\epsilon]{B_{#1}}
 \newcommand{\cball}[1][\epsilon]{K_{#1}}
@@ -140,6 +144,9 @@
 \crefname{cor}{Cor.}{Cors.}
 
 \pgfplotsset{compat=1.17}
+
+\newcommand{\drawge}{-- (rel axis cs:1,0) -- (rel axis cs:1,1) -- (rel axis cs:0,1) \closedcycle}
+\newcommand{\drawle}{-- (rel axis cs:1,1) -- (rel axis cs:1,0) -- (rel axis cs:0,0) \closedcycle}
 
 \begin{document}
 \begin{titlepage}
