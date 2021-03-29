@@ -1,0 +1,271 @@
+\documentclass[../../script.tex]{subfiles}
+% !TEX root = ../../script.tex
+
+\begin{document}
+\section{Higher Derivatives}
+
+\begin{defi}
+    Let $U \subset \realn^ n$ and let $f$ be (the only) partial derivative of order $0$. 
+    Now define recursively
+    \begin{enumerate}[(i)]
+        \item $f$ is said to be $(k + 1)$-times partially differentiable if all partial derivatives of order $k$ are partially differentiable.
+        \item The partial derivatives of order $(k + 1)$ are the functions $\partial_i g ~~i \in \set{1, \cdots, n}$ where $g$ is the partial derivative of order $k$ of $f$.
+    \end{enumerate}
+    The $k$-th partial derivative in terms of $i$ of $f$ is denoted as 
+    \[
+        \partial_i^k f
+    \]
+    $f$ is said to be $k$-times continuously differentiable if all partial derivatives of order $k$ are continuous. 
+    $C^k(U, \realn^m)$ is the vector space of all $k$-times continuously differentiable functions.
+
+    $f$ is said to be infinitely differentiable (or smooth) is it is $k$-times differentiable $\forall k \in \natn$, and the vector space
+    of all infinitely differentiable functions is denoted as $C^{\infty}(U, \realn^m)$.
+
+    For total differentiability we have
+    \begin{align*}
+        f: \realn^n \longrightarrow \realn^m && Df: \realn^m \longrightarrow \realn^{m \times n}
+    \end{align*}
+\end{defi}
+
+\begin{rem}
+    Let $f: \realn^n \rightarrow \realn^m$ be sufficiently often differentiable. Consider for $u \in \realn^n$
+    \[
+        x \longmapsto Df(x) u = \underbrace{\limes{k}{0} \frac{f(x + hu) - f(x)}{h}}_{\substack{\text{Directional derivative along } u}}
+    \]
+    Now consider for fixed $x$
+    \begin{align*}
+        D^2 f(x) : \realn^n \times \realn^n &\longrightarrow \realn^m \\
+        (u ,v) &\longmapsto D(Df(\cdot)u)(x)v
+    \end{align*}
+    $D^2f(x)$ is linear in $v$ and $u$, and 
+    \begin{align*}
+        D^2 f(x) (u_1 + \lambda u_2, v) &= D(Df(\cdot)(u_1 + \lambda u_2))(x) v \\
+        &= D(Df(\cdot)u_1 + \lambda Df(\cdot)u_2)(x) v \\
+        &= D(Df(\cdot)u_1)(x) v + \lambda D(Df(\cdot)u_2)(x) v \\
+        &= D^2f(x)(u_1, v) + \lambda D^2f(x)(u_2, v)
+    \end{align*}
+    $D^2f(x)$ is a bi-linear mapping.
+\end{rem}
+
+\begin{defi}
+    Let $U \subset \realn^n$ and $f: U \rightarrow \realn^m$. Define recursively for $k \ge 1$:
+    \begin{enumerate}[(i)]
+        \item $f$ is said to be $(k+1)$ times (totally) differentiable on $U$, if the term $D^k(\cdot)(u_1, \cdots, u_k)$ is differentiable on $U \forall u_1, \cdots, u_k \in \realn^n$.
+        \item The $(k+1)$-th derivative of $f$ in $x \in U$ is the multi-linear mapping 
+        \begin{align*}
+            D^{k+1} f(x): (\realn^n)^{k+1} &\longrightarrow \realn^m \\
+            (u_1, \cdots, u_k, v) &\longmapsto D(D^kf(\cdot)(u_1, \cdots, u_k))(x) v
+        \end{align*}
+    \end{enumerate}
+\end{defi}
+
+\begin{rem}
+    Let $f_1, \cdots, f_m: U \rightarrow \realn$, then the function
+    \begin{align*}
+        f: U &\longrightarrow \realn^m \\
+        x &\longmapsto (f_1(x), \cdots, f_m(x))
+    \end{align*}
+    is $k$-times totally differentiable if and only if the $f_1, \cdots, f_n$ are totally differentiable.
+    \[
+        (D^kf(x)(u_1, \cdots, U_k))_j = D^k f_j(x)(u_1, \cdots, u_k)
+    \]
+\end{rem}
+
+\begin{rem}
+    $D^k f(x)$ really is multi-linear (linear in every point) $\forall k \in \natn$.
+    Other multi-linear mappings are 
+    \begin{enumerate}[(i)]
+        \item The scalar product on $\realn^n$
+        \[
+            \realn^n \times \realn^n \longrightarrow \realn
+        \]
+        \item The determinant 
+        \[
+            \realn^{n \times n} \longrightarrow \realn
+        \]
+    \end{enumerate}
+\end{rem}
+
+\begin{rem}
+    A matrix $A \in \realn^{m \times n}$ is uniquely determined by its effect on the canonical basis $e_1, \cdots, e_n$.
+    This means if $v \in \realn$, then $\exists \alpha_1, \cdots, a_n \in \realn$ that are uniquely determined such that
+    \[
+        v = \alpha_1, e_1 + \cdots + \alpha_n e_n
+    \]
+    Then 
+    \[
+        Av = \alpha_1 Ae_1 + \cdots + \alpha_n Ae_n
+    \]
+    $Ae_i$ is the $i$-th column of $A$.
+    An analogous statement for multi-linear mappings would be, that
+    \[
+        A: \realn^{n \times k} \longrightarrow \realn^m
+    \]
+    is uniquely determined if $A(e_{i_1}, e_{i_2}, \cdots, e_{i_k})$ known $\forall i_1, \cdots, i_k \in \set{1, \cdots, n}$.
+\end{rem}
+
+\begin{thm}
+    Let $U \subset \realn^n$ be open, $f: U \rightarrow \realn^m$ $k$-times differentiable in $x$ and
+    let $e_1, \cdots, e_n$ be the canonical basis of $\realn^n$. Then 
+    \[
+        D^k f(x) (e_{i_1}, \cdots, e_{i_k}) = \partial_{i_k} \cdots \partial_{i_1} f(x)
+    \]
+    $\forall i_i, \cdots, i_k \in \set{1, \cdots, n}$.
+\end{thm}
+\begin{proof}
+    For $k = 1$ this is already proven. So we can use proof by induction; 
+    assume the statement holds for a $k$, i.e. $\forall i_1, \cdots, i_k \in \set{1, \cdots, k}$
+    \[
+        D^k f(x) (e_{i_1}, \cdots, e_{i_k}) = \partial_{i_k} \cdots \partial_{i_1} f(x)
+    \]
+    Then for $i_1, \cdots, i_k, i_{k+1} \in \set{1, \cdots, n}$
+    \begin{equation}
+    \begin{split}
+        D^{k+1} f(x) (e_{i_1, \cdots, e_{i_k}}) &= D(D^k f(\cdots)(e_{i_1}, \cdots, e_{i_k}))(x) \cdot e_{i_{k+1}} \\
+        &= D(\partial_{i_k}, \cdots \partial_{i_1} f(\cdot))(x) e_{i_{k+1}} \\
+        &= \partial_{i_{k+1}}\partial_{i_k} \cdots \partial_{i_1} f(x)
+    \end{split}
+    \end{equation}
+    The order in which partial derivatives are applied is important!
+\end{proof}
+
+\begin{eg}
+    Consider 
+    \begin{align*}
+        f: \realn^2 &\longrightarrow \realn \\
+        (x_1, x_2) &\longmapsto x_1^2 \cos(x_2)
+    \end{align*}
+    Then we can calculate
+    \begin{align*}
+        D^2 f(x) (u, v) ~~ u = u_1e_1 + u_2e_2, v = v_1e_1 + v_2e_2
+    \end{align*}
+    As follows 
+    \begin{align*}
+        D^2f(x)(u, v) &= u_1v_1D^2f(x)(e_1, e_1) + u_1v_2D^2f(x)(e_1, e_2) \\
+            & ~~+ u_2v_1D^2f(x)(e^2, e^1) + u_2v_2D^2f(x)(e^2, e^2) \\
+        &= u_1v_1 \cdot 2 \cdot \cos(x_2) - 2x_1\sin(x_2)u_1v_2 \\
+        & ~~-2x_1\sin(x_2)v_1u_2 - x_1^2 \cos(x_2)u_2v_2
+    \end{align*}
+\end{eg}
+
+\begin{thm}
+    Let $U \subset \realn^n$ be open, and $f: U \rightarrow \realn^m$ $k$-times continuously differentiable. 
+    Then $f$ is $k$-times totally differentiable.
+\end{thm}
+\begin{proof}
+    This is already proveb for $k = 1$. So we can use induction over $k$;
+    assume the statement is correct for $k \in \natn$. Let $u_1, \cdots, u_k \in \realn^n$, then $D^kf(\cdot)(u_1, \cdots, u_k)$
+    is a linear combination of the partial derivative of $f$ of order $k$, and is thus continuously differentiable once more.
+    Therefore $D^2f(\cdot)(u_1, \cdots, u_k)$ is totally differentiable, and thus $f$ is $(k+1)$-times totally differentiable.
+\end{proof}
+
+\begin{thm}[Theorem of Schwarz]
+    Let $U \subset \realn^n$ be open, and also $f \in C^2(U, \realn^m)$. Then
+    \[
+        \forall x \in U ~\forall u, v \in \realn^n: ~~D^2f(x)(u, v) = D^2f(x)(v, u)
+    \]
+    and 
+    \[
+        \forall x \in U ~\forall i_1, i_2 \in \set{1, \cdots, n}: ~~\partial_{i_1}\partial_{i_2} f(x) = \partial_{i_2}partial_{i_1} f(x)
+    \]
+\end{thm}
+\begin{proof}
+    Let $m = 1$, $x \in U$, $\epsilon > 0$ such that $\oball(x) \subset U$.
+    If $u = 0$ or $v = 0$ then both sides of the equation vanish, so let $u, v \in \realn^n \setminus \set{0}$ and 
+    \begin{equation}
+        0 < t < c := \frac{\epsilon}{2 \cdot \max\set{\norm{u}, \norm{v}}}
+    \end{equation}
+    Define the helper function 
+    \begin{equation}
+        \begin{split}
+            g_1: [0, t] &\longrightarrow \realn \\
+            s &\longmapsto f(x + tv + su) - f(x + su)
+        \end{split}
+    \end{equation}
+    And apply the one dimensional intermediate value theorem. $\exists \xi \in (0, t)$ such that 
+    \begin{equation}
+        g_1(t) - g_1(0) = g_1'(\xi) \cdot t = (Df(x + tv + \xi u) u - Df(x + \xi u)u) \cdot t
+    \end{equation}
+    Analogously, define and apply the intermediate value theorem to 
+    \begin{equation}
+        \begin{split}
+            g_2: [0, t] &\longrightarrow \realn \\
+            s &\longmapsto Df(x + sv + \xi u) u
+        \end{split}
+    \end{equation}
+    and get $\eta \in (0, t)$
+    \begin{equation}
+        \begin{split}
+            g_2(t) - g_2(0) = g_2'(\eta) t &= D(Df(\cdot)u)(x + \eta v +\xi u)uvt \\
+            &= D^2 f(x + \eta v + \xi u)(u, v)t
+        \end{split}
+    \end{equation}
+    using these results, we can get $\xi, \eta \in (0, t)$ for all $t \in (0, c)$ such that 
+    \begin{equation}
+        \begin{split}
+            f(x + &tv + tu) - f(x + tv) - f(x + tu) + f(x) \\
+            &= g_1(t) - g_1(0) = (Df(x + tv + \xi u)u - Df(x + \xi u)u) t \\
+            &= (g_2(t) - g_2(0))t = D^2 f(x + \eta v + \xi u)(u, v) t^2
+        \end{split}
+    \end{equation}
+    So we can write
+    \begin{equation}
+        \begin{split}
+            \limes{t}{0} &\frac{f(x + tv + tu) - f(x + tv) - f(x + tu) + f(x)}{t^2} \\
+            &= \limes{t}{0} D^2 f\underbrace{(x + \eta v + \xi u)}_{\conv{} x}(u, v) \\
+            &= D^2 f(x)(u, v)
+        \end{split}
+    \end{equation}
+    The left side is symmetric in terms of swapping $u$ and $v$, so the right side must be as well.
+\end{proof}
+
+Note, that 
+\[
+    D^2f(x)(e_{i_1}, e_{i_2}) = \partial_{i_2} \partial_{i_1} f(x) = \partial_{i_1} \partial_{i_2} f(x) = D^2f(x)(e_{i_2}, e_{i_1})
+\]
+
+\begin{rem}
+    Via induction:
+    \begin{enumerate}[(i)]
+        \item $D^kf(x)(u_1, \cdots, u_k)$ is independent from the order of the $u_i$, if $D^kf$ is continuous.
+        \item The limit of the second derivaative is useful in the numerical discussion of differential equations.
+    \end{enumerate}
+\end{rem}
+
+\begin{thm}[Taylor's Theorem]
+    Let $U \subset \realn^n$ be open, $f: U \rightarrow \realn$ be $(l + 1)$-times differentiable and $h \in \realn^n$ such that
+    $x + th \in U$ $\forall t \in [0, 1]$. Then $\exists \theta \in [0, 1]$ such that 
+    \[
+        f(x + h) = \series[l]{k} \frac{1}{k!} D^kf(x)(h, \cdots, h) + \frac{1}{(l+1)!}D^{l+1}f(x + \theta h)(h, \cdots, h)
+    \]
+\end{thm}
+\begin{hproof}
+    Apply the one dimensional Taylor theorem with Lagrange error bound onto a helper function 
+    \begin{equation}
+        \begin{split}
+            g: [0, 1] &\longrightarrow \realn \\
+            t &\longmapsto f(x + th)
+        \end{split}
+    \end{equation}
+\end{hproof}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item Consider $h = \sum_{i=1}^n h_ie_i$. Then
+        \[
+            D^2f(x)(h, h) = \sum_{i, j = 1}^n h_i h_j D^2f(x)(e_i, e_j) = \sum_{i, j = 1}^n \partial_i \partial_j f(x) h_i h_j
+        \]
+
+        \item Analogously to one dimension, we can formulate criteria for local extrema:
+        \[
+            Df(x) = 0, \cdots, D^{l-1}f(x) = 0 \text{ and } D^lf(x) \ne 0
+        \]
+        \begin{itemize}
+            \item $x$ is a local minimum if $l$ is even and $D^lf(x)$ is positive.
+            \item $x$ is a local maximum if $l$ is even and $D^lf(x)$ is negative.
+            \item $x$ is no local extremum of $l$ is odd or if $D^lf(x)$ is undefined.
+        \end{itemize}
+        Definedness is complicated to determine for $l > 2$.
+    \end{enumerate}
+\end{rem}
+\end{document}
