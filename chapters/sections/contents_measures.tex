@@ -11,4 +11,501 @@
     \]
     A set $M$ is said to be countably infinite if it is countable and unbounded.
 \end{defi}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item Countably infinite sets are the smallest kind of infinite sets.
+        \item Subsets of countable sets are countable.
+        \item The union of two countable sets is countable.
+        Let $\anyseqdef{M}, \anyseqdef[y]{K}$ by surjective sequences, then 
+        \[
+            (x_1, y_1, x_2, y_2, \cdots)
+        \]
+        is a surjective sequence for $M \subset K$. This argument can be used to prove $\intn$ is countable.
+        \item The union of countably many countable sets is countable. Let $M$ be a countable set of countable sets, 
+        and $\anyseqdef[A]{M}$ a surjective sequence. Then $\forall n \in \natn$ exists a surjective mapping $(x_{n_k})_{k \in \natn} \subset A_n$
+
+        \begin{center}
+            \begin{tikzpicture}
+                \foreach \y in {1,...,3} 
+                    \foreach \x in {1,...,3}
+                        \node at (\x, -\y) {$x_{{\y}_{\x}}$};
+
+                \foreach \y in {1,...,3} \node at (4, -\y) {$\cdots$};
+                \foreach \x in {1,...,3} \node at (\x, -4) {$\vdots$};
+                \node at (4, -4) {$\ddots$};
+
+                \node[above right, red] at (1, -1) {\tiny$1$};
+                \node[above right, red] at (2, -1) {\tiny$2$};
+                \node[above right, red] at (1, -2) {\tiny$3$};
+                \node[above right, red] at (3, -1) {\tiny$4$};
+                \node[above right, red] at (2, -2) {\tiny$5$};
+                \node[above right, red] at (1, -3) {\tiny$6$};
+            \end{tikzpicture}
+        \end{center}
+        This sequence is surjective on 
+        \[
+            \bigcup_{A \in M} A
+        \]
+        Especially, for countable $M, K$ we have 
+        \[
+            M \times K = \bigcup_{x \in M} \set[y \in K]{(x, y)}
+        \]
+        Thus $\natn \times \natn$, $\natn$, $\intn$ and $\ratn$ are countable.
+
+        \item There exist uncountable sets, like $[0, 1]$, $\realn$ and $\powerset(\realn)$.
+    \end{enumerate}
+\end{rem}
+
+\begin{defi}
+    Let $\Omega$ be a set. A family of subsets
+    \[
+        (A_i)_{i \in I} \subset \powerset(\Omega) ~~(I \text{ denotes the index set})
+    \]
+    is said to be pairwise disjoint is 
+    \[
+        A_i \cap A_j = \varnothing ~~\forall i, j \in I, ~i \ne j
+    \]
+\end{defi}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item Let $\setfam \subset \powerset(\realn^n)$ be a family of sets. A mapping 
+        \[
+            \mu: \setfam \rightarrow [0, \infty]
+        \]
+        is said to be the content of $\setfam$, if $\forall A_1, \cdots, A_k \in \setfam$ pairwise disjoint the following holds:
+        \[
+            A_1 \cup \cdots \cup A_k \in \setfam \implies \mu(A_1 \cup \cdots \cup A_k) = \sum_{l=1}^k \mu(A_l)
+        \]
+        The content is a generalization of the concept of length ($\realn$), area ($\realn^2$), volume ($\realn^3$) etc.
+
+        \item In the context of contents, measures and integrals we define 
+        \begin{gather*}
+            c + \infty = \infty ~~\forall c \in \realn \cup \set{\infty} \\
+            c \cdot \infty = \infty ~~\forall c \in (0, \infty] \\
+            0 \cdot \infty = 0
+        \end{gather*}
+
+        \item The goal is to choose the domain of the content as big as possible. Ideal would be $\setfam = \powerset{\realn^n}$.
+        This introduces the Banach-Tarski paradox:
+        \begin{itemize}
+            \item Let $\oball[1](0) \subset \realn^3$ be the unit sphere
+            \item One can show: There exists a disjoint decomposition 
+            \[
+                A_1 \cup \cdots \cup A_P \cup B_1 \cup \cdots \cup B_Q = \oball[1](0)
+            \]
+            and a set of translations and rotations
+            \[
+                D_1, \cdots, D_P, \cdots T_1, \cdots, T_Q
+            \]
+            such that 
+            \begin{align*}
+                D_1A_1 \cup D_2A_2 \cup \cdots \cup D_PA_P &= \oball[1](0) \\
+                T_1B_1 \cup T_2B_2 \cup \cdots \cup T_QB_Q &= \oball[1](0)
+            \end{align*}
+        \end{itemize}
+    \end{enumerate}
+\end{rem}
+
+\begin{defi}
+    Let $\Omega$ be a set, $\setfam$ a family of subsets of $\Omega$ (so $\setfam \subset \powerset(\Omega)$). $\setfam$ is sait to be a $\sigma$-algebra, if
+    \begin{enumerate}[(i)]
+        \item $\varnothing \in \setfam$
+        \item $A \in \setfam \implies A^C = \Omega \setminus A \in \setfam$
+        \item For a countable subset $\set{A_1, \cdots, A_n} \subset \setfam$ follows 
+        \[
+            \bigcup_{i \in \natn} A_i \subset \setfam
+        \]
+    \end{enumerate}
+    A mapping 
+    \[ 
+        \mu: \setfam \rightarrow [0, \infty]
+    \] 
+    is said to be a measure, if 
+    \[
+        \mu\left(\bigcup_{i \in \natn} A_i \right) = \sum_{i \in \natn} \mu(A_i) ~~\text{ (} \sigma \text{-additivity)}
+    \]
+    for pairwise disjoint $(A_i)_{i \in \natn} \subset \setfam$ and $\mu(\varnothing) = 0$. 
+    The pair $(\Omega, \setfam)$ is called a measureable space, and $(\Omega, \setfam, \mu)$ is called measure space.
+\end{defi}
+
+\begin{eg}
+    \begin{enumerate}[(i)]
+        \item Let $\Omega$ be an arbitrary set, and let there be a disjoint decomposition
+        \[
+            A_1 \cup \cdots \cup A_n = \Omega
+        \]
+        Then 
+        \[
+            \set[I \subset \set{1, \cdots, n}]{\bigcup_{i \in I} A_i}
+        \]
+        is a $\sigma$-algebra.
+
+        \item Let $\Omega$ be arbitrary and $x \in \Omega$. Then 
+        \begin{align*}
+            \delta_x: \powerset(\Omega) &\longrightarrow [0, \infty] \\
+            A &\longmapsto \begin{cases}
+                1, & x \in A \\
+                0, & x \notin A
+            \end{cases}
+        \end{align*}
+        is a measure.
+
+        \item Let $\Omega$ be arbitrary, then 
+        \begin{align*}
+            \#: \powerset(\Omega) &\longrightarrow [0, \infty] \\
+            A &\longmapsto \begin{cases}
+                \text{Number of elements in } A, & A \text{ finite} \\
+                \infty, & A \text{ infinite}
+            \end{cases}
+        \end{align*}
+        is the so called counting measure. It is useful for finite, countable sets.
+
+        \item Let $\Omega$ be countable and $(a_w)_{w \in \realn} \subset [0, \infty]$. Then 
+        \begin{align*}
+            \mu: \powerset(\Omega) &\longrightarrow [0, \infty] \\
+            A &\longmapsto \sum_{w \in A} a_w
+        \end{align*}
+        a measure.
+
+        \item Let $\measure$ be a measure space and $A \in \setfam$. Define the to $A$ confined $\sigma$-algebra 
+        \[
+            \setfam \vert_A := \set[B \in \setfam]{B \cap A}
+        \]
+        Then $(A, \setfam \vert_A, \mu)$ is a measure space.
+    \end{enumerate}
+\end{eg}
+
+\begin{rem}
+    For countable subsets $\setfam = \set{A_1, \cdots, A_n, \cdots} \subset \sigma \text{-algebra}$ we have 
+    \[
+        \bigcap_{i \in \natn} A_i = \left(\bigcup_{i \in \natn} A_i^C\right)^C \subset \setfam
+    \]
+    If $A, B \in \setfam \implies A \setminus B \in \setfam$ then we can write 
+    \[
+        A \setminus B = A \cap B^C
+    \]
+    A measure $\mu$ is monotonic, which means if $A, B \in \setfam$ and $A \subset B$, then 
+    \[
+        \mu(B) = \mu(B \setminus A) + \mu(A) \ge \mu(A)
+    \]
+\end{rem}
+
+\begin{defi}
+    A mapping $\mu: \powerset(\Omega) \rightarrow [0, \infty]$ is said to be an outer measure, if $\mu(\varnothing) = 0$ and 
+    \[
+        A \subset \bigcup_{i \in \natn} A_i \implies \mu(A) \le \sum_{i \in \natn} \mu(A_i)
+    \]
+    Just like measures, outer measures are monotonic. Let $\intervals$ be the family of bounded intervals, i.e.
+    \[
+        \intervals = \bigcup_{\substack{x, y \in \realn \\x < y}} \set{[x, y], [x, y), (x, y], (x, y)}
+    \]
+    We define 
+    \[
+        l([x, y]) := l([x, y)) := l((x, y]) := l((x, y)) = y - x
+    \]
+\end{defi}
+
+\begin{thm}\label{thm:outer}
+    The mapping 
+    \begin{align*}
+        \lambda: \powerset(\realn) &\longrightarrow [0, \infty] \\
+        A &\longmapsto \inf\set[A \subset \bigcup_{i \in \natn} I_i, ~I_i \in \intervals ~\forall i \in \natn]{\sum_{i=1}^{\infty} l(I_i)}
+    \end{align*}
+    defines an outer measure on the real numbers. Analogously one can create outer measures on $\realn^2, \realn^3$.
+\end{thm}
+\begin{proof}
+    We know 
+    \begin{equation}
+        \lambda(\varnothing) \le l([0, \epsilon)) = \epsilon ~~\forall \epsilon > 0
+    \end{equation}
+    which implies $\lambda(\varnothing) = 0$. We have to show that 
+    \begin{equation}
+        A \subset \bigcup_{k \in \natn} A_k \implies \lambda(A) \le \sum_{k \in \natn} \lambda(A_k)
+    \end{equation}
+    If the right side is $\infty$ there is nothing to show. So let $\sum_{k \in \natn} \lambda(A_k) < \infty$.
+    Let $\epsilon > 0$, then $\forall k \in \natn ~~\exists (I_{k_i}) \subset \intervals$ such that
+    \begin{equation}
+        A_k \subset \bigcup_{i \in \natn} I_{k_i} \text{ and } \sum_{i \in \natn} l(I_{k_i}) \le \left(\lambda(A_k) + \frac{\epsilon}{2^k}\right)
+    \end{equation}
+    Then 
+    \begin{equation}
+        A \subset \bigcup_{k = 1}^{\infty} A_k \subset \bigcup_{i, k \in \natn} I_{k_i}
+    \end{equation}
+    and 
+    \begin{equation}
+        \lambda(A) \le \sum_{k, i \in \natn} l(I_{k_i}) \le \sum_{k \in \natn} \left(\lambda(A_k) + \frac{\epsilon}{2^k}\right) = \sum_{k \in \natn} \lambda(A_k) + \epsilon
+    \end{equation}
+    Since this inequality holds $\forall \epsilon > 0$
+    \begin{equation}
+        \lambda(A) \le \sum_{k \in \natn} \lambda(A_k)
+    \end{equation}
+    must be true. The outer measure is not additive.
+\end{proof}
+
+\begin{thm}
+    Let $\mu$ be an outer measure on $(\Omega, \powerset(\Omega))$. 
+    Then the family of measureable sets 
+    \[
+        \setfam := \set[\mu(E) \ge \mu(E \cap A) + \mu(E \cap A^C) ~~\forall E \in \powerset(\Omega)]{A \subset \Omega}
+    \]
+    is a $\sigma$-algebra, and $\mu\vert_A$ a measure.
+\end{thm}
+\begin{thm}
+    Firstly, we always have 
+    \begin{equation}
+        \mu(E) \le \mu(E \cap A) + \mu(E \cap A^C)
+    \end{equation}
+    which means $A$ is measureable if and only if 
+    \begin{equation}
+        \mu(E) = \mu(E \cap A) + \mu(E \cap A^C) ~~\forall E \in \powerset(\Omega)
+    \end{equation}
+    It's easy to see that $\varnothing$ is measurable, and that 
+    \begin{equation}
+        A \text{ measurable} \iff A^C \text{ measurable}
+    \end{equation}
+    We have 
+    \begin{equation}
+        \begin{split}
+            E \cap (A \cup B) &= (E \cap A) \cup (E \cap B) \\
+            &= (E \cap A) \cup (E \cap B \cap A^C)
+        \end{split}
+    \end{equation}
+    Which means that $\forall A, B$ measurable and $\forall E \in \powerset(\Omega)$:
+    \begin{equation}
+        \begin{split}
+            \mu(E) &= \mu(E \cap A) + \mu(E \cap A^C) \\
+            &= \mu(E \cap A) + \mu(E \cap A^C \cap B) + \mu(E \cap A^C \cap B^C) \\
+            &\ge \mu(E \cap (A \cup B)) + \mu(E \cap (A \cap B)^C) \ge \mu(E)
+        \end{split}
+    \end{equation}
+    So $A \cup B$ is measurable and it follows for disjoint $A, B$
+    \begin{subequations}
+        \begin{align}
+            &\mu(E \cap A) + \mu(E \cap A^C \cap B) = \mu(E \cap (A \cup B)) \\
+            \implies &\mu(E \cap A) + \mu(E \cap B) = \mu(E \cap (A \cup B)) \\
+            \implies &\mu \text{ is additive for measurable sets}
+        \end{align}
+    \end{subequations}
+    Then by using induction we can see that finite unions of measurable sets are measurable and that for $A_1, \cdots, A_n$ measurable, pairwise disjoint sets 
+    \begin{equation}
+        \mu\left(\bigcup_{i=1}^n A_i\right) = \sum_{i=1}^n \mu(A_i)
+    \end{equation}
+    holds. Now let $(A_i)_{i \in \natn}$ be pairwise disjoint measurable sets, and let 
+    \begin{align}
+        S_n := \bigcup_{i=1}^n A_i && S := \bigcup_{i=1}^{\infty} A_i
+    \end{align}
+    Then $\forall E \in \powerset(\Omega)$
+    \begin{equation}
+        \mu(E \cap S_n) = \sum_{i=1}^n \mu(E \cap A_i)
+    \end{equation}
+    To check measurability, consider 
+    \begin{equation}
+        \begin{split}
+            \mu(E) &\ge \mu(E \cap S_n) + \mu(E \cap S_n^C) \\
+            &\ge \sum_{i=1}^n \mu(E \cap A_i) + \mu(E \cap S^C)
+        \end{split}
+    \end{equation}
+    For $n \rightarrow \infty$:
+    \begin{equation}
+        \begin{split}
+            \mu(E) &\ge \sum_{i=1}^{\infty} \mu(E \cap A_i) + \mu(E \cap S^C) \\
+            &\ge \mu\underbrace{(E \cap S)}_{\bigcup_{i=1}^{\infty} E \cap A_i} + \mu(E \cap S^C) \\
+            &\ge \mu(E)
+        \end{split}
+    \end{equation}
+    Thus $S$ is measurable 
+    \begin{equation}
+        \sum_{i=1}^{\infty} \mu(E \cap A_i) = \mu\left(E \cap \bigcup_{i=1}^{\infty} A_i\right)
+    \end{equation}
+    For $E = \Omega$ the $\sigma$-additivity follows. 
+    It is left to show that for measurable (but not necessarily disjoint) $A_i$, that $\bigcup_{i=1}^{\infty} A_i$ is also measurable.
+    To do that define 
+    \begin{equation}
+        B_i = A_i \setminus \left(\bigcup_{j=1}^{i-1} A_j \right) 
+    \end{equation}
+    Then the $B_i$ are disjoint and measurable. Thus 
+    \begin{equation}
+        \bigcup_{i=1}^{\infty} B_i = \bigcup_{i=1}^{\infty} A_i
+    \end{equation}
+    is measurable.
+\end{thm}
+
+\begin{defi}
+    Application of the previous theorem on the outer measure from $\Cref{thm:outer}$ gives us the $\sigma$-algebra
+    of Lebesgue-measurable sets and the Lebesgue-measure $\lambda$.
+\end{defi}
+
+\begin{rem}
+    $A \subset \realn$ is said to be a null set if its outer measure is $0$. Obviously 
+    \[
+        \lambda(\set{0}) = 0
+    \]
+    For countable $A$ we have 
+    \[
+        \lambda(A) = \lambda\left(\cup_{x \in A} \set{x}\right) \le \sum_{x \in A} \lambda(\set{x}) = 0 
+    \]
+    So $\natn$, $\intn$ and $\ratn$ are null sets. Null sets are measurable, because 
+    \[
+        \forall E \in \powerset(\realn): ~~\underbrace{\lambda(E \cap A)}_0 + \lambda(E \cap A^C) = \lambda(E \cap A^C) \le \lambda(E)
+    \]
+\end{rem}
+
+\begin{thm}
+    Intervals are Lebesgue measurable and 
+    \[
+        \lambda([a, b]) = b - a
+    \]
+\end{thm}
+\begin{proof}
+    Let $A$ be a bounded interval. Decompose $\realn$ into the intervals 
+    \begin{equation}
+        \realn = I_L \cup A \cup I_R
+    \end{equation}
+    For $I \in \intervals$ we have $I \cap I_L, ~I \cap A, ~I \cap I_R$ bounded (or empty) intervals.
+    Now let $E \subset \powerset(\realn)$ and 
+    \begin{equation}
+        E \subset \bigcup_{i \in \natn}I_i
+    \end{equation}
+    a covering. Then 
+    \begin{align}
+        E \cap A \subset \bigcup_{i \in \natn} I_i \cap A && E \cap A^C \subset \bigcup_{i \in \natn} \left((I_i \cap I_L) \cup (I_i \cap I_R)\right)
+    \end{align}
+    are coverings of countably many intervals, and we have 
+    \begin{equation}
+        \begin{split}
+            \sum_{i \in \natn} l(I_i) &= \sum_{i \in natn} l(I_i \cap A) + \sum_{i \in \natn} \left(l(I_i \cap I_L) + l(I_i \cap I_R)\right) \\
+            &\ge \lambda(E \cap A) + \lambda(E \cap A^C)
+        \end{split}
+    \end{equation}
+    $\lambda$ is the infimum of all possible coverings 
+    \begin{equation}
+        \lambda(E) \ge \lambda(E \cap A) + \lambda(E \cap A^C)
+    \end{equation}
+    And thus $A$ is measurable. 
+    It is left to show that 
+    \begin{equation}
+        A = [a, b] \implies \lambda(A) = b - a
+    \end{equation}
+    So let $\anyseqdef[I]{\intervals}$ such that 
+    \begin{equation}
+        l = \sum_{n \in \natn} (I_n) < b - a
+    \end{equation}
+    First, let all $I_n$ be open. Choose 
+    \begin{equation}
+        A_n = A \setminus \left(\bigcup_{i=1}^n I_i \right)
+    \end{equation}
+    Those $A_n$ are non-empty, since $A$ cannot be covered by finitely many intervals of length $< b - a$.
+    Choose a sequence $x_n \in A_n ~~\forall n \in \natn$. Since $A$ is a compact there exists a toward $x \in A$ convergent subsequence of $x_n$.
+    The point $x$ cannot be contained in any $I_n$, since because the $I_n$ are open, infinitely many $x_n$ would be contained in $I_n$, which would
+    contradict the construction of $A_n$.
+    \begin{equation}
+        \implies (I_n) \text{ do not cover } A
+    \end{equation}
+    For arbitrary $I_n$ (so not necessarily open), let $(x_k)$ be the sequence of the (countably many) boundary points of the intervals.
+    \begin{equation}
+        \epsilon = \frac{b - a - l}{4} > 0
+    \end{equation}
+    And thus 
+    \begin{equation}
+        \set[i \in \natn]{\interior{I}_i} \cup \set[\forall k \in \natn]{\left(x_k - \frac{\epsilon}{2^k}, x_k + \frac{\epsilon}{2^k}\right)}
+    \end{equation}
+    is a covering of $A$ by countably many open intervals of total length 
+    \begin{equation}
+        \le l + \sum_{k = 1}^{\infty} \frac{2\epsilon}{2^k} = l + \frac{b - a - l}{2} = \frac{b - a + l}{2} < b - a
+    \end{equation}
+    which is impossible due to our construction above.
+\end{proof}
+
+\begin{thm}
+    Open and closed sets are Lebesgue measurable.
+\end{thm}
+\begin{proof}
+    Let $O \subset \realn$ be open. It is to show that 
+    \begin{equation}
+        O = \bigcup_{\substack{l, r \in \ratn \\ (l, r) \subset O}} (l, r) \implies O \text{ Lebesgue measurable}
+    \end{equation}
+    Let $x \in O$, since $O$ is open 
+    \begin{equation}
+        \exists \epsilon > 0: ~~(x - \epsilon, x + \epsilon) \subset O
+    \end{equation}
+    Since $\ratn$ is dense in $\realn$
+    \begin{equation}
+        \exists l, r \in \ratn: ~~x - \epsilon < l < x \text{ and } x < r < \epsilon + x
+    \end{equation}
+    So $x \in (l, r) \subset O$.
+    If $C$ is a closed set, then $\realn \setminus C$ is open and thus Lebesgue measurable. 
+    \begin{equation}
+        \implies C = \realn \setminus(\realn \setminus C) \text{ Lebesgue measurable}
+    \end{equation}
+\end{proof}
+
+\begin{rem}
+    The Lebesgue-$\sigma$-algebra contains many more sets. All sets that are "created by normal means" are Lebesgue measurable.
+\end{rem}
+
+\begin{rem}
+    For $A \subset \realn$ and $x \in \realn$ we define 
+    \[
+        A + x := \set[y \in A]{y + x}
+    \]
+    A measure on $\realn$ is said to be invariant under translation, if 
+    \[
+        \mu(A) = \mu(A + x) ~~\forall A \in \setfam, ~x \in \realn
+    \]
+    Since translations of intervals result in intervals, the (outer) Lebesgue measure is invariant under translation.
+    One can show that the Lebesgue measure is the only translational symmetric measure on $\realn$, with 
+    \[
+        \lambda([0, 1]) = 1
+    \]
+\end{rem}
+
+\begin{thm}
+    Let $\measure$ be a measure space. For a monotonically increasing sequence $\anyseqdef[A]{\setfam}$ (this means $A_n \subset A_{n+1} ~~\forall n \in \natn$), we have
+    \[
+        \mu\left(\bigcup_{n \in \natn} A_n\right) = \limn \mu(A_n) = \sup_{n \in \natn} \mu(A_n) 
+    \]
+    For a monotonically decreasing sequence $\anyseqdef[B]{\setfam}$ we have 
+    \[
+        \mu\left(\bigcap_{n \in \natn} B_n\right) = \limn \mu(B_n) = \inf_{n \in \natn} \mu(B_n)
+    \]
+    if $\mu(B_N) < \infty$ for $N \in \natn$
+\end{thm}
+\begin{proof}
+    If $\mu(A_n) = \infty$ for some $n \in \natn$ there is nothing to show. So let 
+    \begin{equation}
+        \mu(A_n) < \infty ~~\forall n \in \natn
+    \end{equation}
+    Set $A_0 = \varnothing$ and define 
+    \begin{equation}
+        C_n := A_n \setminus A_{n-1}
+    \end{equation}
+    These $C_n$ are pairwise disjoint, and thus 
+    \begin{equation}
+        \begin{split}
+            \mu\left( \bigcup_{n \in \natn} A_n \right) &= \mu\left( \bigcup_{n \in \natn} C_n \right) = \sum_{n=1}^{\infty} \mu(C_n) = \underbrace{\sum_{n=1}^{\infty}\left( \mu(A_n) - \mu(A_{n-1}) \right)}_{\text{Telescoping series}} \\
+            &= \limn \mu(A_n) - \underbrace{\mu(A_0)}_{= 0}
+        \end{split}
+    \end{equation}
+    Now let $\mu(B_N) < \infty \rightarrow \mu(B_n) < \infty ~~\forall n \ge N$. Set 
+    \begin{equation}
+        D_n = B_N \setminus B_n ~~\forall n \ge N
+    \end{equation}
+    $\seq{D}$ is monotonically increasing and thus 
+    \begin{equation}
+        \bigcup_{n = N}^{\infty} D_n = \bigcup_{n = N}^{\infty} B_N \cap B_n^C = B_N \cap {\underbrace{\left( \bigcap_{n = N}^{\infty} B_n \right)}_B}^C = B_N \cap B^C = B_N \setminus B
+    \end{equation}
+    Which in turn implies 
+    \begin{equation}
+        \begin{split}
+            \mu(B_N) - \mu(B) &= \mu(B_N \setminus B) = \limn \underbrace{\mu(B_N \setminus B_n)}_{\mu(B_N) - \mu(B_n)} \\
+            &= \mu(B_N) - \limn \mu(B_n)
+        \end{split}
+    \end{equation}
+\end{proof}
+
+\begin{rem}
+    $\mu(B_N) < \infty$ for some $N \in \natn$ is a necessarily requirement.6
+\end{rem}
 \end{document}
