@@ -1,0 +1,300 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{Integrals over the real numbers}
+
+\begin{defi}
+    Let $a, b \in \realn$, $a < b$ and $f: [a, b] \rightarrow \cmpln$ integrable. Then set 
+    \[
+        \int_a^b f(x) \dd x := \int_{(a, b)} f \dd\lambda = \int f \cdot \charfun_{(a, b)} \dd\lambda
+    \]
+    and 
+    \[
+        \int_b^a f(x) \dd x = -\int_a^b f(x) \dd x
+    \]
+\end{defi}
+
+\begin{rem}
+    Let $a, b \in \realn$, $a < b$, then every bounded function is integrable over $(a, b)$
+    \[
+        \int_{(a, b)} \abs{f} \dd\lambda \le \int_{(a, b)} \underbrace{\sup_{x \in (a, b)} \abs{f(x)}}_{\in \realn} \dd\lambda = \supnorm{f} \underbrace{\int_{(a, b)} \charfun_{(a, b)} \dd\lambda}_{\lambda((a, b))} = \supnorm{f} \cdot (b - a)
+    \]
+    If $f$ is continuous on $[a, b]$ then it is also bounded. Let $a < c < b$
+    \begin{align*}
+        \int_a^b f(x) \dd x = \int f \dot \charfun_{(a, b)} \dd\lambda &= \int f \cdot (\charfun_{(a, c)} + \charfun_{(c, b)}) \dd\lambda \\
+        &= \int f \cdot \charfun_{(a, c)} \dd\lambda + \int f \cdot \charfun_{(c, b)} \dd\lambda \\
+        &= \int_a^c f(x) \dd x + \int_c^b f(x) \dd x
+    \end{align*}
+    One can easily see that this formula holds for any $c \in \realn$.
+\end{rem}
+
+\begin{thm}[Mean value theorem for integrals]
+    Let $a, b \in \realn$, $a < b$ and $f, g: [a, b] \rightarrow \realn$ continuous with $g \ge 0$.
+    Then $\exists \xi \in (a, b)$ such that 
+    \[
+        \int_a^b f(x) g(x) \dd x = f(\xi) \int_a^b g(x) \dd x
+    \]
+    Especially, $\exists \eta \in (a, b)$ such that 
+    \[
+        \int_a^b f(x) \dd x = f(\eta) (b - a)
+    \]
+\end{thm}
+\begin{proof}
+    Let $f$ be continuous, and $[a, b]$ compact. Then define 
+    \begin{align*}
+        c = \min_{a \le x \le b} f(x) && C = \max_{a \le x \le b} f(x)
+    \end{align*}
+    Thus, 
+    \begin{equation}
+        \exists x_m, x_M \in [a, b]: ~~f(x_m) = c, ~f(x_M) = C
+    \end{equation}
+    Define $\tilde{a} := \min \set{x_m, x_M}$ and $\tilde{b} := \max \set{x_m, x_M}$. Then 
+    \begin{equation}
+        c \cdot g(x) \le f(x) g(x) \le C g(x)
+    \end{equation}
+    If we define 
+    \begin{equation}
+        I = \int_a^b g(x) \dd x
+    \end{equation}
+    then we have 
+    \begin{equation}
+        c \cdot I \le \int_a^b \le C \cdot I
+    \end{equation}
+    Due to the mean value theorem, $\exists \xi \in (\tilde{a}, \tilde{b}) \subset (a, b)$ such that 
+    \begin{equation}
+        f(\xi) = \rec{I} \int_a^b f(x) g(x) \dd x
+    \end{equation}
+\end{proof}
+
+\begin{defi}
+    Let $a, b \in \realn$, $a < b$ and $f: [a, b] \rightarrow \cmpln$. 
+    Then
+    \[
+        F: [a, b] \rightarrow \cmpln
+    \]
+    is said to be the antiderivative of $f$, if it is continuous, on $[a, b]$ differentiable and $F' = f$.
+\end{defi}
+
+\begin{rem}
+    Let $F, G$ be antiderivatives of $f$. Then on $(a, b)$ we have 
+    \[
+        (F - G)' = F' - G' = f - f = 0
+    \]
+    Thus $F - G = c$ for $c \in \cmpln$. Since $F, G$ are continuous, $F - G = c$ also holds on $[a, b]$.
+\end{rem}
+
+\begin{thm}[Fundamental Theorem of Calculus]
+    Let $a, b \in \realn$, $a < b$ and $f: [a, b] \rightarrow \cmpln$ continuous. Then for arbitrary $x_0 \in [a, b]$ the function 
+    \[
+        x \longmapsto \int_{x_0}^x f(y) \dd y
+    \]
+    is an antiderivative of $f$.
+    Let $G$ be an antiderivative of $f$, then 
+    \[
+        \int_a^b f(y) \dd y = G(b) - G(a)
+    \]
+\end{thm}
+\begin{proof}
+    First, let $f$ be real-vauled.
+    \begin{equation}
+        F(x) := \int_{x_0}^x f(y) \dd y
+    \end{equation}
+    For a fixed $x \in [a, b]$ and $h$ such that $x + h \in [a, b]$ we have 
+    \begin{equation}
+        \begin{split}
+            F(x + h) - F(x) &= \int_{x_0}^{x + h} f(y) \dd y - \int_{x_0}^x f(y) \dd y \\
+            &= \int_x^{x+h} f(y) \dd y = f(\xi_h) \cdot h
+        \end{split}
+    \end{equation}
+    with $\xi_h \in (x, x + h)$ from the mean value theorem. For $h \rightarrow 0$, the $\xi_h$ converges to $x$, and thus $f(\xi_h) \rightarrow f(x)$
+    \begin{equation}
+        \implies \limes{h}{0} \left( F(x + h) - F(x) \right) = 0
+    \end{equation}
+    so $F$ is continuous. For $x \in (a, b)$ we have $x + h \in (a, b)$ for a small enough $h$, and then 
+    \begin{equation}
+        \limes{h}{0} \frac{F(x + h) - F(x)}{h} = \limes{h}{0} f(\xi_k) = f(x) = F'(x)
+    \end{equation}
+    If $G$ is another antiderivative then $G = F + c$ with $c \in \realn$.
+    \begin{equation}
+        \int_a^b f(y) \dd y = \int_a^{x_0} f(y) \dd y + \int_{x_0}^b f(y) \dd y = F(b) - F(a) = G(b) - G(a)
+    \end{equation}
+    For complex-valued $f$, simply decompose $f$ into a real and imaginary part.
+\end{proof}
+
+\begin{rem}
+    The antiderivative of $f$ is often denoted as 
+    \begin{align*}
+        \int f(x) \dd x && \text{indefinite integral}
+    \end{align*}
+    This notation is also used for 
+    \begin{align*}
+        \int_{-\infty}^{\infty} f(x) \dd x && \text{definite integral}
+    \end{align*}
+\end{rem}
+
+\begin{cor}[Partial Integration]
+    Let $a, b \in \realn$, $a < b$ and $f, g: [a, c] \rightarrow \cmpln$ continuously differentiable. Then 
+    \[
+        \int f'(x) g(x) \dd x = f(x) g(x) - \int f(x) g'(x) \dd x
+    \]
+    And the definite integral is 
+    \[
+        \int_a^b f'(x) g(x) \dd x = f(b)g(b) - f(a)g(a) - \int_a^b f(x)g'(x) \dd x
+    \]
+\end{cor}
+\begin{proof}
+    Let $H: [a, b] \rightarrow \cmpln$ be the antiderivative of $fg'$. Then $fg - H$ is continuously differentiable, and 
+    \begin{equation}
+        (fg - H)' = f'g + fg' - H' = f'g
+    \end{equation}
+    so $fg - H$ is an antiderivative of $f'g$. From the fundamental theorem follows 
+    \begin{equation}
+        \begin{split}
+            \int_a^b f'(x) g(x) \dd x &= (fg - H)(b) - (fg - H)(a) \\
+            &= f(b)g(b) - f(a)g(a) - \underbrace{(H(b) - H(a))}_{\int_a^b f(x)g'(x) \dd x}
+        \end{split}
+    \end{equation}
+\end{proof}
+
+\begin{cor}[Substitution]
+    Let $a, b \in \realn$, $a < b$ and $g: [a, b] \rightarrow \realn$ continuously differentiable. 
+    Choose $\xi = \min g([a, b])$ and $\eta = \max g([a, b])$. 
+    Let 
+    \[
+        f: [\xi, \eta] \longrightarrow \cmpln
+    \]
+    be continuous. Then 
+    \[
+        \int f(g(x)) g'(x) \dd x = \int f(y) \dd y
+    \]
+    for ($y = g(x)$), and 
+    \[
+        \int_a^b f(g(x)) g'(x) \dd x = \int_{g(a)}^{g(b)} f(y) \dd y
+    \]
+\end{cor}
+\begin{proof}
+    Let $F$ be an antiderivative of $f$, then $F \circ g$ is continuously differentiable, and due to the chain rule
+    \begin{equation}
+        (F \circ g)'(x) = F'(g(x)) g'(x) = f(g(x)) g'(x)
+    \end{equation}
+    thus $F \circ g$ is an antiderivative of $(f \circ g)g'$
+    \begin{equation}
+        \begin{split}
+            \int_a^b f(g(x)) g'(x) \dd x &= (F \circ g)(b) - (F \circ g)(a) = F(g(b)) - F(g(a)) \\
+            &= \int_{g(a)}^{g(b)} f(y) \dd y
+        \end{split}
+    \end{equation}
+\end{proof}
+
+\begin{eg}
+    Consider 
+    \[
+        \tan x = \frac{\sin x}{\cos x} = -\frac{\cos' x}{\cos x}
+    \]
+    We have to determine the antiderivative of $f(y) = \rec{y}$ with $y = \cos x$
+    \[
+        -\int \rec{y} \dd y = -\ln y
+    \]
+    After resubstituting we get
+    \[
+        \int \tan x \dd x = -\ln \abs{\cos x}
+    \]
+    The derivative of this function is identical to $\tan$ wherever it is defined.
+    If we want to calculate definite integrals like 
+    \[
+        \int_a^b \tan x \dd x
+    \]
+    there cannot be any incontinuities between $a$ and $b$.
+\end{eg}
+
+\begin{eg}
+    Consider 
+    \begin{align*}
+        F: (0, \infty) &\longrightarrow \realn \\
+        a &\longmapsto \int_0^{\infty} \frac{e^{-x}}{x + a} \dd x
+    \end{align*}
+    Is this function continuous?
+\end{eg}
+
+\begin{cor}
+    Let $\metric$ be a metric space, $f: \Omega \times X \rightarrow \cmpln$ and $\tilde{a} \in X$.
+    Let $f(\cdot, a)$ be integrable $\forall a \in X$ and let $f(\omega, \cdot)$ be continuous in $\tilde{a}$ $\forall \omega \in \Omega$.
+    Let $U$ be a neighbourhood of $\tilde{a}$ and $g$ an integrable function (independent from $a$) such that
+    \[
+        \abs{f(\omega, a)} \le g(\omega) ~~\forall \omega \in \Omega ~\forall a \in U
+    \]
+    Then the function 
+    \begin{align*}
+        F: X &\longrightarrow \cmpln \\
+        a &\longmapsto \int f(\omega, a) \dd \mu(\omega)
+    \end{align*}
+    is continuous in $\tilde{a}$.
+\end{cor}
+\begin{proof}
+    Let $\anyseqdef[a]{X}$ be a sequence with $a_n \rightarrow \tilde{a}$. Set $f_n = f(\cdot, a_n)$. 
+    For sufficiently bit $n$, $a_n$ is in the neighbourhood $U$, and thus 
+    \begin{equation}
+        \abs{f_n} = \abs{f(\cdot, a_n)} \le g
+    \end{equation}
+    Then $\forall \omega \in \Omega$
+    \begin{equation}
+        \limn f_n(\omega) = \limn f(\omega, a_n) = f(\omega, \tilde{a})
+    \end{equation}
+    And 
+    \begin{equation}
+        \begin{split}
+            \limn F(a_n) &= \limn \int f_n(\omega) \dd\mu(\omega) \\
+            &= \int \limn f(\omega, a_n) \dd\mu \\
+            &= \int f(\omega, \tilde{a}) \dd\mu(\omega) \\
+            &= F(\tilde{a})
+        \end{split}
+    \end{equation}
+    The sequence criterion for continuity tells os that $F$ is continuous in $\tilde{a}$.
+\end{proof}
+
+\begin{eg}
+    Let $\tilde{a} \in (0, \infty)$. Then
+    \[
+        \forall a \in \left(\frac{\tilde{a}}{2}, \infty\right) ~\forall x \in [0, \infty): ~~\frac{e^{-x}}{x + a} \le \frac{e^{-x}}{\frac{\tilde{a}}{2}} = \frac{2 e^{-x}}{\tilde{a}} \text{ integrable}
+    \]
+    Thus, $F$ is continuous in $\tilde{a}$. Since $\tilde{a}$ was arbitrary, $F$ is continuous.
+\end{eg}
+
+\begin{cor}
+    Let $X \subset \realn^n$ be open, $f: \Omega \times X \rightarrow \cmpln$ and $\tilde{a} \in X$, $f(\cdot, a)$ integrable 
+    $\forall a \in X$. Let $U$ be a neighbourhood of $\tilde{a}$, and $f(\omega, \cdot)$ differentiable $\forall \omega \in \Omega$ in every point of $U$.
+    Let $g$ be integrable (independent from $a$) such that 
+    \[
+        \norm{D_a f(\omega, a)} \le g(\omega)
+    \]
+    Then the function 
+    \begin{align*}
+        F: X &\longrightarrow \cmpln \\
+        a &\longmapsto \int f(\omega, a) \dd\mu(\omega)
+    \end{align*}
+    is differentiable in $\tilde{a}$ and 
+    \[
+        DF(\tilde{a}) = \int D_a f(\omega, \tilde{a}) \dd\mu(\omega)
+    \]
+\end{cor}
+\begin{proof}
+    Without proof.
+\end{proof}
+
+\begin{eg}
+    The term 
+    \[
+        \frac{e^{-x}}{x + a}
+    \]
+    is differentiable in terms of $a$
+    \[
+        \abs{\dv{a} \frac{e^{-x}}{x + a}} = \frac{e^{-x}}{(x + a)^2} \le \frac{4}{\tilde{a}^2} e^{-x} ~~\forall a \in \left(\frac{\tilde{a}}{2}, \infty\right) ~\forall x \in [0, \infty)
+    \]
+    Thus $F$ is differentiable and 
+    \[
+        F'(a) = -\int \frac{e^{-x}}{(x + \tilde{a})^2} \dd x
+    \]
+    Since $\tilde{a}$ was arbitrary, $F$ is differentiable.
+\end{eg}
+\end{document}
