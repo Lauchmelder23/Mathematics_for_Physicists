@@ -1,0 +1,137 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{Solution Methods}
+
+\begin{defi}
+    An ordinary differential equation (ODE) is an equation of the form 
+    \[
+        F(x, y, y', \cdots, y^{(n)}) = 0
+    \]
+    with $F: \realn^{n+2} \rightarrow \realn$. $n$ is the order of the ODE.
+    Let $I$ be an open interval. A function $y: I \rightarrow \realn$ is a solution of the ODE if $y \in C^n(\realn)$ and 
+    \[
+        F(x, y(x), y'(x), \cdots, y^{(n)}(x)) = 0 ~~\forall x \in I
+    \]
+\end{defi}
+
+\begin{eg}
+    \begin{align*}
+        y'' = -\frac{1}{y^2} && \text{Gravitational field} \\
+        y'' = -\sin y && \text{Pendulum}
+    \end{align*}
+\end{eg}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item Often times $F$ is only defined on subsets of $\realn^{n+2}$
+        \item ODEs are not simple to solve
+        \item Even if we can't calculate explicit solutions, we can inspect the following properties
+        \begin{itemize}
+            \item Existence of solutions
+            \item Uniqueness of solutions
+            \item Dependency of solutions from initial conditions
+            \item Sability
+        \end{itemize}
+    \end{enumerate}
+\end{rem}
+
+\begin{eg}
+    \begin{enumerate}[(i)]
+        \item Let $I$ be an open interval and $f: I \rightarrow \realn$ continuous. Then the solution of 
+        \[
+            y' = f(x)
+        \]
+        is the antiderivative of $f$. Let $x_0 \in I$, then 
+        \[
+            y(x) = \int_{x_0}^x f(t) \dd{t} + c ~~c \in \realn
+        \]
+    
+        \item Consider the ODE 
+        \[
+            y' = y
+        \]
+        The functions $x \mapsto c e^x$ are solutions $\forall c \in \realn$. Are those all the solutions that exist?
+        Let $y: I \rightarrow \realn$ be any solution, and consider
+        \[
+            u(x) = y(x)e^{-x}
+        \]
+        Then 
+        \begin{align*}
+            u'(x) &= y'(x) e^{-x} - y(x)e^{-x} \\
+            &= \left(y'(x) - y(x)\right) e^{-x} = 0 ~~\forall x \in I
+        \end{align*}
+        So $u(x) = c$.
+    \end{enumerate}
+\end{eg}
+
+\begin{defi}[Initial Value Problem]
+    Let $y_0, \cdots, y_{n-1} \in \realn$ and also $F: \realn^{n+2} \rightarrow \realn$. The system of equations 
+    \begin{align*}
+        F(x, y, y', \cdots, y^{(n)}) = 0 && \begin{cases}
+            y(0) = y_0 \\ 
+            y'(0) = y_1\\
+            \cdots \\ 
+            y^{(n-1)}(0) = y_{n-1}
+        \end{cases}
+    \end{align*}
+    is said to be an initial value problem (IVP).
+\end{defi}
+
+\begin{eg}
+    Consider the problem 
+    \begin{align*}
+        y'' = -\rec{y^2} && \begin{cases}
+            y(0) = y_0 \\
+            y'(0) = y_1
+        \end{cases}
+    \end{align*}
+    This describes the movement of a point mass in the gravitational field of the earth along a straight line 
+    through the center of the earth with the initial position $y_0$ and the initial velocity $y_1$.
+\end{eg}
+
+\begin{eg}
+    Consider the problem 
+    \begin{align*}
+        y' = -y^2 && y(0) = 1
+    \end{align*}
+    Assume $y: I \rightarrow \realn$ is a solution and $y(x) > 0 ~~\forall x \in I$. Then 
+    \[
+        1 = -\frac{1}{y(t)^2} ~y'(t) ~~\forall t \in I
+    \]
+    By integrating we get 
+    \begin{align*}
+        x = -\int_0^x \frac{1}{y(t)^2} y'(t) \dd{t} &\equalexpl{Substitution} -\int_1^{y(x)} \rec{y^2} \dd{y} \\
+        &= \left. \rec{y} \right\vert_1^{y(x)} = \rec{y(x)} - 1 ~~\forall x \in I
+    \end{align*}
+    So a solution is 
+    \[
+        y(x) = \frac{1}{1+x}
+    \]
+    The biggest domain that makes sense is $(-1, \infty)$. Analogously one can approach equations with "separated variables", so of the form 
+    \begin{align*}
+        y' = f(y)g(x) && y(x_0) = y_0
+    \end{align*}
+\end{eg}
+
+\begin{thm}[Separation of Variables]
+    Let $I, J$ be open intervals, and let 
+    \begin{align*}
+        f: I \longrightarrow \realn && g: J \longrightarrow \realn 
+    \end{align*}
+    be continuous with $0 \ne f(I)$. Let $x_0 \in J, ~y_0 \in I$.
+    Then there exists an open interval $I_2 \subset J$ and $x_0 \in I_2$ such that the IVP
+    \begin{align*}
+        y' = f(y)g(x) && y(x_0) = y_0
+    \end{align*}
+    has exactly one solution on $I_2$. Set 
+    \[
+        F(y) = \int_{y_0}^y \rec{f(t)} \dd{t}
+    \]
+    Then $y: I_2 \rightarrow I$ is uniquely defined by 
+    \[
+        F(y(x)) = \int_{x_0}^x g(t) \dd{t}
+    \]
+\end{thm}
+\end{document}

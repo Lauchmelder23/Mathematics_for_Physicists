@@ -1,0 +1,35 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{Lebesgue-Stieltjes Integral}
+
+\begin{defi}
+    Let $F: \realn \rightarrow \realn$ be a monotonically increasing, continuous function. Then we set 
+    \begin{align*}
+        \lambda_F(\varnothing) := 0 && \lambda_F((a, b]) = F(b) - F(a), ~~(a, b] \in \intervals
+    \end{align*}
+\end{defi}
+
+\begin{thm}
+    $\lambda_F$ is a measure on $H$.
+\end{thm}
+\begin{proof}
+    Without proof.
+\end{proof}
+
+\begin{defi}
+    The integral 
+    \[
+        \int_A f \dd{\lambda_F}
+    \]
+    is called the Lebesgue-Stieltjes integral on $\realn$ and is denoted by 
+    \[
+        \int_A f(x) \dd{F(x)} := \int_A f \dd{\lambda_F}
+    \]
+    If $A = [a, b]$, then we write
+    \[
+        \int_a^b f(x) \dd{F(x)}
+    \]
+\end{defi}
+\end{document}
