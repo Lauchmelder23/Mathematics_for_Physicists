@@ -1,0 +1,635 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{Integrals}
+
+Let $\measure$ be a measure space.
+The most important example  is on $\realn$ with the Lebesgue-$\sigma$-algebra and the Lebesgue measure.
+We have one technical requirement, and that is that $\measure$ is a $\sigma$-finite measure space, i.e.
+\[
+    \exists \anyseqdef[E]{\setfam}: ~~\bigcup_{n \in \natn} E_n = \Omega \text{ and } \mu(E_n) < \infty ~~\forall n \in \natn
+\]
+On $\realn$ this requirement is fulfilled by defining $E_n = [-n, n]$.
+
+\begin{rem}[Notation]
+    Let $\Phi(x)$ be a statement depending on $x \in \Omega$. We write $[\Phi]$ for 
+    \[
+        \set[\Phi(x)]{x \in \Omega}
+    \]
+    Example: $y \in \cmpln$
+    \[
+        [f = y] = \set[f(x) = y]{x \in \Omega} = \inv{f}(y)
+    \]
+    We write "$\Phi$ holds" for "$\Phi(x)$ holds $\forall x \in \Omega$". For example "$f > g$" instead of "$f(x) > g(x) ~~\forall x \in \Omega$".
+
+    $\Phi$ is said to hold "almost everywhere" (a.e.) if the set 
+    \[
+        \set[\neg\Omega(x)]{x}
+    \]
+    is a null set. For example, "$f > g$ almost everywhere" means $\mu([f \le g]) = 0$.
+    The sequence $(f_n)$ converges pointwise a.e. towards $f$ if 
+    \[
+        \left[\limn f_n \ne f\right] = \set[\limn f_n(x) \ne f(x)]{x \in \Omega}
+    \]
+    is a null set.
+\end{rem}
+
+\begin{defi}
+    Let $A \in \setfam$, then 
+    \begin{align*}
+        \charfun_A: \Omega &\longrightarrow \realn \\
+        \omega &\longmapsto \begin{cases}
+            1, & x \in A \\
+            0, & \text{else}
+        \end{cases}
+    \end{align*}
+    is said to be the characteristic function of $A$. $A$ is the support of $\charfun_A$.
+    With this we can define the space of simple functions 
+    \[
+        X = \set[n \in \natn, A_i \in \setfam, ~\mu(A_i) < \infty, ~a_i \in \cmpln]{\sum_{i=1}^{n} a_i \charfun_A}
+    \]
+    $X^+$ notates the non-negative, simple functions.
+\end{defi}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item Let $A, B \in \setfam$
+        \begin{align*}
+            \charfun_{A \cap B} &= \charfun_A \cdot \charfun_B \\
+            \charfun_{A \cup B} &= \charfun_A + \charfun_B - \charfun_{A \cap B} = \charfun_A + \charfun_B - \charfun_A \charfun_B
+        \end{align*}
+
+        \item The set $X$ is a vector space, and the product of characteristic functions is another characteristic function, i.e.
+        \[
+            f, g \in X \implies f \cdot g \in X
+        \]
+        Thus $X$ is an algebra.
+
+        \item If $A_1, \cdots, A_n$ is a decomposition of $\Omega$, which means they are disjoint and 
+        \[
+            \bigcup_{i=1}^n A_i = \Omega
+        \]
+        then 
+        \[
+            (\charfun_i) = \charfun_{\Omega} = \sum_{i=1}^n \charfun_{A_i}
+        \]
+
+        \item The representation of simple functions as a linear combination is not unique
+        \[
+            \charfun_{[0, 2]} + \charfun{[2, 3]} = \charfun{[0, 1]} + \charfun{[1, 3]}
+        \]
+
+        \item One can easily see that simple functions can only assume finitely many values, and their support $[f \ne 0]$ has a finite measure.
+        The canonical representation is 
+        \[
+            f = \sum_{y = f(\Omega)} g \cdot \charfun_{[f = y]}
+        \]
+    \end{enumerate}
+\end{rem}
+
+\begin{defi}[Integrals of simple functions]
+    Let $f \in X$ in canonical representation 
+    \[
+        f = \sum_{i=1}^{\infty} a_i \charfun_{A_i}
+    \]
+    Then we define 
+    \[
+        \int f \dd{\mu} := \sum_{i=1}^n a_i \mu(A_i)
+    \]
+\end{defi}
+
+\begin{rem}
+    This sum is always finite, the only $A_i$ with infinite measure is that where $a_i = 0$
+    \[
+        a_i \cdot A_i = 0 \cdot \infty = 0
+    \]
+    Let $f = \sum_{j=1}^m b_j \charfun_{B_j}$ be another representation of $f$, so $B_1, \cdots, B_m$ is a decomposition.
+    If $A_i \cap B_j \ne \varnothing$ i.e.
+    \[
+        \exists x \in A_i \cap B_j: ~~f(x) = a_i = b_j
+    \]
+    Then 
+    \begin{align*}
+        \int f \dd{\mu} &= \sum_{i=1}^n a_i \mu(A_i) = \sum_{i=1}^n a_i \mu\underbrace{\left(A_i \cap \bigcup_{j=1}^m B_j \right)}_{\bigcup_{j=1}^m (A_i \cap B_j)} = \sum_{i=1}^n a_i \sum_{j=1}^m \mu(A_i \cap B_j) \\
+        &= \sum_{i=1}^n \sum_{j=1}^m b_j \mu(A_i \cap B_j) = \sum_{j=1}^m b_j \mu \left(\left(\bigcup_{i=1}^n A_i \right) \cap B_j \right) \\
+        &= \sum_{j=1}^m b_j \mu(B_j) 
+    \end{align*}
+\end{rem}
+
+\begin{thm}
+    Let $f, g$ be simple functions, $\alpha \in \cmpln$. Then 
+    \[
+        \int (f + \alpha g) \dd{\mu} = \int f \dd{\mu} + \alpha \int g \dd{\mu}
+    \]
+    If $f, g$ are real-valued  and $f \le g$ a.e., then 
+    \[
+        \int f \dd{\mu} \le \int g \dd{\mu}
+    \]
+    And especially if $f = g$ a.e. 
+    \[
+        \int f \dd{\mu} = \int g \dd{\mu}
+    \]
+    Finally, the triangle inequality holds 
+    \[
+        \abs{\int f \dd{\mu}} \le \int \abs{f} \dd{\mu}
+    \]
+\end{thm}
+\begin{proof}
+    Let $f, g$ be in canonical representation
+    \begin{subequations}
+        \begin{multicols}{2}
+            \noindent
+            \begin{equation} f = \sum_{i=1}^n a_i \charfun_{A_i} \end{equation} 
+            \begin{equation} g = \sum_{j=1}^m b_j \charfun_{B_j} \end{equation}
+        \end{multicols}
+    \end{subequations}
+    \noindent Then 
+    \begin{equation}
+        \begin{split}
+            f + \alpha g &= \sum_{i=1}^n a_i \charfun_{A_i} + \alpha \sum_{j=1}^m b_j \charfun_{B_j} \\
+            &= \sum_{i=1}^n a_i \charfun_{A_i} \underbrace{\left(\sum_{j=1}^m \charfun_{B_j}\right)}_{\charfun} + \alpha \sum_{j=1}^m b_j \charfun_{B_j} \underbrace{\left(\sum_{i=1}^n \charfun_{A_i}\right)}_{\charfun} \\
+            &= \sum_{i=1}^n \sum_{j=1}^m (a_i + \alpha b_j) \charfun_{A_i \cap B_j}
+        \end{split}
+    \end{equation}
+    $A_i \cap B_j$ with $i \in \set{1, \cdots, n}, j \in \set{1, \cdots, m}$ is a decomposition of $\Omega$
+    \begin{equation}
+        \bigcup_{\substack{i = 1 \\ j = 1}}^{\substack{m \\ n}} A_i \cap B_j = \bigcup_{i=1}^n A_i \cap \underbrace{\left( \bigcup_{j=1}^m B_j\right)}_{\Omega} = \Omega
+    \end{equation}
+    This means that 
+    \begin{align*}
+        \int (f + \alpha g) \dd{\mu} &= \sum_{i=1}^n \sum_{j=1}^m (a_i + \alpha b_j) \mu(A_i \cap B_j) \\
+        &= \sum_{i=1}^n a_i \mu\left(A \cap \left(\bigcup_{j=1}^m B_j\right)\right) + \alpha \sum_{j=1}^m b_j \mu\left(\left(\bigcup_{i=1}^n A_i\right) \cap B_j \right) \\
+        &= \int f \dd{\mu} + \alpha \int g \dd{\mu}
+    \end{align*}
+    Now let $f \ge 0$ almsot everywhere, i.e. $[f < 0]$ is a null set. If $a_i < 0$, then $A_i \subset [f < 0]$, and then $\mu(A_i) = 0$ 
+    and thus the integral is a sum over non-negative values, so it is non-negative itself.
+    If $f \le g$ a.e., then $g - f \ge 0$ a.e.:
+    \begin{equation}
+        0 \le \int (g - f) \dd{\mu} = \int g \dd{\mu} - \int f \dd{\mu} 
+    \end{equation}
+    Finally to show the triangle inequality
+    \begin{equation}
+        \abs{\int f \dd{\mu}} = \abs{\sum_{i=1}^n a_i \mu(A_i)} \le \sum_{i=1}^n \abs{a_i} \mu(A_i) = \int \abs{f} \dd{\mu}
+    \end{equation}
+\end{proof}
+
+\begin{rem}
+    From linearity follows, that $f$ can be in any representation 
+    \[
+        f = \sum_{i=1}^n a_i \charfun_{A_i}
+    \]
+    and the integral will still be 
+    \[
+        \int f \dd{\mu} = \sum_{i=1}^n a_i \mu(A_i)
+    \]
+\end{rem}
+
+\begin{rem}
+    Notice how the integrals so far did not have any integration variables. The integrals map functions (not their values!) to numbers.
+    If the integration variable is of concern, we can write 
+    \[
+        \int f(x) \dd{\mu(x)}
+    \]
+    For Lebesgue integrals we define 
+    \[
+        \int f(x) \dd{x} = \int_{-\infty}^{\infty} f(x) \dd{x}
+    \]
+\end{rem}
+
+\begin{defi}
+    $f: \Omega \rightarrow \Omega$ is said to be measurable, if there is a sequence of simple functions $\anyseqdef[f]{X}$ that converge pointwise towards $f$.
+\end{defi}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item For real-valued functions $f$
+        \[
+            f \text{ measurable} \iff [f \le y] \in \setfam ~~\forall y \in \setfam
+        \]
+
+        \item Simple functions and characteristic functions are measurable.
+        \item Continuous functions are Lebesgue measurable.
+        \item Sums, products, quotients (if existant) of measurable sets are measurable.
+        \item If $\seq{f}$ is a sequence of measurable functions, then 
+        \begin{align*}
+            \sup_{n \in \natn} f_n && \limsupn f_n && \limn f_n
+        \end{align*}
+        are measurable if they exist.
+    \end{enumerate}
+\end{rem}
+
+All functions from now on will be considered measurable.
+
+\begin{defi}
+    Let $f: \Omega \rightarrow [0, \infty)$, then 
+    \[
+        \int f \dd{\mu} := \sup\set[g \in X^+, ~g < f]{\int g \dd{\mu}}
+    \]
+\end{defi}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item This integral can be $\infty$.
+        \item If $f$ is a non-negative, simple function, then $\forall h$ that are non-negative, simple functions with $h \le f$
+        \[
+            \int h \dd{\mu} \le \int f \dd{\mu}
+        \]
+        The old integral (integral over simple functions) is identical to this one.
+        \item Let $f, g$ be non-negative and $f \le g$ a.e. Define $A = [f \le g]$.
+        Then for all simple $h < f$ we have
+        \[
+            h \cdot \charfun_A \le g
+        \]
+        and 
+        \[
+            \int h \dd{\mu} = \int h \cdot \charfun_A \dd{\mu} \le \int g \dd{\mu}
+        \]
+        Which implies 
+        \[
+            \int f \dd{\mu} = \sup_h \int h \dd{\mu} \le \int g \dd{\mu}
+        \]
+        Especially
+        \[
+            \int f \dd{\mu} = \int g \dd{\mu} \text{ if } f = g \text{ a.e.}
+        \]
+
+        \item If $[f > 0]$ is a null set, then $f$ is the zero function a.e. and 
+        \[
+            \int f \dd{\mu} = 0
+        \]
+        The inverse is also true 
+        \[
+            \int f \dd{\mu} = 0 \text{ and } f \ge 0 \implies f = 0 \text{ a.e.}
+        \]
+        Let $A_k := [f \ge \rec{k}] \in \setfam$, then 
+        \[
+            \rec{k} \charfun_{A_k} \le f ~~\forall k \in \natn 
+        \]
+        Since $\int f \dd{\mu} = 0$, this implies 
+        \begin{align*}
+            &\int \rec{k} \charfun_{A_k} \dd{\mu} = \rec{k} \mu(A_k) = 0 \\
+            \implies &\mu(A_k) = 0 ~~\forall k \in \natn 
+        \end{align*}
+        The $A_k$ are monotonically increasing, and thus due to the continuity of the measure 
+        \[
+            0 = \limn \mu(A_k) = \mu\left(\bigcup_{k \in \natn} [f \ge \rec{k}]\right) = \mu([f = 0])
+        \]
+
+        \item The definition means $\exists \anyseqdef[f]{X^+}$ such that $f_n \le f$
+        \[
+            \int f_n \dd{\mu} \conv{n \rightarrow \infty} \int f \dd{\mu}
+        \]
+        Define $g_n = \max \set{f_1, \cdots, f_n}$. These are also simple functions and $f_n \le g_n \le f ~~\forall n \in \natn$.
+        \[
+            \implies \int f_n \dd{\mu} \le \int g_n \dd{\mu} \le \int f \dd{\mu}
+        \]
+        And thus 
+        \begin{gather*}
+            \int f_n \dd{\mu} \conv{} \int f \dd{\mu} \\
+            \downarrow \\
+            \int g_n \dd{\mu} \conv{} \int f \dd{\mu}
+        \end{gather*}
+        The sequence $g_n$ is monotonic.
+
+        \item Let $\seq{g}$ be convergent to $g: \Omega \rightarrow [0, \infty)$. Then 
+        \[
+            g \le f \implies \int g \dd{\mu} \le \int f \dd{\mu}
+        \]
+        $\forall n \in \natn$ we have $g_n \le g$, and thus 
+        \[
+            \limn \int g_n \dd{\mu} \le \int g \dd{\mu} 
+        \]
+        $\forall f \ge 0$ there exists a monotonically increasing sequence of simple function such that 
+        \[
+            \int g_n \dd{\mu} \conv{} \int f \dd{\mu}
+        \]
+        and thus $g = f$ a.e.
+
+        \item
+        \begin{align*}
+            \int (cf) \dd{\mu} = c \int f \dd{\mu} ~~c \in [0, \infty) \\
+            \int f \dd{\mu} + \int g \dd{\mu} \le \int (f + g) \dd{\mu}
+        \end{align*}
+    \end{enumerate}
+\end{rem}
+
+\begin{thm}[Monotone Convergence Theorem]
+    Let $f \ge 0$ and $\seq{f}$ a monotonically increasing sequence of functions converging pointwise to $f$ a.e.
+    Then 
+    \[
+        \limn \int f_n \dd{\mu} = \int f \dd{\mu}
+    \]
+\end{thm}
+\begin{proof}
+    First, let $\limn f_n = f$ everywhere. Since $(f_n)$ is monotonic, this must also hold for $\int f_n \dd{\mu}$, so 
+    \begin{equation}
+        \limn \int f_n \dd\mu \le \int f \dd\mu
+    \end{equation}
+    First, consider the special case $\anyseqdef[A]{\setfam}$ monotonically increasing, with 
+    \begin{equation}
+        \bigcup_{n \in \natn} A_n = \Omega
+    \end{equation}
+    Then 
+    \begin{equation}\label{eq:750}
+        \limn \int f \charfun_{A_n} \dd\mu = \int f \dd\mu 
+    \end{equation}
+    For $f = \charfun_B$
+    \begin{equation}
+        \begin{split}
+            \limn \int \underbrace{\charfun_B \charfun_{A_n}}_{\charfun_{B \cap A_n}} \dd\mu &= \limn \mu(B \cap A_n) \\
+            &= \mu(\bigcup_{n \in \natn} B \cap A_n) \\
+            &= \mu(B) = \int \charfun_B \dd\mu
+        \end{split}
+    \end{equation}
+    Since both sides are lienear in $f$ (at least for simple functions), the equality holds for arbitrary simple functions.
+    Now let $f \ge 0$ be arbitrary and $h \in X^+$, such that for $\epsilon > 0$
+    \begin{equation}
+        \int h \dd\mu \ge \int f \dd\mu - \frac{\epsilon}{2}
+    \end{equation}
+    and thus $h \le f$. From this it follows that 
+    \begin{equation}
+        \exists N \in \natn ~\forall n \ge N: ~~\int h \charfun_{A_n} \dd\mu \ge \int h \dd\mu - \frac{\epsilon}{2}
+    \end{equation}
+    And thus 
+    \begin{equation}
+        \forall n \ge N: ~~\int h \charfun_{A_n} \dd\mu \ge \int f \dd\mu - \epsilon
+    \end{equation}
+    which proves \Cref{eq:750} for arbitrary $f \ge 0$. 
+    Now let $c \in (0, 1)$, and set
+    \begin{equation}
+        A_n = [f_n \ge cf]
+    \end{equation}
+    Since $f_n$ are monotonic, the $A_n$ are as well, and 
+    \begin{equation}
+        \bigcup_{n \in \natn} A_n = \Omega
+    \end{equation}
+    Then 
+    \begin{equation}
+        \int f_n \dd\mu \ge \int f_n \charfun_{A_n} \dd\mu \ge \int c f \charfun_{A_n} \dd\mu = c \int f \charfun_{A_n} \dd\mu
+    \end{equation}
+    Thus 
+    \begin{equation}
+        c \int f \charfun_{A_n} \dd\mu \conv{n \rightarrow \infty} c \int f \dd\mu
+    \end{equation}
+    Which in turn implies 
+    \begin{equation}
+        \limn \int f_n \dd\mu \ge c \int f \dd\mu 
+    \end{equation}
+    For $c \rightarrow 1$ we have 
+    \begin{equation}
+        \limn \int f_n \dd\mu = \int f \dd\mu 
+    \end{equation}
+    And if $f_n \rightarrow f$ only a.e. 
+    \begin{equation}
+        A = [\limn f_n = f]
+    \end{equation}
+    then $\Omega \setminus A$ is a null set.
+    \begin{equation}
+        \begin{split}
+            \limn \int f_n \dd\mu &= \limn \int f_n \charfun_A \dd\mu \\
+            &= \int f \charfun_A \dd\mu \\
+            &= \int f \dd\mu
+        \end{split}
+    \end{equation}
+\end{proof}
+
+\begin{eg}
+    Calculate the integral of $f(y) = y \charfun_{[0, x]}(x)$
+    \[
+        f_n = \sum_{k=0}^{2^n-1} k \frac{1}{2^n} \charfun_{[k \frac{x}{2^n}, (k+1) \frac{x}{2^n}]}
+    \]
+    is a monotonically increasing sequence which converges to $f$ on $\realn \setminus \set{x}$.
+    \begin{align*}
+        \int f_n \dd\mu = \sum_{k=0}^{2^n-1} k \frac{x}{2^n} \cdot \left(\frac{x}{2^n}\right) = &\frac{x^2}{2^{2n}} \sum_{k=0}^{2^n - 1} k \\
+        = &\frac{x^2}{2^{2n}} \frac{2^n(2^n - 1)}{2 \cdot 2^n} \\
+        = &\frac{x^2}{2} \frac{2n - 1}{2^n} \\
+        \conv{} &\frac{x^2}{2}
+    \end{align*}
+
+    \begin{center}
+        \begin{tikzpicture}
+            \draw[thick, ->] (0, 0) -- (5, 0) node[right] {$y$};
+            \draw[thick, ->] (0, 0) -- (0, 5) node[above] {$f(y)$};
+
+            \draw [dashed] (4, 0) node[below] {$x$} -- (4, 4);
+            \draw [dashed] (3, 0) -- (3, 3);
+            \draw [dashed] (2, 0) -- (2, 2);
+            \draw [dashed] (1, 0) -- (1, 1);
+
+            \draw (1, 1) -- (2, 1);
+            \draw (2, 2) -- (3, 2);
+            \draw (3, 3) -- (4, 3) node[right] {$f_n$};
+
+            \draw [red, thick] (0, 0) -- (4, 4) node [above right] {$f$};
+        \end{tikzpicture}
+    \end{center}
+\end{eg}
+
+\begin{eg}
+    Consider $f_n = n \charfun_{(0, \frac{1}{n})}$. This sequence converges pointwise to the zero function. But 
+    \[
+        \int f_n \dd\mu = n \cdot \rec{n} = 1 \ne 0
+    \]
+    This is due to $f_n$ not being monotonic increasing.
+\end{eg}
+
+\begin{eg}
+    Let $\anyseqdef[a]{\cmpln}$, and define 
+    \[
+        f_n = a_n \charfun_{[n, n+1]}
+    \]
+    This sequence converges pointwise to $0$, but 
+    \[
+        \int f_n \dd\lambda = a_n
+    \]
+    depends on $\seq{a}$ and can converge to any value (or even diverge).
+\end{eg}
+
+\begin{defi}
+    A function $f: \Omega \rightarrow \cmpln$ is said to be integrable if 
+    \[
+        \int \abs{f} \dd\mu < \infty
+    \]
+    A sequence of simple functions $\seq{f}$ is said to be an approximating sequence of $f$ if 
+    \[
+        \int \abs{f - f_n} \dd\mu \conv{n \rightarrow \infty} 0
+    \]
+\end{defi}
+
+\begin{cor}
+    Let $f, g \ge 0$
+    \[
+        \int (f + g) \dd\mu = \int f \dd\mu + \int g \dd\mu
+    \]
+\end{cor}
+\begin{proof}
+    Let $\seq{f}, \seq{g} \subset X^+$ be monotone sequences with $f_n \rightarrow f$, $g_n \rightarrow g$ almost everywhere.
+    Then $(f_n + g_n)$ is monotonically increasing as well and converge pointwise to $(f + g)$ almost everywhere.
+    \begin{equation} 
+        \begin{split}
+            &\left[\limn f_n \ne f\right] \text{ null set, } \left[\limn g_n \ne g \right] \text{ null set} \\
+            \implies &\left[\limn f_n \ne f\right] \cup \left[\limn g_n \ne g\right] \text{ null set}
+        \end{split}
+    \end{equation}
+    This implies 
+    \begin{equation}
+        \begin{split}
+            \int (f + g) \dd\mu = \limn \int (f_n + g_n) \dd\mu &= \limn \int f_n \dd\mu + \limn \int g_n \dd\mu \\
+            &= \int f \dd\mu + \int g \dd\mu
+        \end{split}
+    \end{equation}
+\end{proof}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item The set of integrable functions is a vector space, because for $f, g$ integrable and $\alpha \in \cmpln$
+        \begin{align*}
+            \int \abs{f + \alpha g} \dd\mu &\le \int \abs{f} + \abs{\alpha}\abs{g} \dd\mu \\
+            &= \int \abs{f} \dd\mu + \abs{\alpha} \int \abs{g} \dd\mu < \infty
+        \end{align*}
+        However, $f \cdot g$ is not integrable in general!
+
+        \item Let $f \ge 0$ be integrable, and $\anyseqdef[f]{X^+}$ such that $f_n \rightarrow f$ pointwise a.e.
+        \[
+            \limn \int f_n \dd\mu = \int f \dd\mu < \infty
+        \]
+        $\forall n \in \natn$:
+        \[
+            \int \abs{f - f_n} \dd\mu = \int (f - f_n) \dd\mu = \int f \dd\mu - \int f_n \dd\mu \conv{n \rightarrow \infty} 0
+        \]
+
+        \item Let $f: \Omega \rightarrow \realn$ be a function. Decompose the function into a positive and a negative part:
+        \begin{align*}
+            f_+ := f \cdot \charfun_{[f \ge 0]} && f_- := -f \cdot \charfun_{[f \le 0]}
+        \end{align*}
+        $f_+, f_- \ge 0$, and 
+        \begin{align*}
+            f = f_+ - f_- && \abs{f} = f_+ + f_-
+        \end{align*}
+
+        \item $\abs{\Re f} \le \abs{f}$, $\abs{\Im f} \le \abs{f}$. If $f$ is integrable, then $\Re(f)$ and $\Im(f)$ are also integrable.
+        \item Let $f, g$ be arbitrary, and $\seq{f}, \seq{g}$ approximating sequences for $f$ and $g$. Then for $\alpha \in \cmpln$:
+        \begin{align*}
+            \int \abs{f + \alpha g - (f_n + \alpha g_n)} \dd\mu \le &\int \abs{f - f_n} \dd\mu + \alpha \int \abs{g - g_n} \\
+            = &\int \abs{f - f_n} \dd\mu + \abs{\alpha} \int \abs{g - g_n} \dd\mu \\
+            \conv{n \rightarrow \infty} &0
+        \end{align*}
+        Thus $f_n + \alpha g_n$ is an approximating sequence for $f + \alpha g$
+
+        \item Consider 
+        \[
+            f = \left(\left(\Re f\right)_+ - \left(\Re f\right)_-\right) + i\left(\left(\Im f\right)_+ - \left(\Im f\right)_-\right)
+        \]
+        If $f$ is integrable, then all the terms are integrable as well and have approximating sequences. Thus, $f$ has an approximating sequence.
+
+        \item Now let $\seq{f}$ be an approximating sequence for $f$. Let $\epsilon > 0$, then 
+        \[
+            \exists N \in \natn ~\forall n \ge N: ~~\int \abs{f - f_n} \dd\mu < \frac{\epsilon}{2}
+        \]
+        $\forall n, m \ge N$
+        \begin{align*}
+            \abs{\int f_n \dd\mu - \int f_m \dd\mu} &= \abs{\int (f_n + f_m) \dd\mu} \\
+            &\le \int \abs{f_n - f_m} \dd\mu \\
+            &\le \int \left( \abs{f_n - f} + \abs{f - f_m}\right) \dd\mu \\
+            &< \epsilon
+        \end{align*}
+        Which means $(\int f_n \dd\mu)$ is a Cauchy sequence, so it converges to $I \in \cmpln$
+
+        \item Let $\seq{g}$ be another approximating sequence for $f$
+        \begin{align*}
+            \abs{\int f_n \dd\mu - \int g_n \dd\mu} &\le \int \abs{f_n - g_n} \dd\mu \\
+            &\le \int \abs{f_n - f} \dd\mu + \int \abs{f - g_n} \dd\mu \conv{n \rightarrow \infty} 0
+        \end{align*}
+        So the integral is invariant to the choice of approximating sequence.
+    \end{enumerate}
+\end{rem}
+
+\begin{defi}
+    Let $f$ be integrable, and define 
+    \[
+        \int f \dd\mu = \limn \int f_n \dd\mu 
+    \]
+    for some approximating sequence $(f_n)$ of $f$.
+\end{defi}
+
+\begin{rem}
+    If $f$ is a simple function, then $\seq{f}_{n \in \natn}$ is an approximating sequence.
+    The new integral definition is compatible with the integral for simple functions. and with the integral for non-negative functions.
+\end{rem}
+
+\begin{thm}
+    Let $f, g$ be integrable.
+    \begin{enumerate}[(i)]
+        \item \[ \forall \alpha \in \cmpln: ~~\int (f + \alpha g) \dd\mu = \int f \dd\mu + \alpha \int g \dd\mu \]
+        \item If $f \le g$ a.e., then 
+        \[
+            \int f \dd\mu \le \int f \dd\mu 
+        \]
+        and 
+        \[
+            f = g \text{ a.e.} \implies \int f \dd\mu = \int g \dd\mu
+        \]
+        \item \[ \abs{\int f \dd\mu} \le \int \abs{f} \dd\mu \]
+    \end{enumerate}
+\end{thm}
+\begin{proof}
+    Let $\seq{f}$, $\seq{g}$ be approximating sequences for $f$ and $g$. 
+    Then $(f_n + \alpha g_n)$ is an approximating sequence for $(f + \alpha g)$.
+    \begin{equation}
+        \int (f + \alpha g) \dd\mu = \limn \int (f_n + \alpha g_n) \dd\mu = \underbrace{\limn \int f_n \dd\mu}_{\int f \dd\mu} + \underbrace{\limn \int g_n \dd\mu}_{\int g \dd\mu}
+    \end{equation}
+    To prove the second statement, let $f \le g$ a.e. Then $(g - f)_- = 0$ a.e.
+    \begin{equation}
+        \implies \int (g - f)_- = 0 
+    \end{equation}
+    And thus 
+    \begin{equation}
+        \begin{split}
+            \int g \dd\mu - \int f \dd\mu &= \int (g - f) \dd\mu \\
+            &= \int (g - f)_+ \dd\mu - \int (g - f)_- \dd\mu \ge 0
+        \end{split}
+    \end{equation}
+    The final statement is proven by applying the reverse triangle inequality
+    \begin{equation}
+        \int \abs{\abs{f} - \abs{f_n}} \dd\mu \le \int \abs{f - f_n} \dd\mu \conv{n \rightarrow \infty} = 0
+    \end{equation}
+    This means if $(\abs{f_n})$ is an approximating sequence for $\abs{f}$, then 
+    \begin{equation}
+        \int \abs{f} \dd\mu = \limn \int \abs{f_n} \dd\mu \ge \limn \abs{\int f_n \dd\mu} = \abs{\int f \dd\mu}
+    \end{equation}
+\end{proof}
+
+\begin{rem}
+    For $A \subset \setfam$ we define 
+    \[
+        \int_A g \dd\mu := \int g \charfun_A \dd\mu
+    \]
+    $g \charfun_A$ can be integrable, even if $g$ isn't. The above integral doesn't depend on the behavior of $g$ outside of $A$.
+    We use $\int_A g \dd\mu$ even if $g$ isn't defined outside of $A$.
+    Integrals are independent from the behavior on null sets, so 
+    \[
+        \int_0^1 \rec{x} \dd x = 0
+    \]
+    is perfectly fine, even though the integrand is not defined for $x = 0$.
+\end{rem}
+
+\begin{eg}
+    Let $\Omega = \natn$, $\setfam = \powerset(\Omega)$ and $\mu$ the counting measure. Let $f : \natn \rightarrow [0, \infty)$, then 
+    \[
+        f_N = f \charfun_{\set{1, \cdots, N}} = \sum_{n=1}^N f(n) \charfun_{\set{n}}
+    \]
+    is a sequence of monotonically increasing, simple functions that converge to $f$ pointwise.
+    \[
+        \int f \dd\mu = \limes{N}{\infty} \int f_N \dd\mu = \limes{N}{\infty} \sum_{n=1}^N f(n) \mu(\set{n}) = \sum_{n=1}^{\infty} f(n)
+    \]
+    Thus we can conclude 
+    \[
+        f: \natn \rightarrow \cmpln \text{ integrable} \iff \int \abs{f} \dd\mu = \sum_{n=1}^{\infty} \abs{f(n)} < \infty
+    \]
+    and 
+    \[
+        \int f \dd\mu = \sum_{n=1}^{\infty} f(n)
+    \]
+\end{eg}
+\end{document}
