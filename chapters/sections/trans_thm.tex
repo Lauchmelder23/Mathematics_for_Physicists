@@ -1,0 +1,182 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{The Transformation Theorem}
+
+\begin{defi}
+    Let $U, V \subset \realn^n$ be open. A mapping $T: U \rightarrow V$ is said to be a diffeomorphism if it is bijective and if 
+    $T$ and $\inv{T}$ are continuously differentiable. Analogously we define 
+    \begin{gather*}
+        C^r \text{-diffeomorphism if it is } r \text{-times differentiable} \\
+        C^{\infty} \text{-diffeomorphism if it is infinitely differentiable}
+    \end{gather*}
+\end{defi}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item In physics, $f$ and $f \circ T$ are often denoted with the same symbol
+        \item We can apply the chain rule to $T \circ \inv{T} = \idf_V$
+        \[
+            DT(\inv{T}(y)) \cdot D\inv{T}(y) = I_V
+        \]
+        Since $\inv{T}$ is surjective, $DT(x)$ is invertible $\forall x \in U$. According to the theorem about inverse functions, 
+        the inverse $\inv{T}$ of a bijective mapping is continuously differentiable if $DT(x)$ is invertible 
+        \item If $T$ is a diffeomorphism, then $\inv{T}$ is one too.
+    \end{enumerate}
+\end{rem}
+
+\begin{eg}
+    \begin{enumerate}[(i)]
+        \item Polar coordinates:
+        \begin{align*}
+            T: (0, \infty) \times (0, 2\pi) &\longrightarrow \realn^2 \setminus \set{[0, \infty] \times \set{0}} \\
+            (r, \phi) &\longmapsto (r \cos\phi, r \sin\phi)
+        \end{align*}
+
+        \item Another diffeomorphism would be 
+        \begin{align*}
+            T: \oball[1](0) &\longrightarrow \realn^n \\
+            x &\longmapsto \frac{x}{\sqrt{1 - \norm{x}}}
+        \end{align*}
+
+        \item An example for a mapping that is no diffeomorphism would be 
+        \begin{align*}
+            T: \realn &\longrightarrow \realn \\
+            x &\longmapsto x^3
+        \end{align*}
+        The Jacobian "matrix" $T'(x) = 3x^2$ is not invertible.
+
+        \item Another counter example would be 
+        \begin{align*}
+            T: (0, \infty) \times \realn &\longrightarrow \realn^2 \setminus \set{0} \\
+            (r, \phi) &\longmapsto (r\cos\phi, r\sin\phi)
+        \end{align*}
+        This function is not injective, so it's not a diffeomorphism.
+    \end{enumerate}
+\end{eg}
+
+\begin{thm}[Transformation Theorem]
+    Let $U, V \subset \realn^n$ and $T: U \rightarrow V$ a diffeomorphism. 
+    Then $f: V \rightarrow \realn$ is integrable over $V$ if and only if $f \circ T \cdot \abs{\det DT}$ is integrable over $U$. 
+    In this case 
+    \[
+        \int_V d \dd{\lambda^n} = \int_U f \circ T \cdot \abs{\det DT} \dd{\lambda^n}
+    \]
+\end{thm}
+\begin{proof}
+    Without proof.
+\end{proof}
+
+\begin{eg}[Area of the unit circle]
+    The area is defined as 
+    \[
+        \lambda^2(K_1(0)) = \int_{\realn^2} \charfun_{K_1(0)} \dd{\lambda^2}
+    \]
+    We transform into polar coordinates:
+    \begin{align*}
+        U &= (0, \infty) \times (0, 2\pi) \\
+        V &= \realn^2 \setminus \underbrace{([0, \infty] \times \set{0})}_{\lambda^2-null set}
+    \end{align*}
+    We define the transformation 
+    \[
+        T: (r, \phi) \longmapsto (r \cos\phi, r \sin\phi)
+    \]
+    Which results in 
+    \begin{align*}
+        \det DT(r, \phi) &= r \\
+        \charfun_{K_1(0)} \circ T(r, \phi) &= \charfun_{(0, 1]}(r)
+    \end{align*}
+    So we can calculate 
+    \begin{align*}
+        \lambda^2(K_1(0)) &= \int_B \charfun_{(0, 1]}(x, y) \dd{\lambda^2}(x, y) \\
+        &= \int_U \charfun_{(0, 1]}(r) \cdot r \cdot \dd{\lambda^2}(r, \phi) \\
+        &= \int_0^{\infty} \int_0^{2\pi} \charfun_{(0, 1]} r \dd{\phi} \dd{r} \\
+        &= 2\pi \int_0^{\infty} \charfun_{(0, 1]}(r) \dd{r} = 2\pi \int_0^1 r \dd{r} \\
+        &= \pi r^2 = \pi
+    \end{align*}
+\end{eg}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item Consider 
+        \begin{align*}
+            T: \realn^n &\longrightarrow \realn^n \\
+            x &\longmapsto Ax ~~A \in \realn^{n \times n}
+        \end{align*}
+        If $\exists \inv{A}$, then $T$ is a diffeomorphism with $DT = A$
+        \[
+            \implies \int f \dd{\lambda^2} = \abs{\det A} \int f \circ T \dd{\lambda^2}
+        \]
+
+        \item Let $A$ be an orthogonal matrix (so a rotation/mirroring). 
+        \[
+            \det A = \pm 1 \implies \abs{\det A} = 1
+        \]
+        Thus, rotations and mirrorings do not change the volume.
+
+        \item Let $A = \diag(a, a, \cdots, a) ~~a \in (0, \infty)$ (this is a scaling matrix). Then 
+        \[
+            \det A = a^n
+        \]
+        which means that continuous scaling of a factor $a$ scales the $\lambda^n$-volume by $a^n$.
+
+        \item This is a "generalization" of the substitution rule
+        \[
+            \int_{\realn} f(g(x)) g'(x) \dd{x} = \int_{\realn} f(y) \dd{y}
+        \]
+    \end{enumerate}
+\end{rem}
+
+\begin{eg}
+    We want to compute 
+    \[
+        K = \int_{\realn} e^{-x^2} \dd{x}
+    \]
+    Consider 
+    \[
+        K^2 = \int_{\realn} e^{-x^2} \dd{x} \int_{\realn} e^{-y^2} \dd{y} = \int_{\realn^2} e^{-(x^2 + y^2)} \dd{\lambda^2(x, y)}
+    \]
+    By transforming $f = e^{-(x^2 + y^2)}$ into polar coordinates 
+    \begin{align*}
+        K^2 &= \int_U f \circ T \abs{\det DT} \dd{\lambda^2} \\
+        &= \int_V e^{-r^2} \cdot r \dd{\lambda^2(r, \phi)} \\
+        &= \int_0^{\infty} \int_0^{2\pi} r e^{-r^2} \dd{r}\dd{\phi} \\
+        &= 2\pi \int_0^{\infty} r e^{-r^2} \dd{r} \\
+        &= 2\pi \limn\left(-\frac{1}{2} e^{-n^2} + \frac{1}{2}\right) = \pi
+    \end{align*}
+    Thus $K = \sqrt{\pi}$.
+\end{eg}
+
+\begin{eg}[Integrability of radial functions]
+    Let $f: [0, \infty] \rightarrow \realn$ be measureable and set 
+    \begin{align*}
+        F: \realn^n &\longrightarrow \realn \\
+        x &\longmapsto f(\norm{x})
+    \end{align*}
+    $\dnorm$ is the Euclidian norm. Under which conditions is $F$ $\lambda^n$-integrable?
+    Let $D := (0, \infty) \times \underbrace{(0, \pi)^{n-2} \times (0, 2\pi)}_{D_{\phi}}$. And define 
+    \begin{align*}
+        T: D &\longrightarrow \realn^n \setminus A \\
+        (r, \phi) &\longmapsto \begin{pmatrix}
+            r \cos\phi_1 \\
+            r \sin\phi_1 \cos\phi_2 \\
+            r \sin\phi_1 \sin\phi_2 \cos\phi_3 \\
+            \vdots \\
+            r \sin\phi_1 \cdots \sin\phi_{n-2} \cos\phi_{n-1} \\
+            r \sin\phi_1 \cdots \sin\phi_{n-2} \sin\phi_n
+        \end{pmatrix}^T
+    \end{align*}
+    Then $\norm{T(r, \phi)} = r$ and 
+    \[
+        \abs{\det DT(r, \phi)} = r^{n-1} \sin^{n-2}\phi_1 \sin^{n-3} \phi_2 \cdots \sin\phi_{n-2} = r^{n-1} A_n(\phi)
+    \]
+    Thus 
+    \begin{align*}
+        \int_{\realn^n} \abs{F(x)} \dd{\lambda^n}(x) &= \int_D \underbrace{\abs{F \circ T(r, \phi)}}_{f(r)} \abs{\det DT(r, \phi)} \dd{\lambda^n}(r, \phi) \\
+        &= \int_{D_{\phi}} \int_0^{\infty} r^{n-1} \abs{f(r)} A_n(\phi) \dd{r} \dd{\lambda^{n-1}}(\phi) \\
+        &= \int_0^{\infty} r^{n-1} \abs{f(x)} \dd{r} \underbrace{\int_{D_{\phi}} \abs{A_n(\phi)} \dd{\lambda^{n-1}}(\phi)}_{< \infty}
+    \end{align*}
+    So $F$ is $\lambda^n$-integrable if $r^{n-1} f(x)$  is integrable over $[0, \infty)$.
+\end{eg}
+\end{document}
