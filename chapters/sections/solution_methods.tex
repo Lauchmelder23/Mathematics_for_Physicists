@@ -134,4 +134,276 @@
         F(y(x)) = \int_{x_0}^x g(t) \dd{t}
     \]
 \end{thm}
+\begin{proof}
+    $f$ does not have any roots, thus w.l.o.g. $f > 0$.
+    \begin{equation}
+        F'(y) = \rec{f(y)} > 0 \implies F \text{ strictly monotonically increasing}
+    \end{equation}
+    Therefore there exists an inverse function $H: F(I) \rightarrow I$. According to the theorem about inverse functions, $H$ is $C^1$ and 
+    \begin{equation}
+        H'(z) = \rec{F'(H(z))} ~~\forall z \in F(I)
+    \end{equation}
+    $F(I)$ is an open interval containing the $0$. Then we have 
+    \begin{equation}
+        y(x) = H(G(x)) ~~x \in I_2
+    \end{equation}
+    where 
+    \begin{equation}
+        G(x) = \int_{x_0}^x g(t) \dd{t}
+    \end{equation}
+    Now choose $I_2$ such that $x_0 \in I_2$ and $G(I_2) \subset F(I)$. Then 
+    \begin{equation}
+        \begin{split}
+            y'(x) &= H'(G(x)) \cdot G'(x) \\
+            &= \rec{F'(H(G(x)))} \cdot G'(x) \\
+            &= \rec{F'(y(x))} \cdot G'(x) \\
+            &= f(y(x)) g(x)
+        \end{split}
+    \end{equation}
+    So $y$ solves the ODE. However, if $\tilde{y}: I \rightarrow \realn$ some solution of the IVP, then $\forall x \in I_2$
+    \begin{equation}
+        \begin{split}
+            G(x) = \int_{x_0}^x g(x) \dd{x} = \int_{x_0}^x \frac{\tilde{y}(x)}{f(\tilde{y}(x))} \dd{x} = \int_{\tilde{y}(x_0)}^{\tilde{y}(x)} \rec{f(y)} \dd{y} = F(\tilde{y}(x))
+        \end{split}
+    \end{equation}
+    So $\tilde{y}(x) = H(G(x))$
+\end{proof}
+
+\begin{rem}
+    $I_2$ is obviously not unique. We can find the biggest possible domain with 
+    \[
+        \bigcup_{\substack{x \in I_2 \\ I_2 \text{ open} \\ G(I_2) \subset F(I)}} I_2 = I_{2, \max}
+    \]
+\end{rem}
+
+\begin{thm}
+    Let $f: \realn \rightarrow \realn$ be a continuous function, $a, b, c \in \realn$ and $I$ an open interval.
+    Then $y: I \rightarrow \realn$ is a solution of the ODE 
+    \[
+        y' = f(ax + by + c)
+    \]
+    if and only if $ u(x) := ax + by + c$ is a solution of 
+    \[
+        u' = a + bf(u)
+    \]
+\end{thm}
+\begin{hproof}
+    Consider 
+    \[
+        u'(x) = a + by'(x)
+    \]
+\end{hproof}
+
+\begin{eg}[Euler Homogeneous ODE]
+    Let $f: \realn \rightarrow \realn$ be a function and $I$ an open interval not containing the $0$.
+    Then $y: I \rightarrow \realn$ is a solution of the ODE 
+    \[
+        y' = f(\frac{y}{x})
+    \]
+    if and only if 
+    \[
+        u(x) = \frac{y(x)}{x}
+    \]
+    solves the ODE
+    \[
+        u' = \frac{f(u) - u}{x}
+    \]
+\end{eg}
+
+\begin{eg}
+    Let $f: \realn \rightarrow \realn$ be continuous and $a_1, a_2, b_1, b_2, c_1, c_2 \in \realn$ such that 
+    \[
+        \begin{vmatrix}
+            a_1 && b_1 \\
+            a_2 && b_2
+        \end{vmatrix} \ne 0
+    \]
+    Now let $\tilde{x}, \tilde{y}$ be the solutions of the equation system 
+    \begin{align*}
+        a_1\tilde{x} + b_1\tilde{y} + c_1 &= 0 \\
+        a_2\tilde{x} + b_2\tilde{y} + c_2 &= 0
+    \end{align*}
+    Let $I$ be an open interval not containing the $0$. Then $y: I \rightarrow \realn$ is a solution to 
+    \[
+        y' = f\left(\frac{a_1x + b_1y + c_1}{a_2x + b_2y + c_2}\right)
+    \]
+    if and only if 
+    \begin{align*}
+        u: I - \tilde{x} &\longrightarrow \realn \\
+        x &\longmapsto y(x + \tilde{x}) - \tilde{y}
+    \end{align*}
+    is a solution to 
+    \[
+        u' = f\left(\frac{a_1 + b_y \frac{u}{x}}{a_2 + b_2 \frac{u}{x}}\right)
+    \]
+\end{eg}
+\begin{proof}
+    Let $y: I \rightarrow \realn$ be a solution to the initial equation. Then 
+    \begin{equation}
+        \begin{split}
+            u'(x) &= y'(x + \tilde{x}) = f\left( \frac{a_1(x + \tilde{x}) + b_1 y(x + \tilde{x}) + c_1}{a_2(x + \tilde{x}) + b_2y(x + \tilde{x}) + c_2} \right) \\
+            &= f\left( \frac{a_1x + b_1u(x) + a_1\tilde{x} + b_1\tilde{y} + c_1}{a_2x + b_2u(x) + a_2\tilde{x} + b_2\tilde{y} + c_2} \right) \\
+            &= f\left(\frac{a_1 + b_1 \frac{u(x)}{x}}{a_2 + b_2 \frac{u(x)}{x}}\right)
+        \end{split}
+    \end{equation}
+    The other direction is left to the reader.
+\end{proof}
+
+\begin{defi}[Exact ODE]
+    Let $D \subset \realn^2$ be open, and $p, q: D \rightarrow \realn$ continuous.
+    The ODE 
+    \[
+        p(x, y) + q(x, y) y' = 0
+    \]
+    is said to be exact if there exists a $C^1$-function $H: D \rightarrow \realn$, such that
+    \begin{align*}
+        \partial_1 H = p && \partial_2 H = q
+    \end{align*}
+    Such a function is called a potential function.
+\end{defi}
+
+\begin{thm}
+    Let $D \subset \realn^2$ be open, and $p, q: D \rightarrow \realn$ continuous. Let 
+    \[
+        p(x, y) + q(x, y)y' = 0
+    \]
+    be exact and $H$ a potential function. Furthermore let $I$ be an open interval and $y: I \rightarrow \realn$ a $C^1$-function such that 
+    \[
+        \set[x \in I]{(x, y(x))} \subset D
+    \]
+    Then $y$ solves the ODE if and only if $\exists c \in \realn$ such that 
+    \[
+        H(x, y(x)) = c
+    \]
+\end{thm}
+\begin{proof}
+    \begin{equation}
+        \begin{split}
+            \dv{x} H(x, y(x)) &= \partial_1 H(x, y(x)) + \partial_2 H(x, y(x)) y'(x) \\
+            &= p(x, y) + q(x, y)y'(x)
+        \end{split}
+    \end{equation}
+\end{proof}
+
+\begin{thm}
+    Let $D \subset \realn^2$ be open, and $p, q: D \rightarrow \realn$ continuously differentiable. If 
+    \[
+        p(x, y) + q(x, y)y' = 0
+    \]
+    is exact, then 
+    \[
+        \partial_2 p = \partial_1 q
+    \]
+\end{thm}
+\begin{proof}
+    Let $H$ be a potential $C^2$-function. Then 
+    \begin{equation}
+        \partial_2 p = \partial_2 \partial_1 H = \partial_1 \partial_2 H = \partial_1 q
+    \end{equation}
+\end{proof}
+
+\begin{rem}
+    The above condition is merely necessary! However, for "nice" $D$ it can be considered sufficient.
+\end{rem}
+
+\begin{eg}
+    Consider 
+    \begin{align*}
+        \underbrace{(2x + y^2)}_p + \underbrace{2xyy'}_q = 0 && y(1) = 1
+    \end{align*}
+    Then 
+    \begin{align*}
+        \partial_2 p = 2y && \partial_1 q = 2y
+    \end{align*}
+    So $\partial_2 p = \partial_1 q$. If $H$ is a potential function, then 
+    \begin{align*}
+        \partial_1 H(x, y) &= p(x, y) = 2x + y^2 \\
+        \implies H(x, y) &= \int p(x, y) \dd{x} = x^2 + y^2x + G(y)
+    \end{align*}
+    and 
+    \begin{align*}
+        \partial_2 H(x, y) &= q(x, y) = 2xy = 2xy + G'(y) \\
+        \implies G(y) &= c
+    \end{align*}
+    So the potential function is 
+    \[
+        H(x, y) = x^2 + y^2 x
+    \]
+    We can insert the initial condition 
+    \[
+        H(1, 1) = 2
+    \]
+    So the solution has to fulfil 
+    \[
+        x^2 + y(x)^2 x = 2 ~~\forall x \in I
+    \]
+    and thus 
+    \[
+        y(x) = \pm \sqrt{\frac{2}{x} - x}
+    \]
+    Only the positive sign fulfils the initial conditions, so the solution is 
+    \[
+        y(x) = \sqrt{\frac{2}{x} - x}
+    \]
+    This function is defined on $(-\infty, -\sqrt{2}] \cup (0, \sqrt{2}]$, however due to the initial conditions $(0, \sqrt{2}]$ is the only useful domain.
+\end{eg}
+
+\begin{rem}
+    If 
+    \[ 
+        p(x, y) + q(x, y)y' = 0
+    \]
+    is not exact one can try and find an "integrating factor", i.e. $h: D \rightarrow \realn$ such that 
+    \[
+        h(x, y)p(x, y) + h(x, y)q(x, y)y' = 0
+    \]
+    is exact. A necessary condition is 
+    \[
+        \left(\partial_2 h(x, y)\right)p(x, y) + h(x, y) \partial_2 p(x, y) = \left(\partial_1 h(x, y)\right) q(x, y) + h(x, y) \partial_1 q(x, y)
+    \]
+    This is a partial differential equation and won't be discussed further in this chapter.
+\end{rem}
+
+\begin{defi}[Ordinary Differential Equation System]
+    An ordinary differential equation system (ODES) is an equation of the form 
+    \[
+        F(x, y, y', \cdots, y^{(n)}) = 0
+    \]
+    with 
+    \[
+        F: \realn \times \realn^L \times \realn^L \times \cdots \times \realn^L \longrightarrow \realn^m
+    \]
+\end{defi}
+
+\begin{eg}
+    \begin{enumerate}[(i)]
+        \item Let $z = (z_1, z_2, z_3)$, then 
+        \[
+            z'' = -\frac{z}{\norm{z}^3} = -\rec{\norm{z}^2} \frac{z}{\norm{z}}
+        \]
+        is the Kepler problem.
+
+        \item The equation 
+        \begin{align*}
+            b' &= \alpha_1 b - \gamma_1 br \\
+            r' &= -\alpha_2 r + \gamma_2 br 
+        \end{align*}
+        is called the "Lotka-Volterra-Equation" and it models the population of prey and predators.
+    \end{enumerate}
+\end{eg}
+
+\begin{rem}
+    The ODES 
+    \[
+        F(x, y, y', y'', \cdots, y^{((n)}) = 0
+    \]
+    is equivalent to the ODES of first order 
+    \begin{align*}
+        F(x, y, y_1, y_2, \cdots, y_{n-1}) = 0 && \begin{cases}
+            y_1 = y' \\
+            y_2 = y_1' \\
+            \vdots
+        \end{cases}
+    \end{align*}
+\end{rem}
 \end{document}
