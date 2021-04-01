@@ -1,0 +1,357 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{The Picard-Lindelöf Theorem}
+
+\begin{eg}
+    Consider the ODE 
+    \[
+        y' = 2\sqrt{\abs{y}}
+    \]
+    Possible solutions are 
+    \begin{align*}
+        y(x) &= (x - c)^2 ~~c > 0 \\
+        y(x) &= -(x - c)^2 ~~c < 0 \\
+        y(x) = 0
+    \end{align*}
+    Another solution could be 
+    \[
+        y(x) = \begin{cases}
+            -(x - a)^2, & x \in (-\infty, a) \\
+            0, & x \in [a, b] \\
+            (x - b)^2, & x \in (b, \infty)
+        \end{cases}
+    \]
+    for $a, b \in \realn$ with $a \le b$ So the IVP $y(0) = 0$ has many solutions.
+\end{eg}
+
+\begin{defi}
+    Let $D \subset \realn \times \realn^n$ be open, $(x_0, y_0) \in D$ and $f: D \rightarrow \realn^n$.
+    We say $f$ fulfils a local Lipschitz-condition in the point $(x_0, y_0)$ if there exists a neighbourhood $U$ of $(x_0, y_0)$ such that 
+    \[
+        \norm{f(x, y) - f(x, z)} \le L \norm{y - z} ~~\forall (x, y), (x, z) \in U
+    \]
+\end{defi}
+
+\begin{eg}
+    Consider 
+    \begin{align*}
+        f: \realn &\longrightarrow \realn \\
+        (x, y) &\longmapsto x^2y^2
+    \end{align*}
+    Then 
+    \begin{align*}
+        \abs{f(x, y) - f(x, z)} = \abs{x^2(y^2 - z^2)} &= \abs{x^2(y - z)(y + z)} \\
+        &= \underbrace{\abs{x^2 (y + z)}}_{\alpha(x, y, z)} \abs{y - z}
+    \end{align*}
+    The function $\alpha(x, y, z)$ is unbounded, so the global Lipschitz condition isn't satisfied.
+    Now choose a fixed $(x_0, y_0) \in \realn \times \realn$, and set 
+    \[
+        R > \max\set{\abs{x_0}, \abs{y_0}}
+    \]
+    Then $\forall (x, y), (x, z) \in (-R, R) \times (-R, R)$
+    \[
+        \alpha(x, y, z) \le R^2 \abs{y + z} \le R^2\left(\abs{y} + \abs{z}\right) \le 2R^3
+    \]
+    So $f$ fulfils a local Lipschitz condition in $(x_0, y_0)$.
+\end{eg}
+
+\begin{defi}
+    Let $\measure$ be a measure space, $f: \Omega \rightarrow \realn^n$ measurable and $f_1, \cdots, f_n$ are the component functions of $f$. So 
+    \[
+        f(\omega) = \left(f_1(\omega), f_2(\omega), \cdots, f_n(\omega)\right)
+    \]
+    $f$ is said to be integrable if $f_1, \cdots, f_n$ are integrable, and we define
+    \[
+        \int f \dd\mu = \left(\int f_1 \dd\mu, \int f_2 \dd\mu, \cdots, \int f_n \dd\mu \right)
+    \]
+\end{defi}
+
+\begin{thm}
+    Let $\measure$ be a measure space, define $\dnorm$ to be the norm on $\realn^n$ and let $f: \Omega \rightarrow \realn^n$ be measurable.
+    Then $f$ is integrable if and only if $\norm{f}$ is integrable, and 
+    \[
+        \norm{\int f \dd\mu} \le \int \norm{f} \dd\mu
+    \]
+\end{thm}
+\begin{proof}
+    Without proof.
+\end{proof}
+
+\begin{lem}\label{lem:picardlem}
+    Let $D \subset \realn \times \realn^n$, $(x_0, y_0) \in D$ and $f: D \rightarrow \realn^n$ continuous.
+    Let $I$ be an open interval and $y: I \rightarrow \realn^n$ be continuously differentiable, such that 
+    $(x, y(x)) \in D ~~\forall x \in I$. Then $y$ is a solution of the IVP
+    \begin{align*}
+        y' = f(x, y) && y(x_0) = y_0
+    \end{align*}
+    if and only if $y$ satisfies the integral equation 
+    \[
+        y(x) = y_0 + \int_{x_0}^x f(t, y(t)) \dd{t}
+    \]
+\end{lem}
+\begin{proof}
+    Let $y$ fulfil the IVP. Then 
+    \[
+        y(x) - y_0 = y(x) - y(x_0) = \int_{x_0}^x y'(t) \dd{t} = \int_{x_0}^x f(t, y(t)) \dd{t}
+    \]
+    If $y$ fulfils the integral equation, then 
+    \[
+        y'(x) = f(x, y(x))
+    \]
+\end{proof}
+
+\begin{thm}[Picard-Lindelöf Theorem]
+    Let $D \subset \realn \times \realn^n$ be open, $(x_0, y_0) \in D$ and $f: D \rightarrow \realn^n$ continuous such that $f$ fulfils a local Lipschitz condition in $y$.
+    Then $\exists \epsilon > 0$ such that the IVP 
+    \begin{align*}
+        y' = f(x, y) && y(x_0) = y_0
+    \end{align*}
+    has exactly one solution on $(x_0 - \epsilon, x_0 + \epsilon)$.
+\end{thm}
+\begin{proof}
+    Let $U \subset D$ be a neighbourhood of $(x_0, y_0)$, such that 
+    \begin{equation}
+        \norm{f(x, y) - f(x, z)} \le L \norm{y - z} ~~\forall (x, y), (x, z) \in U
+    \end{equation}
+    Choose $a, r > 0$ such that 
+    \begin{equation}
+        \tilde{D} = [x_0 - a, x_0 + a] \times K_r(y_0) \subset U
+    \end{equation}
+
+    \begin{center}
+        \begin{tikzpicture}
+            \draw[thick, ->] (3, 0) -- (4, 0) node[right] {$x$};
+            \draw[thick, ->] (3, 0) -- (3, 1) node[above] {$y$}; 
+
+            \draw[thick] (0, 0) ellipse (2.5cm and 4cm);
+            \node at (1.3, 3) {$D$};
+
+            \draw[dashed] (2, -1.5) -- (2, 1.5) -- (-2, 1.5) -- (-2, -1.5) -- (2, -1.5);
+            \node[below left] at (2, 1.5) {$\tilde{D}$};
+            \draw[fill] (0, 0) circle[radius=1pt] node[below right] {$(x_0, y_0)$};
+
+            \node[below] at (0, -1.5) {$a$};
+            \node[left] at (-2, 0) {$r$};
+        \end{tikzpicture}
+    \end{center}
+    $\tilde{D}$ is compact and $f$ is continuous, i.e. $f$ is bounded on $\tilde{D}$ by $M \in (0, \infty)$.
+    \begin{equation}
+        \norm{f(x, y)} \le M ~~\forall (x, y) \in \tilde{D}
+    \end{equation}
+    Choose an $\epsilon$ such that $0 < \epsilon \le a$ and such that 
+    \begin{align}
+        \epsilon M < r && \epsilon L < 1
+    \end{align}
+    Set $I := (x_0 - \epsilon, x_0 + \epsilon)$, and 
+    \begin{equation}
+        X = \set[y \text{ continuous}]{y: I \rightarrow K_r(y_0)} \subset C(I)
+    \end{equation}
+    $X$ is closed, and thus complete.
+    Define $T: X \rightarrow X$ with 
+    \begin{equation}
+        T(y)(x) := y_0 + \int_{x_0}^x f(t, y(t)) \dd{t}
+    \end{equation}
+    We want to show $T(y) \subset X$:
+    \begin{equation}
+        \begin{split}
+            \norm{T(y)(x) - y_0} = \norm{\int_{x_0}^x f(t, y(t)) \dd{t}} &\le \int_{x_0}^x \norm{f(t, y(t))} \dd{t} \\
+            &\le M \int_{x_0}^x \dd{t} < \epsilon M < r
+        \end{split}
+    \end{equation}
+    Now consider 
+    \begin{equation}
+        \begin{split}
+            \norm{T(y)(x) - T(\tilde{y})(x)} &= \norm{\int_{x_0}^x(f(t, y(t)) - f(t, \tilde{y}(t))) \dd{t}} \\
+            &\le \int_{x_0}^x \norm{f(t, y(t)) - f(t, \tilde{y}(t))} \dd{t} \\
+            &\le \int_{x_0}^x L \cdot \norm{y(t) - \tilde{y}(t)} \dd{t} \\
+            &\le \int_{x_0}^x L \supnorm{y - \tilde{y}} \le L\supnorm{y - \tilde{y}} \cdot \epsilon
+        \end{split}
+    \end{equation}
+    By taking the supremum over all $x \in I$ we get 
+    \begin{equation}
+        \supnorm{T(y) - T(\tilde{y})} \le \underbrace{\epsilon L}_{< 1} \supnorm{y - \tilde{y}}
+    \end{equation}
+    So $T: X \rightarrow X$ is strictly contractive. 
+    According to the Banach fixed point theorem, there exists a unique fixed point of $T$ in $x$, that means
+    $\exists y \in X$ such that 
+    \begin{equation}
+        y_0 + \int_{x_0}^x f(t, y(t)) \dd{t} = T(y)(x) = y(x) ~~\forall x \in I
+    \end{equation}
+    Due to \Cref{lem:picardlem}, there eixsts a unique solution to the ODE.
+\end{proof}
+
+\begin{rem}
+    One can approximate a fixed point by repeatedly applying $T$. For example consider
+    \[
+        \phi(x) = y_0
+    \]
+    and define 
+    \begin{align*}
+        \phi_0 = \phi && \phi_i = T(\phi_{i-1}) = y_0 + \int_{x_0}^x f(t, \phi_{i-1}(t)) \dd{t}
+    \end{align*}
+    This process is called Picard iteration, and the $\phi_i$ converge uniformly to the solution.
+\end{rem}
+
+\begin{eg}
+    Consider 
+    \[
+        y' = \sqrt{\norm{y}}
+    \]
+    Then 
+    \[
+        \limes{y}{0} \left(\frac{\abs{f(x, y) - f(x, 0)}}{\abs{y - 0}}\right) = \limes{y}{0} \rec{\sqrt{\abs{y}}} \conv{} \infty
+    \]
+    Which means the local Lipschitz condition is not satisfied.
+\end{eg}
+
+\begin{thm}
+    Let $D \subset \realn \times \realn^n$ be open, $f: D \rightarrow \realn^n$ continuously differentiable. 
+    Then $f$ satisfies a local Lipschitz condition in terms of $y$.
+\end{thm}
+\begin{proof}
+    Let $(x_0, y_0) \in D$. Choose $r > 0$ such that $\cball[r](x_0, y_0) \subset D$. 
+    The total derivative $D_y f$ is continuous and thus bounded on $\cball[r](x_0, y_0)$.
+    \begin{equation}
+        \exists L > 0: ~~\norm{D_y f(x, y)} \le L ~~\forall (x, y) \in \cball[r](x_0, y_0)
+    \end{equation}
+    Applying the generalized mean value theorem yields 
+    \begin{equation}
+        \begin{split}
+            \norm{f(x, y) - f(x, z)} &\le \sup_{t \in [0, 1]} \norm{D_y f(x, y + t(z - y))} \norm{y - z} \\
+            &\le L \norm{y - z}
+        \end{split}
+    \end{equation}
+    If $n=1$ we can specify 
+    \begin{equation}
+        \abs{f(x, y) - f(x, z)} = \abs{\partial_y f(x, \xi) (y - z)}
+    \end{equation}
+\end{proof}
+
+\begin{eg}
+    Consider 
+    \[
+        y'' = -\frac{y}{\norm{y}^3}
+    \]
+    The function 
+    \begin{align*}
+        f: \underbrace{\realn \times \realn^3 \setminus \set{0} \times \realn^3}_D &\longrightarrow \realn^3 \times \realn^3 \\
+        (x, y, z) &\longmapsto \left(z, (y_1^2 + y_2^2 + y_3^2)^{-\frac{3}{2}} \cdot y \right)
+    \end{align*}
+    is continuously differentiable. So the IVP for arbitrary initial points in $D$ has a locally unique solution.
+\end{eg}
+
+\begin{defi}
+    Let $D \subset \realn \times \realn^n$ be open, $(x_0, y_0) \in D$. A solution $\tilde{y}: \tilde{I} \rightarrow \realn^n$ of the IVP 
+    \begin{align*}
+        y' = f(x, y) && y(x_0) = y_0
+    \end{align*}
+    is said to be a (real) continuation of the solution $y: I \rightarrow \realn^n$ if $I \subset \tilde{I}$ and $y(x) = \tilde{y}(x) ~~\forall x \in I$.
+    A solution $y$ is said to be a maximal solution if there are no real continuations.
+\end{defi}
+
+\begin{thm}
+    Let $D \subset \realn \times \realn^n$ be open, $(x_0, y_0) \in D$ and $f: D \rightarrow \realn^n$ continuous and satisfying a local Lipschitz condition in terms of $y$.
+    Then the IVP 
+    \begin{align*}
+        y' = f(x, y) && y(x_0) = y_0
+    \end{align*}
+    has a unique solution.
+\end{thm}
+\begin{proof}
+    First, let $y: I \rightarrow \realn^n$ and $\tilde{y}: \tilde{I} \rightarrow \realn^n$ be solutions  of the IVP.
+    Then $y = \tilde{y}$ on $I \cap \tilde{I} =: (a, b)$. Let 
+    \begin{equation}
+        c = \sup\set[{y = \tilde{y} \text{ on } [x_0, \tilde{c}]}]{\tilde{c} \in [x_0, b)}
+    \end{equation}
+    According to Picard-Lindelöf, such $\tilde{c}$ exist. Then there exists a sequence $\seq{c} \subset (x_0, c)$ such that $y = \tilde{y}$ on
+    $[x_0, c_n) ~~\forall n \in \natn$ and $c_n \rightarrow c$.
+    If $c < b$, then 
+    \begin{equation}
+        y(c) = \tilde{y}(c)
+    \end{equation}
+    because $y(c_n) = \tilde{y}(c_n) ~~\forall n \in \natn$. 
+    The IVP
+    \begin{align}
+        u' = f(x, u) && u(c) = y(c)
+    \end{align}
+    has a locally unique solution on $(c - \epsilon, c + \epsilon) ~~\epsilon > 0$ according to Picard-Lindelöf.
+    Since the $y$ and $\tilde{y}$ are both solutions to the IVP, they are identical on $(c - \epsilon, c + \epsilon)$.
+    However, this contradicts the construction of $c$, so $c = b$.
+    \begin{equation}
+        \implies y = \tilde{y} \quad \text{on } [x_0, b)
+    \end{equation}
+    Analogously, one can prove $y = \tilde{y}$ on $(a, x_0]$.
+    Now let $I_{\max}$ be the union of all open intervals that are domains of the solution of the IVP. 
+    For $x \in I_{\max}$ we can choose 
+    \begin{equation}
+        y_{\max}(x) = y(x)
+    \end{equation}
+    for arbitrary solutions $y: I \rightarrow \realn$ with $x \in I$. So 
+    \begin{equation}
+        y_{\max}: I_{\max} \rightarrow \realn
+    \end{equation}
+    is a maximal solution that is unique.
+\end{proof}
+
+\begin{eg}
+    \begin{enumerate}[(i)]
+        \item Consider 
+        \begin{align*}
+            y' = e^{-y} && y(1) = 0
+        \end{align*}
+        The solution to this is 
+        \begin{align*}
+            y: (0, \infty] &\longrightarrow \realn \\
+            x &\longmapsto \ln(x)
+        \end{align*}
+        and is maximal.
+
+        \item Consider 
+        \begin{align*}
+            y' = -i \frac{y}{x^2} && y\left(\rec{2\pi}\right) = 1
+        \end{align*}
+        The solution to this is
+        \begin{align*}
+            (0, \infty) &\longrightarrow \cmpln \\
+            x &\longmapsto e^{\frac{i}{x}}
+        \end{align*}
+        and is maximal.
+    \end{enumerate}
+\end{eg}
+
+We define $\metric$ to be a metric space, $x \in X$ and $A \subset X$. Then 
+\[
+    d(x, A) = \inf\set[y \in A]{d(x, y)}
+\]
+
+\begin{thm}
+    Let $D \subset \realn \times \realn^n$ be open, $(x_0, y_0) \subset D$ and $f: D \rightarrow \realn^n$ continuous and satisfying the local Lipschitz condition in terms of $y$.
+    Let $a, b \in \realn \cup \set{-\infty, \infty}$ such that 
+    \[
+        -\infty \le a < x_0 < b \infty \infty
+    \]
+    and let 
+    \[
+        y: (a, b) \rightarrow \realn 
+    \]
+    a solution of the IVP 
+    \begin{align*}
+        y' = f(x, y) && y(x_0) = y_0
+    \end{align*}
+    Then $y$ is the maximal solution of the IVP if and only if one of these conditions 
+    \begin{align*}
+        \text{(i)} && b = \infty \\
+        \text{(ii)} && \limes{x}{b} \norm{y(x)} = \infty \\
+        \text{(iii)} && \limes{x}{b} d((x, y(x)), \boundary{D}) = 0
+    \end{align*}
+    and one of these 
+    \begin{align*}
+        \text{(i)} && a = -\infty \\
+        \text{(ii)} && \limes{x}{a} \norm{y(x)} = \infty \\
+        \text{(iii)} && \limes{x}{a} d((x, y(x)), \boundary{D}) = 0
+    \end{align*}
+    is fulfilled.
+\end{thm}
+\end{document}
