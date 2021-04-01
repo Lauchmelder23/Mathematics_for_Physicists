@@ -1,0 +1,574 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{Linear Differential Equation Systems}
+
+\begin{defi}
+    Let $I$ be an open interval, and $A: I \rightarrow \realn^{n \times n}$, $b: I \rightarrow \realn^n$.
+    Then the ODES 
+    \[
+        y' = A(x)y + b(x)
+    \]
+    is said to be a linear differential equation system. If $b$ is the zero function, then the system is homogeneous (otherwise it's inhomogeneous).
+    If $A(x) = \const.$, then the system is said to have constant coefficients.
+\end{defi}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item By using substitution we can transform the equation 
+        \[
+            y^{(n)} = a_{n-1}(x) y^{(n-1)} + a_{n-2}(x) y^{(n-2)} + \cdots + a_0 y + b(x)
+        \]
+        into the system 
+        \begin{align*}
+            y_{n-1}' &= a_{n-1}(x) y_{n-2} + a_{n-2}(x) y_{n-3} + \cdots + a_0 y + b(x) \\
+            y_1 &= y' \\
+            y_2 &= y_1' \\
+            &~~\vdots \\
+            y_{n-1} &= y_{n-2}'
+        \end{align*}
+
+        \item Let $y, z$ be solutions of $y' = A(x) y + b(x)$, then $y - z$ is the solution of the related homogeneous equation $y' = A(x)y$.
+        This follows from 
+        \begin{align*}
+            (y - z)'(x) &= A(x)y(x) + b(x) - (A(x)z(x) + b(x)) \\
+            &= A(x) (y - z)(x)
+        \end{align*}
+    \end{enumerate}
+\end{rem}
+
+\begin{lem}[Grönwall's Lemma]
+    Let $I$ be an open interval, $x_0 \in I$, $y: I \rightarrow [0, \infty)$ continuous, $a, b \ge 0$ and 
+    \[
+        y(x) \le a + b \abs{\int_{x_0}^x y(t) \dd{t}}
+    \]
+    Then 
+    \[
+        y(x) \le a e^{b\abs{x - x_0}}
+    \]
+\end{lem}
+\begin{proof}
+    Here we only prove $x > x_0$, but the proof for $x \le x_0$ works analogously.
+    Let $\epsilon > 0$ be arbitrary and choose 
+    \begin{equation}
+        z(x) := a + \epsilon + b \int_{x_0}^x y(t) \dd{t}
+    \end{equation}
+    Then 
+    \begin{equation}
+        z'(x) = by(x) \le bz(x) ~~\forall x \in I
+    \end{equation}
+    And since 
+    \begin{equation}
+        z(t) \ge a + \epsilon > 0
+    \end{equation}
+    we get 
+    \begin{align}
+        \int_{x_0}^x \frac{z'(t)}{z(t)} \dd{t} &\le b(x - x_0) \\
+        \int_{x_0}^x \frac{z'(t)}{z(t)} \dd{t} &= \ln(x) - \ln(z)
+    \end{align}
+    Due to the monotony of the exponential function 
+    \begin{equation}
+        z(x) \le z(x_0) e^{b(x - x_0)} = (a + \epsilon) e^{b(x - x_0)}
+    \end{equation}
+    So 
+    \begin{equation}
+        y(x) \le z(x) \le (a + \epsilon) e^{b(x - x_0)} \le a e^{b(x - x_0)} ~~\forall x \in I
+    \end{equation}
+\end{proof}
+
+From now on $I$ will always be an open interval, and 
+\begin{align*}
+    A: I &\rightarrow \realn^{n \times n} \\
+    b: I &\rightarrow \realn^n
+\end{align*}
+are continuous, $x_0 \in I$ and $y_0 \in \realn$.
+
+\begin{cor}
+    The IVP
+    \begin{align*}
+        y' = A(x)y + b(x) && y(x_0) = y_0
+    \end{align*}
+    has a unique maximal solution that is defined on all of $I$.
+\end{cor}
+\begin{proof}
+    \begin{equation}
+        \begin{split}
+            f: I \times \realn^n &\longrightarrow \realn^n \\
+            (x, y) &\longmapsto A(x) y + b(x)
+        \end{split}
+    \end{equation}
+    We need to show that $f$ fulfils a local Lipschitz condition in $y$.
+    Let $(x_1, y_1) \in I \times \realn^n$. Choose a compact $I_1$ such that $x_1 \in I_1 \subset I$.
+    Then $A(x)$ is bounded on $I_1$, i.e.
+    \begin{equation}
+        \exists L > 0: ~~\norm{A(x)} \le L ~~\forall x \in I_1
+    \end{equation}
+    And then $\forall (x, y), (x, z) \in I_1 \times \realn^n$
+    \begin{equation}
+        \norm{f(x, y) - f(x, z)} = \norm{A(x)(y - z)} \le \norm{A(x)}\norm{y - z} \le L \norm{y - z}
+    \end{equation}
+    So $f$ fulfils a local Lipschitz condition, and thus there exists a unique maximal solution.
+    Let $a, b \in \realn \cup \set{-\infty, \infty}$ such that $y: (a, b) \rightarrow \realn^n$ is the maximal solution.
+    Assume $b \in I$ (so $y$ isn't defined on all of $I$). Then there exists $M, K > 0$ such that $\norm{A(x)} \le M$ and $\norm{b(x)} \le K$ and $[x_0, b]$ and 
+    \begin{equation}
+        \begin{split}
+            \norm{y(x)} = \norm{y_0 + \int_{x_0}^x y'(t) \dd{t}} &= \norm{y_0 + \int_{x_0}^x A(t)y(t) + b(t) \dd{t}} \\
+            &\le \norm{y_0} + \int_{x_0}^x \norm{A(t)}\norm{y(t)} \dd{t} + \int_{x_0}^x \norm{b(t)} \dd{t} \\
+            &\le \norm{y_0} + K(b - x_0) + M\int_{x_0}^x \norm{y(t)} \dd{t}
+        \end{split}
+    \end{equation}
+    Applying Grönwall's Lemma onto $\norm{y(t)}$ yields 
+    \begin{equation}
+        \norm{y(x)} \le \left(\norm{y_0} + K(b - x_0)\right) e^{M\abs{x - x_0}} \le \left(\norm{y_0} + K(b - x_0)\right) e^{M(b - x_0)}
+    \end{equation}
+    and thus $y$ is bounded on $[x_0, b)$.
+    So none of the conditions from \Cref{thm:837} are satisfied, and therefore $b \notin I$. 
+    This mean that $y$ is defined up to the right boundary of $I$.
+\end{proof}
+
+\begin{rem}
+    One can show that for linear systems, the Picard iteration leads to a solution that converges on all of $I$. This would lead to an alternative proof.
+\end{rem}
+
+\begin{cor}
+    Let $y, z: I \rightarrow \realn^n$ be solutions of the ODES 
+    \[
+        y' = A(x)y + b(x)
+    \]
+    Then the following are equivalent 
+    \begin{enumerate}[(i)]
+        \item $y(x) = z(x) ~~\forall x \in I$
+        \item $y(x_0) = z(x_0)$
+        \item $y(x) = z(x) ~~\text{ for some } x \in I$
+    \end{enumerate}
+\end{cor}
+\begin{proof}
+    $(i) \implies (ii)$, $(ii) \implies (iii)$ is trivial. 
+    To prove $(iii) \implies (i)$, let $x_1 \in I$ such that $y_1 = y(x_1) = z(x_1)$.
+    Then $y, z$ are solutions to the IVP 
+    \begin{align}
+        y' = A(x)y + b(c) && y(x_1) = y_1
+    \end{align}
+    Since this problem has unique solutions
+    \begin{equation}
+        y = z
+    \end{equation}
+    must hold.
+\end{proof}
+
+\begin{thm}
+    The solution set of the homogeneous ODES 
+    \[
+        y' = A(x)y
+    \]
+    so 
+    \[
+        V := \set[y'(x) = A(x) y(x) ~~\forall x \in I]{y: I \rightarrow \realn^n}
+    \]
+    is an $n$-dimensional linear subspace of $C^1(I, \realn^n)$.
+\end{thm}
+\begin{proof}
+    Proving that $V$ is a vector space is trivial. 
+    So let $e_1, \cdots, e_n$ be a basis of $\realn^n$ and let $y_i$ be the unique solutions of the initial value problem 
+    \begin{align*}
+        y' = A(x) y && y(x_0) = e_i ~~i \in \set{1, \cdots, n}
+    \end{align*}
+    Then $y_1, \cdots, y_n$ is a basis of $V$.
+    To prove their linear independence, let $\alpha_1, \cdots, \alpha_n \in \realn$ such that 
+    \begin{equation}
+        \alpha_1 y_1 + \cdots + \alpha_n y_n = 0
+    \end{equation}
+    then 
+    \begin{equation}
+        \alpha_1 y_1(x_0) + \cdots + \alpha_n y_n(x_0) = \alpha_1 e_1 + \cdots + \alpha_n e_n = 0
+    \end{equation}
+    Since the $e_1, \cdots, e_n$ are linear independent
+    \begin{equation}
+        \alpha_1 = \alpha_2 = \cdots = \alpha_n = 0
+    \end{equation}
+    To prove that the $y_1, \cdots, y_n$ span $V$, set $z \in V$ and choose $\alpha_1, \dots, \alpha_n \in \realn$ such that
+    \begin{equation}
+        \alpha_1 e_1 + \alpha_2 e_2 + \cdots + \alpha_n e_n = z(x_0)
+    \end{equation}
+    Then the $z$ and $\alpha_1 y_1 + \cdots + \alpha_n y_n$ are maximal solutions of the ODES that are equal in $x_0$. Thus 
+    \begin{equation}
+        z = \alpha_1y_1 + \cdots + \alpha_n y_n
+    \end{equation}
+\end{proof}
+
+\begin{defi}
+    A basis $y_1, \cdots, y_n$ of $V$ is said to be a fundamental system of the ODES 
+    \[
+        y' = A(x) y
+    \]
+    Analogously, $n$ linearly independent solutions of the equation 
+    \[
+        y^{(n)} = a_{n-1}(x) y^{(n-1)} + a_{n-2}(x) y^{(n-2)} + \cdots + a_0 y
+    \]
+    are said to be a fundamental system.
+\end{defi}
+
+\begin{eg}
+    Consider the inhomogeneous equation 
+    \[
+        y' = \sin(x)y + \sin(x)\cos(x)
+    \]
+    First, find the solutions to the homogeneous equation 
+    \[
+        \frac{y'}{y} = \sin(x)
+    \]
+    This can be done via integration
+    \begin{align*}
+        \int \frac{y'(t)}{y(t)} \dd{t} &= -\cos(x) + c \\
+        \ln y + c &= -\cos(x) + c
+    \end{align*}
+    Then the solution is 
+    \[
+        y = K e^{-\cos(x)}
+    \]
+    The fundamental system in this case is $e^{-\cos x}$. 
+    We can use a technique called "variation of the constant" to find a solution of the inhomogeneous equation. Define 
+    \[
+        y(x) = C(x) e^{-\cos(x)}
+    \]
+    Deriving this gives
+    \[
+        y'(x) = C'(x) e^{-\cos(x)} - C(x) \sin(x) e^{-\cos(x)}
+    \]
+    Resubstituting this into the initial equation yields 
+    \begin{align*}
+        C'(x) e^{-\cos(x)} + \cancel{C(x)\sin(x)e^{-\cos(x)}} &= \cancel{C(x)\sin(x)e^{-\cos(x)}} + \sin(x)\cos(x) \\
+        C'(x) e^{-\cos(x)} &= \sin(x)\cos(x) \\ 
+        C'(x) &= \sin(x)\cos(x)e^{\cos(x)} \\
+        C(x) &= (1 - \cos(x))e^{\cos(x)}
+    \end{align*}
+    So the general solution to the ODE is 
+    \[
+        y(x) = 1 - \cos(x) + K e^{-\cos(x)}
+    \]
+\end{eg}
+
+\begin{thm}
+    Let $y_1, \cdots, y_n$ be a fundamental system for $y' = A(x) y$.
+    Define an $n \times n$-matrix 
+    \[
+        W(x) := (y_1(x), y_2(x), \dots, y_n(x))
+    \]
+    Then $W(x)$ is invertible $\forall x \in I$ and 
+    \begin{align*}
+        z: I &\longrightarrow \realn^n \\
+        x &\longmapsto W(x) \int_{x_0}^x \inv{W(t)}b(t) \dd{t}
+    \end{align*}
+    is a solution to the inhomogeneous system 
+    \[
+        y' = A(x)y + b(x)
+    \]
+\end{thm}
+\begin{proof}
+    According to the prerequisites the $y_1, \cdots, y_n$ are linearly independent, so the $y_1(x), \dots, y_n(x)$ are also linearly independent in $\realn^n$.
+    Thus 
+    \begin{equation}
+        \det W(x) \ne 0 \implies W(x) \text{ invertible}
+    \end{equation}
+    Deriving this yields 
+    \begin{equation}
+        W'(x) = A(x)W(x)
+    \end{equation}
+    which means the $i$-th column of this equation is $y_i'(x) = A(x)y_i(x)$.
+    Deriving $z$ gives us 
+    \begin{equation}
+        \begin{split}
+            z'(x) &= W'(x) \int_{x_0}^x \inv{W(t)} b(t) \dd{t} + W(x)\inv{W(x)} b(x) \\
+            &= A(x) z(x) + b(x)
+        \end{split}
+    \end{equation}
+    To apply the fundamental theorem, $W(t)b(t)$ should be continuous.
+    The mapping $A \mapsto \inv{A}$ is continuous on $Gl(n)$ (space of invertible matrices).
+\end{proof}
+
+\begin{eg}
+    Consider the system 
+    \begin{align*}
+        u' = v + \sin(x) && v' = -u + \cos(x)
+    \end{align*}
+    The homogeneous system in this case is 
+    \[
+        \begin{pmatrix}
+            u \\ v
+        \end{pmatrix}'
+        =
+        \begin{pmatrix}
+            0 & 1 \\ -1 & 0
+        \end{pmatrix}
+        \begin{pmatrix}
+            u \\ v
+        \end{pmatrix}
+    \]
+    The fundamental system is 
+    \begin{align*}
+        y_1(x) = \begin{pmatrix}
+            \sin \\ \cos
+        \end{pmatrix}(x)
+        &&
+        y_2 = \begin{pmatrix}
+            \cos \\ -\sin 
+        \end{pmatrix}(x)
+    \end{align*}
+    Then define 
+    \begin{align*}
+        z(x) &= C_1(x)y_1(x) + C_2(x)y_2(x) \\
+        &= \underbrace{\begin{pmatrix}
+            \sin(x) & \cos(x) \\
+            \cos(x) & -\sin(x)
+        \end{pmatrix}}_{W(x)}
+        \begin{pmatrix}
+            C_1(x) \\ C_2(x)
+        \end{pmatrix}
+    \end{align*}
+    Deriving this yields 
+    \begin{align*}
+        z'(x) &= C_1'(x)y_1(x) + \cancel{C_1(x)y_1'(x)} + C_2'(x)y_2(x) + \cancel{C_2(x)y_2'(x)} \\
+        &= \cancel{C_1(x)Ay_1(x)} + \cancel{C_2(x)Ay_2(x)} + b(x) \\
+        &= b(x)
+    \end{align*}
+    This can be explicitly solved
+    \begin{align*}
+        C_1'(x)\sin(x) + C_2'(x)\cos(x) &= \sin(x) \\
+        C_1'(x)\cos(x) - C_2'(x)\sin(x) &= \cos(x)
+    \end{align*}
+    Leading to 
+    \begin{align*}
+        C_1'(x) &= C_1'(x)(\sin^2(x) + \cos^2(x)) = \sin^2(x) + \cos^2(x) = 1 \\
+        C_2'(x) &= C_2'(x)(\cos^2(x) - \sin^2(x)) = 0
+    \end{align*}
+    Thus 
+    \begin{align*}
+        C_1(x) &= x \\
+        C_2(x) &= 0
+    \end{align*}
+    So the general solution of the homogeneous equation is 
+    \[
+        y_h = \begin{pmatrix}
+            x \sin(x) \\ x \cos(x)
+        \end{pmatrix}
+    \]
+    Our next goal is to find a solution of $y' = Ay$ with $A \in \realn^{n \times n}$ constant.
+    In one dimension the solution would be 
+    \[
+        y = Ce^{Ax}
+    \]
+    Does this also hold for $n > 1$?
+\end{eg}
+
+\begin{rem}
+    Let $A \in \realn^{n \times n}$
+    \[
+        e^{Ax} = \sum_{k=0}^{\infty} \rec{k!}(Ax)^k = \sum_{k=0}^{\infty} \rec{k!} A^k x^k 
+    \]
+    We have 
+    \[
+        \sum_{k=0}^{\infty} \rec{k!} \norm{A^k x^k} \le \sum_{k=0}^{\infty} \frac{\abs{x}^k}{k!} \norm{A}^k = e^{\norm{x}\norm{A}} < \infty
+    \]
+    Thus, $e^{Ax}$ is defined $\forall A \in \realn^{n \times n}, ~\forall x \in \realn$. Deriving this yields 
+    \[
+        \dv{x}e^{Ax} = \sum_{k=1}^{\infty} \rec{k!} A^k x^{k-1} = A \sum_{k=1}^{\infty} \rec{(k-1)!} A^{k-1} x^{k-1} = Ae^{Ax}
+    \]
+\end{rem}
+
+\begin{thm}
+    Let $A \in \realn^{n \times n}$. The IVP 
+    \begin{align*}
+        y' = Ay && y(x_0) = y_0
+    \end{align*}
+    is solved exactly by 
+    \[
+        y(x) = e^{A(x - x_0)}y_0
+    \]
+\end{thm}
+\begin{proof}
+    Without proof.
+\end{proof}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item The problem of solving IVPs can be reduced to a problem of calculating a matrix exponential.
+        \item The following does NOT generall hold 
+        \begin{align*}
+            \dv{t}e^{A(x)} &= A'(x) e^{A(x)} \\
+            e^{A + B} &= e^A e^B
+        \end{align*}
+        \item Let $v$ be an eigenvector of $A$ to the eigenvalue $\lambda$. Then 
+        \begin{align*}
+            e^{Ax} v = \left(\sum_{k=0}^{\infty} \rec{k!} A^k x^k\right) v &= \sum_{k=0}^{\infty} \frac{x^k}{k!} A^k v \\
+            &= \left(\sum_{k=0}^{\infty} \frac{x^k}{k!} \lambda^k\right) v = e^{\lambda x} v
+        \end{align*}
+    \end{enumerate}
+\end{rem}
+
+\begin{eg}
+    Consider the IVP 
+    \begin{align*}
+        \begin{pmatrix}
+            y \\ z
+        \end{pmatrix}'
+        = \underbrace{\begin{pmatrix}
+            0 & 1 \\ 1 & 0
+        \end{pmatrix}}_A
+        \begin{pmatrix}
+            y \\ z
+        \end{pmatrix}
+        && y_0 = \begin{pmatrix}
+            1 \\ 0
+        \end{pmatrix}
+    \end{align*}
+    This $A$ is diagonalizable and has the eigenvalues 
+    \begin{align*}
+        \lambda_1 = -1 && \lambda_2 = 1
+    \end{align*}
+    and the eigenvectors 
+    \begin{align*}
+        v_1 = \begin{pmatrix}
+            1 \\ 1
+        \end{pmatrix}
+        &&
+        v_2 = \begin{pmatrix}
+            1 \\ -1
+        \end{pmatrix}
+    \end{align*}
+    So we can solve this ODES by calculating 
+    \begin{align*}
+        e^{Ax} y_0 = e^{Ax} \cdot \frac{1}{2}(v_1 + v_2) &= \frac{1}{2}\left(e^{\lambda_1 x} v_1 + e^{\lambda_2 x} v_2\right) \\
+        &= \frac{1}{2} \left(e^x v_1 + e^{-x} v_2\right)
+    \end{align*}
+    And thus 
+    \begin{align*}
+        y(x) = \frac{1}{2} \left(e^x + e^{-x}\right) && z(x) = \frac{1}{2} \left(e^x - e^{-x}\right)
+    \end{align*}
+\end{eg}
+
+\begin{rem}
+    Often the process above is formulated as follows:
+    Start by defining 
+    \[
+        y(x) = c \cdot e^{\lambda x} v ~~c, \lambda \in \field \text{ and } v \in \realn
+    \]
+    Insert this into the ODE
+    \[
+        c\lambda e^{\lambda x} = c e^{\lambda x} Av
+    \]
+    So $\lambda$ is an eigenvalue of $A$ to the eigenvector $v$.
+\end{rem}
+
+\begin{thm}
+    Let $A \in \realn^{n \times n}$ be diagonalizable, and $v_1, \cdots, v_n$ is a basis of eigenvectors to the eigenvalues $\lambda_1, \cdots, \lambda_n$.
+    Then the functions 
+    \[
+        y_i(x) = e^{\lambda_i x} v_i ~~i \in \set{1, \cdots, n}
+    \]
+    are a fundamental system to the ODES 
+    \[
+        y' = Ay
+    \]
+\end{thm}
+\begin{proof}
+    We have 
+    \begin{equation}
+        e^{Ax} v_i = e^{\lambda_i x} v_i
+    \end{equation}
+    In $x = 0$ the
+    \begin{equation}
+        y_1(0) = v_1, ~y_2(0) = v_2, ~\cdots, ~y_n(0) = v_n
+    \end{equation}
+    are linearly independent, so the $y_1, \cdots, y_n$ are also linearly independent.
+\end{proof}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item There is a special case, where $A \in \realn^{n \times n}$ is not diagonalizable in the real number space, but in the complex number space.
+        Let $\lambda = \lambda_r + \lambda_i$ be the eigenvalue to the eigenvector $v = v_r + v_i$. Then 
+        \begin{gather*}
+            e^{\lambda_r x} (v_r \sin(\lambda_i x) + v_i \cos(\lambda_i x)) \\
+            e^{\lambda_r x} (v_r \cos(\lambda_i x) + v_i \sin(\lambda_i x))
+        \end{gather*}
+        be linearly independent, real-valued solutions. To solve the IVP 
+        \begin{align*}
+            y(x) = C e^{\lambda x} v && y(0) = y_0
+        \end{align*}
+        we want to transform it into an eigenvalue problem and find a solution to that. Doing that gives us 
+        \[
+            y(x) = C_1 e^{\lambda_1 x} v_1 + \cdots + C_n e^{\lambda_n x} v_n
+        \]
+        By inserting the initial condition we can find 
+        \[
+            C_1 v_1 + C_2 v_2 + \dots + C_n v_n = y_0
+        \]
+        Finding the $C_1, \cdots, C_n$ shows us that the solution is automatically real.
+
+        \item If $A$ is not diagonalizable one can try and bring $A$ into Jordan normal form.
+    \end{enumerate}
+\end{rem}
+
+\begin{eg}
+    Consider the IVP 
+    \begin{align*}
+        \begin{pmatrix}
+            y \\ z
+        \end{pmatrix}'
+        =
+        \begin{pmatrix}
+            0 & 1 \\ -1 & 0
+        \end{pmatrix}
+        \begin{pmatrix}
+            y \\ z
+        \end{pmatrix}
+        && 
+        y_0 = \begin{pmatrix}
+            1 \\ 0
+        \end{pmatrix}
+    \end{align*}
+    The eigenvalues and eigenvectors are 
+    \begin{align*}
+        \lambda_1 &= i & \lambda_2 &= -i \\
+        v_1 &= \begin{pmatrix}
+            1 + i \\ -1 + i
+        \end{pmatrix}
+        &
+        v_2 &= \begin{pmatrix}
+            1 - i \\ -1 - i
+        \end{pmatrix}
+    \end{align*}
+    Thus we have the general solution 
+    \[
+        C_1 e^{ix} v_1 + C_2 e^{-ix} v_2
+    \]
+    which expands to 
+    \begin{align*}
+        (i + 1) C_1 \cancel{e^{i0}} + (1 - i)C_2 \cancel{e^{-i0}} &= 1 \\
+        (i - 1) C_1 \cancel{e^{i0}} + (-1 - i)C_2 \cancel{e^{-i0}} &= 0
+    \end{align*}
+    and solves to 
+    \begin{align*}
+        C_1 = \frac{1}{4} (1 - i) && C_2 = \frac{1}{4} (1 + i)
+    \end{align*}
+    So the solution to the IVP is 
+    \begin{align*}
+        y(x) = \cos(x) && z(x) = -\sin(x)
+    \end{align*}
+\end{eg}
+
+\begin{thm}
+    Let $a_1, \cdots, a_{n-1} \in \cmpln$. Let $\lambda_1, \cdots, \lambda_k$ be the roots of the polynomial
+    \[
+        a_0 + a_1 \lambda  + \cdots + a_{n-1} \lambda^{n-1} + \lambda^n
+    \]
+    and $\nu_1, \cdots, \nu_k$ their multiples. Then the functions 
+    \[
+        x \longmapsto x^l e^{\lambda_i x} ~~i \in \set{1, \cdots, k}, l \in \set{0, \cdots, \nu_{i_1}}
+    \]
+    form a fundamental system for 
+    \[
+        a_0 y + a_1 y' + \cdots + a_{n-1} y^{(n-1)} + y^{(n)}
+    \]
+\end{thm}
+\end{document}
