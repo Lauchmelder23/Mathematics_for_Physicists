@@ -1,5 +1,5 @@
 \documentclass[11pt]{report}
-\usepackage{amsmath, amssymb, amstext, physics}
+\usepackage{amsmath, amssymb, amstext}
 \usepackage{amsthm, stackrel, xifthen, mathtools, graphicx}
 \usepackage[makeroom]{cancel}
 \usepackage{hyperref, cleveref, bbm}
@@ -10,7 +10,9 @@
 \usepackage{kbordermatrix}
 \usepackage{fancyhdr}
 \usepackage{pdfpages}
+\usepackage[arrowdel]{physics}
 \usetikzlibrary{calc,trees,positioning,arrows,fit,shapes,angles,patterns}
+\DeclareDocumentCommand\vnabla{}{\vectorarrow{\nabla}}
 
 \graphicspath{assets}
 
@@ -94,6 +96,7 @@
 
 \newcommand{\setfam}{\mathcal{A}}
 \newcommand{\setfamb}{\mathcal{B}}
+\newcommand{\curve}{\mathcal{C}}
 \newcommand{\measureable}{(\Omega, \setfam)}
 \newcommand{\measure}{(\Omega, \setfam, \mu)}
 \newcommand{\intervals}{\mathcal{I}}
@@ -110,7 +113,6 @@
 			{\,\middle|\, #1}%
 	\right\}%
 }
-\renewcommand{\innerproduct}[2]{\langle#1,#2\rangle}
 
 \newcommand{\equalexpl}[1]{%
   \underset{\substack{\big\uparrow\\\mathrlap{\text{\hspace{-1.5em}#1}}}}{=}}
@@ -182,5 +184,6 @@
 \subfile{chapters/multivar_calc.tex}
 \subfile{chapters/measures_integrals.tex}
 \subfile{chapters/ode.tex}
+\subfile{chapters/int_submanifold.tex}
 
 \end{document}

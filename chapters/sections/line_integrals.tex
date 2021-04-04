@@ -1,0 +1,409 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{Line Integrals}
+
+\begin{defi}
+    Let $I$ be an interval and $n \in \natn$. A parametrized curve (or path) in $\realn^n$ is a continuous mapping 
+    \[
+        \gamma: I \longrightarrow \realn^n
+    \]
+    A parametrized curve is said to be regular if it is $C^1$ and $\gamma'(t) \ne 0 ~~\forall t \in I$.
+    It is said to be piecewise regular if there is a disjoint decomposition
+    \[
+        I = I_1 \cup I_2 \cup \cdots \cup I_n
+    \]
+    into partial intervals such that $\gamma$ is regular on each partial interval.
+
+    A curve is a subset of $\realn^n$ that is the image of a parametrized curve. If $\curve$ is a curve, then 
+    \[
+        \gamma: I \longrightarrow \realn^n
+    \]
+    is said to be the parametrization of $\curve$, if $\gamma(I) = \curve$ and if $\gamma$ is injective on $\interior{I}$.
+    The curves in this chapter will always be regular.
+\end{defi}
+
+\begin{eg}
+    \begin{enumerate}[(i)]
+        \item $\alpha, \kappa > 0$:
+        \begin{align*}
+            \gamma: \realn &\longrightarrow \realn^3 \\
+            t &\longmapsto (\cos(\alpha t), \sin(\alpha t), \kappa t)
+        \end{align*}
+        This is the parametrization of a screw curve.
+
+        \item The unit circle 
+        \[
+            \set[x^2 + y^2 = 1]{(x, y) \in \realn^2}
+        \]
+        is a curve with the parametrization
+        \begin{align*}
+            \gamma: [0, 2\pi] &\longrightarrow \realn^2 \\
+            t &\longmapsto (\cos t, \sin t)
+        \end{align*}
+
+        \item A square 
+        \[
+            \set[\max\set{\abs{x_1}, \abs{x_2}} = 1]{(x, y) \in \realn^2}
+        \]
+        is a piecewise regular curve.
+    \end{enumerate}
+\end{eg}
+
+\begin{rem}
+    Let $\gamma: I \rightarrow \realn^n$ be regular, $f: \gamma(I) \rightarrow \realn$ be continuous and $a, b \in \interior{I}$.
+    A decomposition $Z$ is given by the grid points
+    \[
+        a = t_0 < t_1 < \cdots < t_n = b
+    \]
+    The fineness of $Z$ is given by 
+    \[
+        m(Z) := \max_{t \in \set{0, 1, \cdots, n-1}} (t_{i+1} - t_i)
+    \]
+    We can represent $I$ in terms of $Z$ via 
+    \[
+        I(Z) := \sum_{i=0}^{n-1} f(\gamma(t_i)) \norm{\gamma(t_{i+1}) - \gamma(t_i)}
+    \]
+    Or in integral representation
+    \[
+        I(Z) = \int_a^b \underbrace{\sum_{i=0}^{n-1} f(\gamma(t_i)) \frac{\norm{\gamma(t_{i+1}) - \gamma(t_i)}}{\norm{t_{i+1} - t_i}} \charfun_{[t_i, t_{i+1})}(t)}_{g_Z(t)} \dd{t}
+    \]
+    So let $(Z_j)$ be a sequence of decompositions with 
+    \[
+        m(Z_j) \conv{j \rightarrow \infty} 0
+    \]
+    Let $t \in [a, b]$ not be a grid point of any $Z_j$. Then there exists a unique grid poiont $t_{j, i_j}$ such that $t \in [t_{j, i_j}, t_{j, i_{j+1}}]$. Then 
+    \[
+        \limes{j}{\infty} t_{j, i_j} = \limes{j}{\infty} t_{j, i_{j+1}} = t
+    \]
+    And thus 
+    \[
+        \limes{j}{\infty} g_{Z_j}(t) = f(\gamma(t)) \norm{\gamma'(t)}
+    \]
+    $\forall t$ that are not grid points of $Z_j$, this means tahat 
+    \[
+        g_{Z_j} \conv{j \rightarrow \infty} f \norm{\gamma'}
+    \]
+    almost everywhere. The dominated convergence theorem then tells us
+    \[
+        I(Z_j) = \int_a^b g_{Z_j}(t) \dd{t} \conv{j \rightarrow \infty} \int_a^b f(\gamma(t)) \norm{\gamma'(t)} \dd{t}
+    \]
+    Special case: For $f \equiv 1$ one gets the arc length.
+\end{rem}
+
+\begin{defi}[Line Integrals, Arc Length]
+    Let $I$ be an interval and $\gamma: I \rightarrow \realn^n$ a parametrized curve. Define the functions
+    \begin{align*}
+        f: \gamma(I) \longrightarrow \realn && E: \gamma(I) \longrightarrow \realn^n
+    \end{align*}
+    Then 
+    \[
+        \int_{\gamma} f \dd{s} := \int_I f(\gamma(t)) \norm{\gamma'(t)} \dd{t}
+    \]
+    is said to be a scalar line integral (line integral of first kind), and 
+    \[
+        \int_{\gamma} \innerproduct{E}{\dd{s}} := \int_I \innerproduct{E(\gamma(t))}{\gamma'(t)} \dd{t}
+    \]
+    is said to be a vector line integral (line integral of second kind).
+    The function $f$ or the vector field $E$ are integrable along $\gamma$ if the according integral exists.
+    The integral 
+    \[
+        \int_{\gamma} \dd{s}
+    \]
+    is the arc length of $\gamma$, and $\gamma$ is said to be rectifiable if this integral is finite.
+
+    If the curve $\gamma$ is closed, i.e. if $I = [a, b] ~~a, b \in \realn$ and 
+    \[
+        \gamma(a) = \gamma(b)
+    \]
+    Then the above integrals are often notated as 
+    \begin{align*}
+        \oint_{\gamma} \dd{s} && \oint_{\gamma} \innerproduct{E}{\dd{s}}
+    \end{align*}
+    to emphasize that the curve is closed. This changes nothing about the formulas, it is merely visual.
+    I will try to adhere to this style.
+\end{defi}
+
+\begin{eg}[Circumference of the unit circle]
+    Define 
+    \begin{align*}
+        \gamma: [0, 2\pi] &\longrightarrow \realn^2 \\
+        t &\longrightarrow (\cos(t), \sin(t))
+    \end{align*}
+    and derive this function 
+    \[
+        \gamma'(t) = (-\sin(t), \cos(t)) \implies \norm{\gamma'(t)} = 1
+    \]
+    Then the circumference is 
+    \[
+        \oint_{\gamma} \dd{s} = \int_0^{2\pi} \dd{t} = 2\pi
+    \]
+\end{eg}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item If $\gamma$ is only piecewise regular then the integrands might not be defined for all $t$.
+        \item Line integrals don't depend on the chosen parametrization. This means if $\curve$ is a curve and 
+        \begin{align*}
+            \gamma: I \rightarrow \curve && \rho: J \rightarrow \curve
+        \end{align*}
+        are parametrizations, then 
+        \[
+            \int_{\gamma} f \dd{s} = \int_{\rho} f \dd{s}
+        \]
+        We also write 
+        \[
+            \int_{\curve} f \dd{s}
+        \]
+        The same holds for vector integrals. 
+        \item Both kinds of integrals depend on the scalar product.
+        \item Both kinds of integrals are special cases of integrals over so called One-forms
+    \end{enumerate}
+\end{rem}
+
+\begin{thm}
+    Let $\gamma: I \rightarrow \realn^n$ be a parametrized curve, and $\vartheta: J \rightarrow I$ a diffeomorphism 
+    (so $\vartheta \in C^1$ and $\vartheta'(t) \ne 0 ~~\forall t \in J$). Let $f: \gamma(I) \rightarrow \realn$, then 
+    \[
+        \int_{\gamma} f \dd{s} = \int_{\gamma \circ \vartheta} f \dd{s}
+    \]
+\end{thm}
+\begin{proof}
+    We can assume $I, J$ to be open, since the endpoints of the integrals are a null set and thus don't matter.
+    W.l.o.g. let $\gamma$ be regular. Then 
+    \begin{equation}
+        \begin{split}
+            \int_{\gamma \circ \vartheta} f \dd{s} &= \int_J f(\gamma \circ \vartheta)(t) \norm{(\gamma \circ \vartheta)'(t)} \dd{t} \\
+            &= \int_J f(\gamma(\vartheta(t))) \norm{\gamma'(\vartheta(t)) \vartheta'(t)} \dd{t} \\
+            &= \int_J f(\gamma(\vartheta(t))) \norm{\gamma'(\vartheta(t))} \abs{\vartheta'(t)} \dd{t} \\
+            &= \int_I f(\gamma(\tau)) \norm{\gamma'(\tau)} \dd{\tau} \\
+            &= \int_{\gamma} f \dd{s}
+        \end{split}
+    \end{equation}
+\end{proof}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item One can show that for a curve $\curve$ and parametrizations
+        \begin{align*}
+            \gamma: I \rightarrow \curve && \rho: J \rightarrow \curve
+        \end{align*}
+        there exists a diffeomorphism $\vartheta: J \rightarrow I$ such that 
+        \[
+            \rho = \gamma \circ \vartheta
+        \]
+        So the line integral of first degree doesn't depend on the parametrization.
+
+        \item A line integral of second degree doesn't depend on the parametrization if the parametrizations run along the curve in the same direction.
+        So if $\vartheta' > 0$, $\vartheta$ is said to conserve orientation. If $\vartheta' < 0$ then the integral switches sign.
+    \end{enumerate}
+\end{rem}
+
+\begin{eg}
+    Let $\gamma: I \rightarrow \realn^3$ be the trajectory of a point mass, and $F: \realn^3 \rightarrow \realn^3$ a time-independent forcefield.
+    The work done is then given by 
+    \[
+        W := \int_{\gamma} \innerproduct{F}{\dd{s}}
+    \]
+    The fact that the parametrization can be chosen arbitrarily means that the work done in a forcefield is independent from the velocity of the point mass.
+\end{eg}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item Line integrals are linear in $f$ or $E$, meaning for 
+        \[
+            f, g: \gamma(I) \rightarrow \realn, ~~\lambda \in \realn
+        \]
+        we have
+        \[
+            \int_{\gamma}(g + \lambda g) \dd{s} = \int_{\gamma} f \dd{s} + \lambda \int_{\gamma} g \dd{s}
+        \]
+
+        \item Parametrized curves over compact intervals can be reparametrized so that $I = [0, 1]$.
+        
+        \item Let 
+        \begin{align*}
+            \gamma: [0, 1] \rightarrow \realn^n && \rho: [0, 1] \rightarrow \realn^n
+        \end{align*}
+        be curves with $\gamma(1) = \rho(0)$. Define 
+        \begin{align*}
+            \inv{\gamma}: [0, 1] &\longrightarrow \realn^n & \gamma\rho: [0, 1] &\longrightarrow \realn^n \\
+            t &\longrightarrow \gamma(1 - t) & t &\longrightarrow \begin{cases}
+                \gamma(2t), & t \le 0.5 \\
+                \rho(2t + 1), & t > 0.5
+            \end{cases}
+        \end{align*}
+        Then we have 
+        \begin{align*}
+            &\int_{\inv{\gamma}} f \dd{s} = \int_{\gamma} f \dd{s} \\
+            &\int_{\gamma\rho} f \dd{s} = \int_{\gamma} f \dd{s} + \int_{\rho} f \dd{s} \\
+            &\int_{\inv{\gamma}} \innerproduct{E}{\dd{s}} = -\int_{\gamma} \innerproduct{E}{\dd{s}} \\
+            &\int_{\gamma\rho} \innerproduct{E}{\dd{s}} = \int_{\gamma} \innerproduct{E}{\dd{s}} + \int_{\rho} \innerproduct{E}{\dd{s}}
+        \end{align*}
+    \end{enumerate}
+\end{rem}
+
+\begin{defi}
+    Let $U \subset \realn^n$ be open and $f: U \rightarrow \realn$ a $C^1$-function. Define 
+    \[
+        \grad f = (\partial_1 f, \partial_2 f, \cdots, \partial_m f)
+    \]
+    The vector field $E: U \rightarrow \realn^n$ is said to be conservative if there is a function $g: U \rightarrow \realn$ such that 
+    \[
+        E = \grad{g}
+    \]
+    $g$ is the potential of $E$.
+\end{defi}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item In physics the sign is typically switched, so 
+        \[
+            E = -\grad{g}
+        \]
+
+        \item The IDE 
+        \[
+            p(x, y) + q(x, y)y' = 0
+        \]
+        is exact if and only if the vector field $(p, q)$ is conservative.
+
+        \item If $E$ is conservative and $C^1$, then 
+        \[
+            \partial_i E_j = \partial_j E_i
+        \]
+        This condition is not sufficient in general.
+
+        \item If $g$ is a potential for $E$, then the functions
+        \[
+            g + c ~~c \in \realn
+        \]
+        are also potentials.
+
+        \item If $E$ is conservative, $g$ a potential and $\gamma: [a, b] \rightarrow \realn^n$ a curve, then
+        \begin{align*}
+            \int_{\gamma} \innerproduct{E}{\dd{s}} &= \int_a^b \innerproduct{E(\gamma(t))}{\gamma'(t)} \dd{t} \\
+            &= \int_a^b \left(\partial_1 g(\gamma(t)) \gamma_1'(t) + \cdots + \partial_n g(\gamma(t))\gamma_n'(t)\right) \dd{t} \\
+            &= \int_a^b (g \circ \gamma)'(t) \dd{t} = g(\gamma(b)) - g(\gamma(a))
+        \end{align*}
+        The vector line integral over conservative fields is independent from the chosen path (it only depends on the start and end points).
+
+        \item Let $U$ be open, path-connected and $E: U \rightarrow \realn^n$ a conservative vector field. 
+        Choose a fixed $x_0 \in U$, and for $x \in U$ choose a parametrized curve $\gamma_x$ from $x_0$ to $x$.
+        Then 
+        \[
+            x \longmapsto \int_{\gamma_x} \innerproduct{E}{\dd{s}}
+        \]
+        is a potential, because if $g$ is an arbitrary potential we have 
+        \[
+            \int_{\gamma_x} \innerproduct{E}{\dd{s}} = g(x) - g(x_0) \quad \forall x \in U
+        \]
+    \end{enumerate}
+\end{rem}
+
+\begin{eg}
+    \begin{enumerate}[(i)]
+        \item Let 
+        \begin{align*}
+            E: \realn^3 \setminus \set{0} &\longrightarrow \realn^3 \\
+            x &\longmapsto -\frac{x}{\norm{x}^3}
+        \end{align*}
+        This field is conservative, with the potential 
+        \begin{align*}
+            \phi: \realn^3 \setminus \set{0} &\longrightarrow \realn \\
+            x &\longmapsto \rec{\norm{x}}
+        \end{align*}
+
+        \item Let 
+        \begin{align*}
+            E: \realn^2 \setminus \set{0} &\longrightarrow \realn^2 \\
+            (x, y) &\longmapsto \left(-\frac{y}{x^2 + y^2}, \frac{x}{x^2 + y^2} \right)
+        \end{align*}
+        Then 
+        \[
+            \partial_1 E_2 = \frac{1}{x^2 + y^2} - \frac{2x^2}{(x^2 + y^2)} = \frac{y^2 - x^2}{(x^2 + y^2)^2} = \partial_2 E_1
+        \]
+        We can calculate the line integral of $E$ along the unit circle
+        \begin{align*}
+            \gamma: [0, 2\pi] &\longrightarrow \realn^2 \\
+            t &\longmapsto (\cos t, \sin t)
+        \end{align*}
+        Then 
+        \[
+            E(\gamma(t)) = (-\sin t, \cos t) = \gamma'(t)
+        \]
+        The integral is then 
+        \[
+            \int_{\gamma} \innerproduct{E}{\dd{s}} = \int_0^{2\pi} \norm{(-\sin t, \cos t)}^2 \dd{t} = 2\pi \ne 0
+        \]
+
+        \item In the chapter about differential equations we looked at an exact equation in \Cref{eg:817}:
+        \[
+            (2x + y^2) + (2xy)y' = 0
+        \]
+        We can now use curve integrals to calculate the potential function more easily. For that let $x_0 = (0, 0)$.
+        Then for $(\xi, \eta)$ we can define a curve connecting $x_0$ and $(\xi, \eta)$ for $t \in [0, 1]$:
+        \[
+            t \longmapsto (\xi t, \eta t)
+        \]
+        Consider the vector field
+        \[
+            E(x, y) = (2x + y^2, 2xy)
+        \]
+        Then 
+        \begin{align*}
+            (\xi, \eta) \longmapsto \int_{\gamma} \innerproduct{E}{\dd{s}} &= \int_0^1 \innerproduct{E(\xi t, \eta t)}{(\xi, \eta)} \dd{t} \\
+            &= \int_0^1 (2\xi^2 t + \eta^2\xi t^2 + 2\xi\eta^2 t^2) \dd{t} \\
+            &= \xi^2 + \eta^2\xi
+        \end{align*}
+    \end{enumerate}
+\end{eg}
+
+\begin{thm}
+    Let $U \subset \realn^n$ be an open subset. A continuous vector field $E: U \rightarrow \realn^n$ is conservative if and only if 
+    for every closed curve $\gamma: [0, 1] \rightarrow U$ the following holds
+    \[
+        \oint_{\gamma} \innerproduct{E}{\dd{s}} = 0
+    \]
+\end{thm}
+\begin{proof}
+    Line integrals over $E$ are path independent. Let $\gamma, \rho: [0, 1] \rightarrow U$ be paths with 
+    \begin{align}
+        \gamma(0) = \rho(0) && \gamma(1) = \rho(1)
+    \end{align}
+    Then $\gamma \inv{\rho}$ is closed, so 
+    \begin{equation}
+        0 = \int_{\gamma\inv{\rho}} \innerproduct{E}{\dd{s}} = \int_{\gamma} \innerproduct{E}{\dd{s}} - \int_{\rho} \innerproduct{E}{\dd{s}}
+    \end{equation}
+    Assume that $U$ is path continuous. Choose a fixed $x_0 \in U$ and let $g: U \rightarrow \realn$. Then 
+    \begin{equation}
+        g(x) = \int_{x_0}^x \innerproduct{E}{\dd{s}}
+    \end{equation}
+    Performing a directional derivation in direction $h \in \realn^n$ yields
+    \begin{equation}
+        \begin{split}
+            g(x + ah) - g(x) &= \int_{x_0}^{x + ah} \innerproduct{E}{\dd{s}} - \int_{x_0}^x \innerproduct{E}{\dd{s}} \\
+            &= \int_{x}^{x + ah} \innerproduct{E}{\dd{s}} \\
+            &= \int_0^a \innerproduct{E(x + th)}{h} \dd{t}
+        \end{split}
+    \end{equation}
+    Here we have chosen a linear path of integration between $x_0$ and $x$, and between $x$ and $x + ah$. In other words, we're integrating along 
+    \begin{equation}
+        t \longmapsto x + th
+    \end{equation}
+    Using the intermediate value theorem, we can find that $\exists \xi_a \in (0, a)$ such that 
+    \begin{equation}
+        \int_0^a \innerproduct{E(x + th)}{h} \dd{t} = \innerproduct{E(x + \xi_a h)}{h} \cdot a
+    \end{equation}
+    Then we have 
+    \begin{equation}
+        \partial_h g(x) = \limes{a}{0} \frac{g(x + ah) - g(x)}{a} = \limes{a}{0} \innerproduct{E(x + \xi_a h)}{h} = \innerproduct{E(x)}{h}
+    \end{equation}
+    So if $h$ is a standard basis $e_i$, then 
+    \begin{equation}
+        \partial_i g(x) = E_i(x)
+    \end{equation}
+    Thus the partial derivative of $g$ is continuous, and therefore $g$ is continuously differentiable, and thus a potential.
+\end{proof}
+\end{document}
