@@ -1,0 +1,178 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{Complex Differentiability}
+
+\begin{defi}
+    Let $f: U \rightarrow \cmpln$, with $U \subset \cmpln$ open. $f$ is said to be complex differentiable in $z_0 \in U$ if 
+    \[
+        \limes{z}{z_0} \frac{f(z) - f(z_0)}{z - z_0} =: f'(z_0)
+    \]
+    exists. If $f$ is complex differentiable on all of $U$, $f$ is said to be holomorphic. 
+    A funciton that is holomorphic on all of $\cmpln$ is entire.
+
+    An equivalent formulation wiould be 
+    \[
+        \forall \epsilon > 0 ~\exists \delta > 0: ~~\abs{z - z_0} < \delta \implies \abs{f(z) - f(z_0) - a(z - z_0)} < \epsilon
+    \]
+    In this case $a = f'(z_0)$.
+\end{defi}
+
+\begin{thm}
+
+    \begin{enumerate}[(i)]
+        \item $f$ complex differentiable in $z_0 \in \cmpln \implies f$ continuous in $z_0$ 
+        \item $f, g$ complex differentiable in $z_0$, then $f + g$ and $f \cdot g$ are complex differentiable in $z_0$, and 
+        \begin{align*}
+            (f + g)'(z_0) &= f'(z_0) + g'(z_0) \\
+            (fg)'(z_0) &= f'(z_0)g(z_0) + f(z_0)g'(z_0) 
+        \end{align*}
+        If $g(z_0) \ne 0$, then $\frac{f}{g}$ is complex differentiable and 
+        \[
+            \left(\frac{f}{g}\right)'(z_0) = \frac{g(z_0)f'(z_0) - g'(z_0)f(z_0)}{g(z_0)^2}
+        \]
+        \item Let $f: U \rightarrow \cmpln$, $U \subset \cmpln$ open and $C \subset \cmpln$ open with $f(U) \subset V$, and let $g: V \rightarrow \cmpln$.
+        Then $g \circ f: U \rightarrow \cmpln$. If $f$ is complex differentiable in $z_0$, and $g$ is complex differentiable in $f(z_0)$, then 
+        $g \circ f$ is complex differentiable in $z_0$ with 
+        \[
+            (g \circ f)'(z_0) = g'(f(z_0)) f'(z_0)
+        \]
+        \item If $f$ is complex differentiable in $z_0$, $f'(z_0) \ne 0$
+        and if $\exists \delta > 0$ such that $f: \oball[\delta](z_0) \rightarrow U \subset \cmpln$ is bijective, 
+        then the inverse function $g$ is complex differentiable in $f(z_0)$, with 
+        \[
+            g'(f(z_0)) = \rec{f'(z_0)}
+        \]
+    \end{enumerate}
+\end{thm}
+\begin{proof}
+    \reader
+\end{proof}
+
+\begin{rem}[Complex vs. Real Differentiability]
+    Consider $f: U \rightarrow \cmpln$, $U \subset \cmpln$ open. Let 
+    \begin{align*}
+        x = \Re z && y = \Im z
+    \end{align*}
+    and define 
+    \[
+        \tilde{U} _= \set[x + iy \in U]{(x, y) \in \realn^2}
+    \]
+    and 
+    \begin{align*}
+        \tilde{f}: \tilde{U} &\longrightarrow \realn^2 \\
+        (x, y) &\longmapsto (\Re(f(x + iy)), \Im(f(x + iy))) =: (u(x, y), v(x, y))
+    \end{align*}
+    Then $f$ is complex differentiable in $z = x + iy$.
+    \begin{enumerate}[(i)]
+        \item We have 
+        \begin{align*}
+            f'(z) &= \limes{h}{0} \frac{f(z + h) - f(z)}{h} \\
+            &= \limes{h}{0} \frac{u(x + h, y) + iv(x, y + h) - u(x, y) - iv(x, y)}{h} \\
+            &= \limes{h}{0} \frac{u(x + h, y) - u(x, y)}{h} + i \limes{h}{0} \frac{v(x + h, y) - v(x, y)}{h} \\
+            &= \pdv{x} u(x, y) + i \pdv{x} v(x, y)
+        \end{align*}
+
+        \item And also 
+        \begin{align*}
+            f'(z) &= \limes{h}{0} \frac{f(z + ih) - f(z)}{ih} \\
+            &= -i \limes{h}{0} \frac{u(x, y + h) + iv(x, y + h) - u(x, y) - iv(x, y)}{h} \\ 
+            &= -i \limes{h}{0} \frac{u(x, y + h) - u(x, y)}{h} + \limes{h}{0} \frac{v(x, y + h) - v(x, y)}{h} \\
+            &= - \pdv{y} u(x, y) + \pdv{y}(x, y)
+        \end{align*}
+    \end{enumerate}
+    This results in the Cauchy-Riemann equations:
+    \begin{align*}
+        \pdv{x} u(x, y) &= \pdv{y} v(x, y) \\
+        \pdv{y} u(x, y) &= -\pdv{x} v(x, y)
+    \end{align*}
+    if $f$ is complex differentiable in $z = x + iy$.
+
+    From the Cauchy-Riemann equations and the real differentiability of the function $\tilde{f}: \tilde{U} \rightarrow \realn^2$ follows
+    \begin{align*}
+        D\tilde{f}(x, y) = \begin{pmatrix}
+            \partial_x u(x, y) & \partial_y u(x, y) \\
+            \partial_x v(x, y) & \partial_y v(x, y)
+        \end{pmatrix} &= \begin{pmatrix}
+            \partial_x u(x, y) & -\partial_x v(x, y) \\
+            \partial_x v(x, y) & \partial_x u(x, y)
+        \end{pmatrix} \\
+        &=: \begin{pmatrix}
+            a & -b \\ 
+            b & a
+        \end{pmatrix}
+    \end{align*}
+    and thus for $h = (h_1, h_2) \in \realn^2$ 
+    \begin{align*}
+        \tilde{f}(x + h_1, y + h_2) - \tilde{f}(x, y) &= D\tilde{f}(x, y) h + \bigo(\abs{h}) \\
+        &= \begin{pmatrix}
+            ah_1 - bh_2 \\ 
+            bh_1 + ah_2
+        \end{pmatrix} + \bigo(\abs{h})
+    \end{align*}
+    A side calculation:
+    \[
+        (a +ib)(h_1 + ih_2) = ah_1 - bh_2 + i(bh_1 + ah_2)
+    \]
+    \[
+        \implies \begin{pmatrix}
+            ah_1 - bh_2 \\
+            bh_1 + ah_2
+        \end{pmatrix} + \bigo(\abs{h}) = 
+        \begin{pmatrix}
+            \Re(a + ib)(h1 + ih_2) \\
+            \Im(a + ib)(h_1 + ih_2)
+        \end{pmatrix} + \bigo(\abs{h})
+    \]
+    So for $h = h_1 + ih_2$ we get 
+    \[
+        f(z + h) - f(z) = (a + ib)h + \bigo(\abs{h})
+    \]
+    So $f$ is complex differentiable in $z$ with $f'(z) = a + ib$. In short, we have shown the following theorem.
+\end{rem}
+
+\begin{thm}
+    Let $f: U \rightarrow \cmpln$ with $U \subset \cmpln$ open. $f$ is complex differentiable in $z \in U$ if and only if
+    $\tilde{f}: \tilde{U} \rightarrow \realn^2$ is real differentiable in $(x, y) \in \tilde{U}$, and if the Cauchy-Riemann equations are satisfied.
+\end{thm}
+\begin{proof}
+    Proof is in the previous remark.
+\end{proof}
+
+\begin{eg}
+    \begin{enumerate}[(i)]
+        \item Power series like 
+        \[
+            f(z) = \sum_{n=0}^{\infty} a_n z^n, \quad (a_n) \subset \cmpln
+        \]
+        with convergence radius $\rho \in [0, \infty]$ are holomorphic on $\oball[\rho](0)$. The following holds 
+        \[
+            f'(z) = \sum_{n=0}^{\infty} n a_n z^{n-1}
+        \]
+        Especially, the funciton
+        \[
+            f(z) = e^{\alpha z}, \quad \alpha \in \cmpln
+        \]
+        is holomorphic on all of $\cmpln$ with 
+        \[
+            f'(z) = \alpha e^{\alpha z}
+        \]
+
+        \item The function 
+        \[
+            f(z) = \frac{1}{z^n}
+        \]
+        is holomorphic $\cmpln \setminus \set{0}$ with 
+        \[
+            f'(z) = -n \rec{z^{n+1}}
+        \]
+
+        \item Functions that are not complex differentiable include 
+        \begin{align*}
+            f(z) = \conj{z} && f(z) = z\conj{z} \\
+            (\partial_x u = 1 \ne \partial_y v = -1) && (\partial_x u = 2x^2 \ne \partial_y v = 0)
+        \end{align*}
+    \end{enumerate}
+\end{eg}
+\end{document}
