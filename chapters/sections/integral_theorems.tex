@@ -1,0 +1,231 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{Integral Theorems}
+
+\begin{defi}
+    Let $U \subset \realn^3$. We define the following mappings
+    \begin{align*}
+        \text{Gradient} \quad & \grad: C^1(U) \longrightarrow C^1(U, \realn^3)\\
+        \text{Divergence} \quad & \div: C^1(U, \realn^3) \longrightarrow C(U)\\
+        \text{Curl} \quad & \curl: C^1(U, \realn^3) \longrightarrow C^1(U, \realn^3) \\
+        \text{Laplacian} \quad &\laplacian: C^2(U) \longrightarrow C(U)
+    \end{align*}
+    And define the operations for $f \in C^1(U)$, $g \in C^2(U)$, $E \in C^1(U, \realn^3)$
+    \begin{align*}
+        \grad f &:= (\partial_1 f, \partial_2 f, \partial_3 f) \\
+        \div E &:= \partial_1 E_1 + \partial_2 E_2 + \partial_3 E_3 \\
+        \curl E &:= (\partial_2 E_3 - \partial_3 E_2, \partial_3 E_1 - \partial_1 E_3, \partial_1 E_2 - \partial_2 E_1) \\
+        \laplacian g &:= \partial_1^2 g + \partial_2^2 g + \partial_3^2 g
+    \end{align*}
+    $\nabla$ is called the Nabla operator and it's defined as 
+    \[
+        \nabla = (\partial_1, \partial_2, \partial_3)
+    \]
+    and subsequently the Laplacian can be defined as 
+    \[
+        \laplacian = \div \grad
+    \]
+\end{defi}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item All of these operations are linear. Typically they operate on everything to their right up until the next $+$ or $-$.
+        \item $\grad$, $\div$, $\laplacian$ can all be extended to $\realn^n$, however because the cross product isn't sensibly defined outside of $\realn^3$, $\curl$ can't be extended to $\realn^n$.
+        \item There are some identities:
+        \begin{align*}
+            \div (\curl E) &= 0 = \curl (\grad E) \\
+            \div (\grad f) &= \laplacian f \\
+            \grad (f g) &= (\grad f) g + f (\grad g) \\
+            \div (f E) &= \innerproduct{\grad f}{E} + f (\div E) \\
+            \curl (f E) &= (\grad f) \times E + f (\curl E) \\
+            \laplacian (f E) &= (\laplacian f) g + 2 \innerproduct{\grad f}{\grad g} + f (\laplacian g)
+        \end{align*}
+    \end{enumerate}
+\end{rem}
+
+\begin{rem}
+    A parametrized curve $\gamma: [0, 1] \rightarrow \realn^n$ is said to be simple closed if it doesn't intersect itself ($\gamma$ is injective on $[0, 1)$).
+    In $\realn^2$ these kinds of curves split the space into a bounded part $U$ and an unbounded part. We assums $\gamma$ to be positive oriented (meaning $U$ is "left" of the curve).
+\end{rem}
+
+\begin{thm}[Green's Theorem]
+    Let $\gamma: [0, 1] \rightarrow \realn^2$ be a simple closed curve, more specifically the boundary of $U$. Let $E: \realn^2 \rightarrow \realn^2$ be a $C^1$-vector-field. Then 
+    \[
+        \iint_U (\partial_1 E_2 - \partial_2 E_1) \dd{\lambda^2} = \oint_{\gamma} \innerproduct{E}{\dd{s}}
+    \]
+\end{thm}
+\begin{hproof}
+    Consider the following special case
+
+    \begin{center}
+        \begin{tikzpicture}
+            \draw (0, 0) -- node[above] {$b$} (4, 0);
+            \draw (0, 0) -- node[left] {$a$} (0, -4);
+
+            \draw (0, -4) -- node[below] {$f$} (4, 0);
+        \end{tikzpicture}
+    \end{center}
+    So $f: [0, b] \rightarrow \realn^2$ strictly monotonically increasing, $C^1$, $f(0) = a < 0$ and $f(b) = 0$.
+    Then define the curves 
+    \begin{align}
+        C_1 = [0, b] \times \set{0} && C_2 = \set{0} \times [0, a]
+    \end{align}
+    And $C_3$ the graph of $f$ parametrized by 
+    \begin{equation}
+        t \longmapsto (t, f(t))
+    \end{equation}
+    Since $f$ is monotonically increasing, there exists an inverse function $g$ that us continuously differentiable. Then 
+    \begin{equation}
+        \begin{split}
+            &\iint_U (\partial_1 E_2 - \partial_2 E_1) \dd{\lambda^2} \\
+            = &\int_a^0 \int_0^{g(y)} \partial_1 E_2(x, y) \dd{x}\dd{y} - \int_0^b \int_{f(x)}^0 \partial_2 E_1(x, y) \dd{y}\dd{x} \\
+            = &\int_0^a (E_2(g(y), y))- E_2(0, y)) \dd{y} - \int_0^b (E_1(t, f(t)) - E(x, f(x))) \dd{x} \\
+            = &\underbrace{-\int_0^b E_1(t, 0) \dd{t}}_{\int_{C_1}\innerproduct{E}{\dd{s}}} + \underbrace{\int_0^a E_2(0, t) \dd{t}}_{\int_{C_2}\innerproduct{E}{\dd{s}}} + \underbrace{\int_0^b (E_1(t, f(t)) + E_2(t, f(t))) f'(t) \dd{t}}_{\int_{C_3} \innerproduct{E}{\dd{s}}} \\
+            = &\oint_{C_1C_2C_3} \innerproduct{E}{\dd{s}}
+        \end{split}
+    \end{equation}
+\end{hproof}
+
+\begin{cor}[Divergence Theorem in 2D]
+    Let $E \in C^1(\realn^2, \realn^2)$ and define $\gamma: [0, 1] \rightarrow \realn^2$ simple closed to be the boundary of $U$.
+    We set 
+    \[
+        \sigma(t) = (\gamma'(t), - \gamma'(t))
+    \]
+    Then 
+    \[
+        \iint_U \div E \dd{\lambda^2} = \oint_{\gamma} \innerproduct{E}{\dd{s}} = \int_0^1 \innerproduct{E(\gamma(t))}{\sigma(t)} \dd{t}
+    \]
+\end{cor}
+\begin{proof}
+    Set $\tilde{E} = (-E_2, E_1)$ and apply Green's theorem:
+    \begin{equation}
+        \begin{split}
+            \iint_U \div E \dd{\lambda^2} = \iint_U (\partial_1 E_2 - \partial_2 E_1) \dd{\lambda^2} &= \oint_{\gamma} \innerproduct{E}{\dd{s}} \\
+            &= \int_0^1 \innerproduct{E(\gamma(t))}{\sigma(t)} \dd{t}
+        \end{split}
+    \end{equation}
+\end{proof}
+
+\begin{cor}[Stokes' Theorem in the $x$-$y$-plane]
+    Let $\tilde{E}: \realn^3 \rightarrow \realn^3$ be a vector field, $\gamma: [0, 1] \rightarrow \realn^2$ the simple closed boundary of $U$.
+    Set $\tilde{\gamma(t)} = (\gamma(t), 0)$ and $\tilde{U} = U \times \set{0}$
+    \[
+        \iint_{\tilde{U}} \innerproduct{\curl E}{\dd{\sigma}} = \oint_{\tilde{\gamma}} \innerproduct{\tilde{E}}{\dd{s}}
+    \]
+\end{cor}
+\begin{proof}
+    Choose 
+    \[
+        (x, y) \longmapsto (x, y, 0)
+    \]
+    as a parametrization of $\tilde{U}$ with $\sigma = (0, 0, 1)$. Set 
+    \[
+        E(x, y) = (\tilde{E}_1(x, y, 0), \tilde{E}_2(x, y, 0))
+    \]
+    Then 
+    \begin{equation}
+        \begin{split}
+            \iint_{\tilde{U}} \innerproduct{\curl \tilde{E}}{\dd{\sigma}} &= \iint_U  \innerproduct{\curl \tilde{E}(x, y, 0)}{(0, 0, 2)} \dd{\lambda^2(x, y)} \\
+            &= \iint_U \partial_1 E_2(x, y) - \partial_2 E_1(x, y) \dd{\lambda(x, y)} \\
+            &= \oint_{\gamma} \innerproduct{E}{\dd{s}} = \oint_{\tilde{\gamma}} \innerproduct{\tilde{E}}{\dd{s}}
+        \end{split}
+    \end{equation}
+\end{proof}
+
+\begin{rem}
+    A set $U \subset \realn^n$ is said to be simply connected, if for every closed curve $\gamma: [0, 1] \rightarrow U$ there exists
+    a continuous mapping $\vartheta: [0, 1]^2 \rightarrow U$, such that 
+    \begin{align*}
+        \vartheta(1, t) = \gamma(t) \quad \vartheta(0, t) = \gamma(0) && \forall t \in [0, 1]
+    \end{align*}
+    $\vartheta$ is said to be a homotopy.
+\end{rem}
+
+\begin{thm}[Stokes' Theorem]
+    Let $U \subset \realn^3$ be a simply connected, orientable surface whose boundary is a closed curve $\gamma$. 
+    For $U$ let there be an orientation (so a continuous normal vector field), 
+    and orientate $\gamma$ such that $U$ is to the left of $\gamma$ relative to the normal direction.
+    Let $E \in C^1(\realn^3, \realn^3)$ be a vector field, then 
+    \[
+        \iint_U \innerproduct{\curl E}{\dd{\sigma}} = \oint_{\gamma} \innerproduct{E}{\dd{s}}
+    \]
+\end{thm}
+\begin{proof}
+    Without proof.
+\end{proof}
+
+\begin{eg}
+    The condition that $U$ is simply connected is necessary:
+    \[
+        (x, y, z) \longmapsto \left(\frac{-y}{x^2 + y^2}, \frac{x}{x^2 + y^2}, 0\right)
+    \]
+    is free of curl. Curve integrals "around the $z$-axis" can be non-zero.
+\end{eg}
+
+\begin{rem}
+    Let $U \subset \realn^3$ be simply connected, $E \in C^1(U, \realn^3)$. Then 
+    \[
+        E \text{ conservative} \iff \curl E = 0
+    \]
+    If $\curl E = 0$, $U$ is simply connected and $\gamma$ is a closed curve in $U$, then there exists a surface in $U$ that is bounded by $\gamma$.
+    Using Stokes' theorem one can then see that 
+    \[
+        \oint_{\gamma} \innerproduct{E}{\dd{s}} = 0 ~~\forall \gamma \text{ closed}
+    \]  
+    And thus $E$ is conservative.
+    A surface $A$ is said to be closed, if it splits $\realn^3$ into a bounded and an unbounded part. 
+    The bounded part shall be named $U$ and is oriented such that the normals point outwards.
+\end{rem}
+
+\begin{thm}[Divergence Theorem]
+    Let $M$ be a closed surface and $E \in C^1(\realn^3, \realn^3)$. Then 
+    \[
+        \iiint_U \div E \dd{\lambda^3} = \oiint_M \innerproduct{E}{\dd{\sigma}}
+    \]
+\end{thm}
+\begin{proof}
+    Without proof.
+\end{proof}
+
+\begin{cor}[Green's Identities]
+    Let $M$ be a closed surface, let $f, g \in C^2(U, \realn)$, and $n$ an orientation (continuous normal vector field). Then 
+    \begin{align*}
+        \iiint_U f \laplacian g + \innerproduct{\grad f}{\grad g} \dd{\lambda^3} &= \oiint_M \innerproduct{f \grad g}{\dd{\sigma}} \\
+        \iiint_U f \grad g - g \grad f \dd{\lambda^3} &= \oiint_M \innerproduct{f \grad g - g \grad f}{\dd{\sigma}} \\
+        &= \oiint_M (f \partial_n g - g \partial_n f) \dd{\sigma}
+    \end{align*}
+\end{cor}
+\begin{proof}
+    Apply the divergence theorem to $f \grad g$:
+    \begin{equation}
+        \div(f \grad g) = \innerproduct{\grad f}{\grad g} + f \laplacian g
+    \end{equation}
+    Swapping and subtracting $f$ and $g$ yields the second equation.
+    Let $\phi: V \rightarrow M$ be a parametrization. Then 
+    \begin{equation}
+        \begin{split}
+            \oiint_{\phi} \innerproduct{f \grad g}{\dd{\sigma}} &= \iint_V \innerproduct{f(\phi(t)) \grad g(\phi(t))}{\sigma_{\phi}(t)} \dd{\lambda^2(t)} \\
+            &= \iint_V f(\phi(t)) \underbrace{\innerproduct{\grad g(\phi(t))}{n(\phi(t))}}_{\partial_n g(\phi(t))} \norm{\sigma_{\phi}(t)} \\
+            &= \oiint_M f \partial_n g \dd{\sigma}
+        \end{split}
+    \end{equation}
+\end{proof}
+
+\begin{eg}
+    Let $U \subset \realn^3$ be bounded with a given volume $V$, and a "nice" boundary $M$ with area $A$. Set 
+    \[
+        R = \sup\set[(x, y, z) \in M]{\norm{(x, y, z)}}
+    \]
+    Let $E(x, y, z) = (x, y, z)$ and $\phi: W \rightarrow M$ a parametrization. Then 
+    \begin{align*}
+        3V &= \iiint_U E \dd{\lambda^3} = \oiint_M \innerproduct{E}{\dd{\sigma}} \\
+        &= \iint_W \innerproduct{E(\phi(t))}{\sigma_{\phi}(t)} \dd{\lambda^2(t)} \\
+        &\le \iint_W \abs{\langle \cdots \rangle} \dd{\lambda^2(t)} \\
+        &\le \iint_W \underbrace{\norm{E(\phi(t))}}_{\le R} \norm{\sigma_{\phi}(t)} \dd{\lambda^2(t)} \le R \cdot A
+    \end{align*}
+    For the sphere with radius $R$ we have equality.
+\end{eg}
+\end{document}
