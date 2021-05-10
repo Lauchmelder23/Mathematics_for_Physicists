@@ -28,9 +28,8 @@ The topics covered in this script will be:
    5.1 Metric and Normed spaces  
    5.2 Sequences, Series and Limits  
    5.3 Open and Closed Sets  
-   5.4 ????  
-   5.5 Continuiuty  
-   5.6 Convergence of Function Sequences
+   5.4 Continuiuty  
+   5.5 Convergence of Function Sequences
 
 6. Differential Calculus for Functions with multiple Variables  
    6.1 Partial and Total Differentiability  
@@ -42,9 +41,8 @@ The topics covered in this script will be:
    7.1 Contents and Measures  
    7.2 Integrals  
    7.3 Integrals over the real numbers  
-   7.4 ????  
-   7.5 Product Measures and the Fubini Theorem  
-   7.6 The Transformation Theorem
+   7.4 Product Measures and the Fubini Theorem  
+   7.5 The Transformation Theorem
 
 8. Ordinary Differential Equations  
    8.1 Solution Methods  

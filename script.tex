@@ -11,7 +11,7 @@
 \usepackage{fancyhdr}
 \usepackage{pdfpages}
 \usepackage[arrowdel]{physics}
-\usetikzlibrary{calc,trees,positioning,arrows,fit,shapes,angles,patterns}
+\usetikzlibrary{calc,trees,decorations.markings,positioning,arrows,fit,shapes,angles,patterns}
 \DeclareDocumentCommand\vnabla{}{\vectorarrow{\nabla}}
 
 \graphicspath{assets}
@@ -38,6 +38,7 @@
 \DeclareMathOperator{\sgn}{sgn}
 \DeclareMathOperator{\diag}{diag}
 \DeclareMathOperator{\const}{const}
+\DeclareMathOperator{\Log}{Log}
 
 \newcommand{\natn}{\mathbb{N}}
 \newcommand{\intn}{\mathbb{Z}}
@@ -86,7 +87,7 @@
 
 \newcommand{\interior}[1]{\mathring{#1}}
 \newcommand{\boundary}[1]{\partial #1}
-\newcommand{\closure}[1]{\bar{#1}}
+\newcommand{\closure}[1]{\overline{#1}}
 
 \newcommand{\conv}[1]{\xrightarrow{\makebox[2em][c]{$\scriptstyle#1$}}}
 \newcommand{\convinf}{\conv{n \rightarrow \infty}}
