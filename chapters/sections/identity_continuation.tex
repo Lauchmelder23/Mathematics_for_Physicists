@@ -1,0 +1,148 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{Identity Theorem \& Analytic Continuation}
+
+\begin{defi}
+    Let $f: U \rightarrow \cmpln$ be a function on $U \subset \cmpln$ and $n \in \natn$. $f$ has a root with multiplicity $n$ at $z_0$, if 
+    \begin{align*}
+        f^{(k)} (z_0) &= 0, \quad \forall k = 0, \cdots, n - 1 \\
+        f^{(n)} (z_0) &= 0
+    \end{align*}
+    If $f$ is holomorphic it can be written as 
+    \[
+        f(z) = \sum_{k=n}^{\infty} c_n (z - z_0)^k
+    \]
+\end{defi}
+
+\begin{thm}[Identity Theorem]
+    Let $U \subset \cmpln$ be a domain and $f: U \rightarrow \cmpln$ analytic. If 
+    \[
+        \set[f(z) = 0]{z \in \cmpln}
+    \]
+    has an accumulation point, i.e.
+    \[
+        f(z_n) = 0, \quad (z_n)_{n \in \natn} \subset U, ~(z_n) \conv{n \rightarrow \infty} z_{\infty} \in U
+    \]
+    then $f = 0$ on $U$.
+\end{thm}
+\begin{proof}
+    Since $f$ is analytic in $z_0 \in U$, $\exists \delta > 0$ such that 
+    \begin{equation}
+        f(z) = \sum_{k=0}^{\infty} a_k (z - z_0)^k, \quad \forall z \in \oball[\delta](z_0)
+    \end{equation}
+    Because $z_0 \in U$ is a root of $f$ we can find that $a_0 = 0$. If $a_k \ne 0$ for some $k \ge 1$ then we can consider 
+    \begin{equation}
+        m = \min\set[a_k \ne 0]{k \ge 1}
+    \end{equation}
+    Define
+    \begin{equation}
+        g(z) = \sum_{n=0}^{\infty} a_{n+m} (z - z_0)^n
+    \end{equation}
+    Then $g(z_0) \ne 0$ and 
+    \begin{equation}
+        f(z) = (z - z_0)^m g(z)
+    \end{equation}
+    This function $g$ is analytic in $\oball[\delta](z_0)$, and thus continuous. 
+    This means $\exists \delta' < \delta$ such that $g$ doesn't vanish on $\oball[\delta'](z_0)$.
+    We can conclude that $f$ doesn't vanish on $\oball[\delta'](z_0) \setminus \set{z_0}$ either.
+    If $a_k = 0 ~~\forall k \in \natn$, then $f = 0$ on $\oball[\delta(z_0)]$.
+
+    Now define the set 
+    \begin{equation}
+        A = \set[f^{(k)}(z) = 0, \quad \forall k \in \natn_0]{z \in U}
+    \end{equation}
+    Since $f^{(n)}$ is continuous for all $n \in \natn_0$, we find 
+    \begin{equation}
+        \begin{split}
+            A &= \bigcap_{n \in \natn_0} \set[f^{(n)}(z) = 0]{z \in U} \\
+            &= \underbrace{\bigcap_{n \in \natn_0} \underbrace{\underbrace{\inv{\left(f^{(n)}\right)}}_{\text{continuous}} (\underbrace{\set{0}}_{\text{closed}})}_{\text{closed}}}_{\text{closed}}
+        \end{split}
+    \end{equation}
+    But $A$ is also open. To prove this we consider a point $z_1 \in A$. Then the Taylor series of $f$ in $z_1$ is identical to the zero-function.
+    But then $f = 0$ on a neighbourhood $V$ of $z_1$. However, since $f^{(n)}(z) = 0 ~~\forall n \in \natn_0$ and $z \in V$, we can use our previous
+    results to conclude that $V \subset A$, making $A$ a closed set.
+
+    $U$ can now be represented in terms of $A$:
+    \begin{equation}
+        U = A \cup (U \setminus A)
+    \end{equation}
+    This is the disjoint union of two open sets. Since $U$ is a domain (and thus connected) this can only be the case if 
+    \begin{equation}
+        A = \set{U, \varnothing}
+    \end{equation}
+    Since $z_0 = 0$ we can conclude $A = U$.
+\end{proof}
+
+\begin{defi}
+    If $V \subset U \subset \cmpln$, and there exist two holomorphic functions 
+    \begin{align*}
+        f: V &\longrightarrow \cmpln \\
+        \tilde{f}: U &\longrightarrow \cmpln
+    \end{align*}
+    with the property 
+    \begin{align*}
+        f(z) = \tilde{f}(z), \quad \forall z \in V
+    \end{align*}
+    then $\tilde{f}$ is said to be the analytic continuation of $f$ on $U$.
+\end{defi}
+
+\begin{rem}
+    If the set $V$ has an accumulation point and if $U$ is a domain, then the analytic continuation $\tilde{f}$ of $f$ on $U$ is unique (This follows from the identity theorem).
+\end{rem}
+
+\begin{eg}
+    \begin{enumerate}[(i)]
+        \item $f(z) = \sum_{n=0}^{\infty} z^n$ is holomorphic on $\set[\abs{z} < 1]{z \in \cmpln}$. The function 
+        \[
+            \tilde{f}(z) = \frac{1}{1 - z}
+        \]
+        is an analytic continuation of $f$ on $\cmpln \setminus \set{1}$.
+
+        \item We can also find the analytic continuation along a chain of circular disks: 
+        for $j \in \natn$ define the power series
+        \[
+            f_j(z) := \sum_{n=0}^{\infty} a_n(j)(z - z_j)^n
+        \]
+        around $z_j \in \cmpln$ with convergence radius $\rho_j \in (0, \infty]$.
+        If the disks overlap and the functions are compatible, i.e.
+        \[
+            f_j(z) = f_k(z), \quad \forall z \in \oball[\rho_j](z_j) \cap \oball[\rho_k](z_k)
+        \]
+        then there is a unique holomorphic continuation on 
+        \[
+            \bigcup_{j \in \natn} \oball[\rho_j](z_j)
+        \]
+    \end{enumerate}
+\end{eg}
+
+\begin{defi}[Analytic continuation along curves]
+    Let $\gamma: [t_0, t_1] \rightarrow \cmpln$ be a continuous curve and 
+    \[
+        f(z) = \sum_{n = 0}^{\infty} a_n (z - z_0)^n
+    \]
+    a converging power series around $z_0 = \gamma(t_0)$.
+    Then the family of functions 
+    \[
+        f_t(z) := \sum_{n=0}^{\infty} a_n(t) (z - \gamma(t))^n, \quad t \in [t_0, t_1]
+    \]
+    is an analytic continuation of $f$ along $\gamma$ if 
+    \begin{itemize}
+        \item $f_{t_0} = f$
+        \item $\forall t \in [t_0, t_1]$ exists a $\epsilon > 0$ such that for all $\abs{\tau} < \epsilon$ the functions $f_t$ and $f_{\min\set{t, \tau, t_1}}$ are compatible.
+    \end{itemize}
+\end{defi}
+
+\begin{eg}[Complex Logarithm]
+    The family 
+    \[
+        L_t(z) := it + \sum_{n=1}^{\infty} \frac{(-1)^n}{n} \left(e^{it}z - 1\right)^n, \quad t \in [0, \infty)
+    \]
+    is an analytic continuation of the main branch of the complex logarithm $L_0(z) = \Log(z)$ along the unit circle. This yields the secondary branches of the complex logarithm:
+    \[
+        L_{2\pi n}(z) = 2\pi in + \Log(z)
+    \]
+\end{eg}
+
+\end{document}
