@@ -1,0 +1,289 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{Laurent Series}
+
+\begin{defi}[Classification of isolated singularities]
+    Let $f: U \rightarrow \cmpln$ and $U \subset \cmpln$ open. Then $z_0 \in \cmpln \setminus \set{U}$ is said to be an isolated singularity if
+    there exists an $\epsilon > 0$ such that $\oball[\epsilon](z_0) \setminus \set{z_0} \subset U$.
+
+    An isolated singularity $z_0$ is said to be 
+    \begin{enumerate}[(i)]
+        \item \textit{removable} if $f$ can be analytically continued on $U \cup \set{z_0}$
+        \item a \textit{pole} if $\exists m \ge 1$ such that 
+        \[
+            (z- z_0)^m f(z)
+        \]
+        has a removable singularity in $z_0$. The smallest such $m$ is the order of the pole.
+        \item \textit{essential} if it is neither removable nor a pole of finite degree.
+    \end{enumerate}
+\end{defi}
+
+\begin{eg}
+    \begin{enumerate}[(i)]
+        \item The function $f(z) = \frac{\sin z}{z}$ is holomorphic on $\cmpln \setminus \set{0}$, and has a removable singularity in $z_0 = 0$.
+        An analytic continuation of $f$ on all of $\cmpln$ is given by
+        \[
+            z \longmapsto \sum_{n = 0}^{\infty} (-1)^n \frac{z^{2n}}{(2n + 1)!}
+        \]
+
+        \item Let $g: U \rightarrow \cmpln$ be holomorphic with $g(z_0) \ne 0$ for $z_0 \in U$. The function 
+        \[
+            f(z) = \frac{g(z)}{(z - z_0)^m}
+        \]
+        has a pole of $m$-th degree in $z_0$.
+
+        \item Consider the function 
+        \begin{align*}
+            f: \cmpln \setminus \set{0} &\longrightarrow \cmpln \\
+            z &\longmapsto e^{\rec{z}}
+        \end{align*}
+        $f$ has an essential singularity in $z_0 = 0$. The power series representation of $f$ is 
+        \[
+            f(z) = \sum_{n=0}^{\infty} \frac{1}{n!} \rec{z^n}
+        \]
+        This doesn't remove the sungularity in $z_0$, and the pole is of infinite order
+        \[
+            z^k \abs{f(z)} \conv{z \rightarrow 0} \infty, \quad \forall k \in \natn
+        \]
+    \end{enumerate}
+\end{eg}
+
+\begin{thm}[Riemann's Theorem]
+    An isolated singularity $z_0 \in U$ of a holomorphic function $f: U \setminus \set{z_0} \rightarrow \cmpln$ is removable if and only if 
+    $f$ is bounded in a punctured neighbourhood of $z_0$, i.e. 
+    \[
+        \exists \epsilon > 0, c \ge 0: \quad \abs{f(z)} \le c \quad \forall z \in \set[0 < \abs{\zeta - z_0} < \epsilon]{\zeta \in \cmpln}
+    \]
+\end{thm}
+\begin{proof}
+    If $f$ can be analytically continued on $U \cup \set{z_0}$, then this continuation is continuous in $z_0$ and thus bounded in a neighbourhood of $z_0$.
+    Inversely, if there exists some $c \ge 0$ and $\epsilon > 0$ such that 
+    \begin{equation}
+        \abs{f(z)} \le c \quad \forall z \in \set[0 < \abs{\zeta - z_0} < \epsilon]{\zeta \in \cmpln}
+    \end{equation}
+    Define the function 
+    \begin{equation}
+        \begin{split}
+            g: U &\longrightarrow \cmpln \\
+            z &\longmapsto \begin{cases}
+                (z - z_0)^2 f(z), & z \ne z_0 \\
+                0, & z = z_0
+            \end{cases}
+        \end{split}
+    \end{equation}
+    Then 
+    \begin{align}
+        \lim_{z \rightarrow z_0} \frac{\abs{g(z) - g(z_0)}}{\abs{z - z_0}} = \lim_{z \rightarrow z_0} \frac{\abs{z - z_0}^2 \abs{f(z)}}{\abs{z - z_0}} = \lim_{z \rightarrow z_0} \left( \abs{z - z_0} \abs{f(z)} \right) = 0
+    \end{align}
+    Thus $g$ is holomorphic on $U$ with $g(z_0) = g'(z_0) = 0$, meaning that 
+    \begin{equation}
+        g(z) = \sum_{n=2}^{\infty} c_n (z - z_0)^n
+    \end{equation}
+    with $c_n \in \cmpln$. So the function 
+    \begin{align}
+        \tilde{f}: U &\longrightarrow \cmpln \\
+        z &\longmapsto \sum_{n=2}^{\infty} c_n (z - z_0)^{n-2} = \sum_{n=0}^{\infty} c_{n+2} (z - z_n)^n
+    \end{align}
+    is a holomorphic continuation of $f$ on $U \cup \set{z_0}$.
+\end{proof}
+
+\begin{defi}[Laurent Series]
+    If we define the coefficients $c_n \in \cmpln$ for $n \in \intn$, and $z, z_0 \in \cmpln$, then the series 
+    \[
+        \sum_{n \in \intn} c_n (z - z_0)^n := \underbrace{\sum_{n=1}^{\infty} c_{-n} (z - z_0)^{-n}}_{\text{Analytic part}} + \underbrace{\sum_{n=0}^{\infty} c_n (z - z_0)^n}_{\text{Principal part}}
+    \]
+    is said to be a Laurent series. It converges absolutely if the parts do so.
+
+    If $\frac{1}{r} \in [0, \infty]$ is the convergence radius of the principal part and $R \in [0, \infty]$ the convergence radius of the analytic branch, 
+    then the Laurent series converges on the annulus
+    \[
+        K_{r,R}(z_0) := \set[r < \abs{z - z_0} < R]{z \in \cmpln}
+    \]
+    and is holomorphic.
+\end{defi}
+
+\begin{lem}
+    If the series $f(z) := \sum_{n \in \intn} c_n (z - z_0)^n$ converges on $\cball[r,R](z_0)$, then for $\rho \in (r, R)$
+    \[
+        c_n = \rec{2\pi i} \oint_{|z - z_0| = \rho} \frac{f(z)}{(z - z_0)^{n+1}} \dd{z}, \quad n \in \intn
+    \]
+\end{lem}
+\begin{proof}
+    Due to the uniform convergence of the series on $\cball[r,R](z_0)$, we have
+    \begin{equation}
+        \begin{split}
+            \oint_{|z - z_0| = \rho} \frac{f(z)}{(z - z_0)^{n+1}} \dd{z} = &\sum_{k \in \intn} c_k \oint_{|z - z_0| = \rho} (z - z_0)^{k-n-1} \dd{z} \\
+            = &\sum_{k \in \intn} c_k \cdot 2\pi i \delta_{k-n-1, -1} = 2\pi i \cdot c_n
+        \end{split}
+    \end{equation}
+    with $\delta_{i,j}$ the Kronecker delta, defined as 
+    \begin{equation}
+        \delta_{i, j} := \begin{cases}
+            1, & i = j \\
+            0, & i \ne j
+        \end{cases}
+    \end{equation}
+\end{proof}
+
+\begin{thm}
+    Let $f: \cball[r,R](z_0) \rightarrow \cmpln$ be holomorphic, then 
+    \[
+        f(z) = \sum_{n \in \intn} c_n (z - z_0)^n
+    \]
+    with 
+    \[
+        c_n = \rec{2\pi i} \oint_{|z - z_0| = \rho} \frac{f(z)}{(z - z_0)^{n+1}} \dd{z}, \quad n \in \intn, ~\rho \in (r, R)
+    \]
+\end{thm}
+\begin{proof}
+    W.l.o.g. we set $z_0 = 0$. Similar to the proof of Cauchy's theorem, we can prove Cauchy's theorem for annuli. 
+    To do that we define the following integration path
+    \begin{center}
+        \begin{tikzpicture}[scale=0.6]
+            \draw[fill] (-7, 0) node[below] {$z_0$} circle [radius=0.05];
+            \draw (-7, 0) circle [radius=4];
+            \draw (-7, 0) circle [radius=1.5];
+            \draw (-7, 0) -- node[right] {$r$} ({-7 + 1.5*cos(70)}, {0 + 1.5*sin(70)});
+            \draw (-7, 0) -- node[above left=0.2] {$R$} ({-7 + 4*cos(110)}, {0 + 4*sin(110)});
+    
+            \draw[fill] (-7, -2.75) node[left] {$z$} circle [radius=0.05];
+            \draw (-7, -2.75) -- node[below] {$\epsilon$} ({-7 + 1*cos(10)}, {-2.75 + 1*sin(10)});
+            \begin{scope}[decoration={
+                    markings,
+                    mark=at position 0.5 with {\arrow{latex}}}
+                    ]
+                \draw[thick, postaction={decorate}, domain=180:0] plot ({-7 + 1*cos(\x)}, {-2.75 + 1*sin(\x)});
+                \draw[thick, postaction={decorate}, domain=0:-180] plot ({-7 + 1*cos(\x)}, {-2.75 + 1*sin(\x)});
+            \end{scope}
+    
+            \draw[very thick, ->, >={latex}] (-2, 0) -- (2, 0);
+    
+            \draw[fill] (7, 0) node[below] {$z_0$} circle [radius=0.05];
+            \draw (7, 0) circle [radius=4];
+            \draw (7, 0) circle [radius=1.5];
+            \draw (7, 0) -- node[right] {$r$} ({7 + 1.5*cos(70)}, {0 + 1.5*sin(70)});
+            \draw (7, 0) -- node[above left=0.2] {$R$} ({7 + 4*cos(110)}, {0 + 4*sin(110)});
+    
+            \draw[fill] (7, -2.75) node[left] {$z$} circle [radius=0.05];
+            \begin{scope}[decoration={
+                    markings,
+                    mark= between positions 0.2 and 0.8 step 0.3 with {\arrow{latex}}}
+                    ]
+                \draw[thick, postaction={decorate}, domain=5:355, samples=50] plot ({7 + 1.75*cos(\x)}, {0 + 1.75*sin(\x)});
+                \draw[thick, postaction={decorate}, domain=-2:-358, samples=50] plot ({7 + 3.75*cos(\x)}, {0 + 3.75*sin(\x)});
+            \end{scope}
+    
+            \begin{scope}[decoration={
+                markings,
+                mark= at position 0.5 with {\arrow{latex}}}
+                ]
+            \draw[thick, postaction={decorate}] ({7 + 1.75*cos(355)}, {0 + 1.75*sin(355)}) -- ({7 + 3.75*cos(357.5)}, {0 + 3.75*sin(357.5)});
+            \draw[thick, postaction={decorate}] ({7 + 3.75*cos(2)}, {0 + 3.75*sin(2)}) -- ({7 + 1.75*cos(5)}, {0 + 1.75*sin(5)});
+        \end{scope}
+    
+        \draw ({7 + 1.5*cos(200)}, {0 + 1.5*sin(200)}) node[right] {$\delta$} -- ({7 + 1.75*cos(200)}, {0 + 1.75*sin(200)});
+        \draw ({7 + 3.75*cos(200)}, {0 + 3.75*sin(200)}) -- ({7 + 4*cos(200)}, {0 + 4*sin(200)}) node[left] {$\delta$};
+        \end{tikzpicture}
+    \end{center}
+    The two parallel path segments in the right figure are actually overlapping. They have been drawn next to each other for visual clarity.
+    Now we can write 
+    \begin{equation}
+    \begin{split}
+        f(z) = &\rec{2\pi i} \oint_{|\zeta - z| = \epsilon} \frac{f(\zeta)}{\zeta - z} \dd{\zeta} \\
+        = &\rec{2\pi i} \oint_{|\zeta| = R - \delta} \frac{f(\zeta)}{\zeta - z} \dd{\zeta} - \rec{2\pi i} \oint_{|\zeta| = r + \delta} \frac{f(\zeta)}{\zeta - z} \dd{\zeta} \\
+        = &\rec{2\pi i} \oint_{|\zeta| = R - \delta} \frac{f(\zeta)}{\zeta} \rec{1 - \frac{z}{\zeta}} \dd{\zeta} + \rec{2\pi i} \rec{z} \oint_{|\zeta| = r + \delta} f(\zeta) \rec{1 - \frac{\zeta}{z}} \dd{\zeta}
+    \end{split}
+    \end{equation}
+    We can now make use of the geometric series:
+    \begin{subequations}
+        \begin{equation}
+            \rec{1 - \frac{z}{\zeta}} = \sum_{n=0}^{\infty} \left( \frac{z}{\zeta} \right)^n, \quad \abs{z} < \abs{\zeta}
+        \end{equation}
+        \begin{equation}
+            \rec{1 - \frac{\zeta}{z}} = \sum_{n=0}^{\infty} \left( \frac{\zeta}{z} \right)^n, \quad \abs{\zeta} < \abs{z}
+        \end{equation}
+    \end{subequations}
+    Thus we get 
+    \begin{equation}
+    \begin{split}
+        f(z) = &\rec{2\pi i} \oint_{|\zeta| = R - \delta} \frac{f(\zeta)}{\zeta} \sum_{n=0}^{\infty} \frac{z^n}{\zeta^n} \dd{\zeta} + \rec{2\pi i} \rec{z} \oint_{|\zeta| = r + \delta} f(\zeta) \sum_{n=0}^{\infty} \frac{\zeta^n}{z^n} \dd{\zeta} \\
+        = &\sum_{n=0}^{\infty} z^n \left(\rec{2\pi i} \oint_{|\zeta| = R - \delta} \frac{f(\zeta)}{\zeta^{n+1}} \dd{\zeta}\right) + \sum_{n=0}^{\infty} \frac{1}{z^{n+1}} \left(\rec{2\pi i} \oint_{|\zeta| = r + \delta} f(\zeta)\zeta^n \dd{\zeta}\right) \\
+        = &\sum_{n=0}^{\infty} c_n z^n + \sum_{n=1}^{\infty} z^{-n} \underbrace{\left(\rec{2\pi i} \oint_{|\zeta| = r + \delta} \frac{f(\zeta)}{\zeta^{-n + 1}} \dd{\zeta} \right)}_{= c_{-n}}
+    \end{split}
+    \end{equation}
+\end{proof}
+
+\begin{eg}
+    Consider 
+    \[
+        f(z) = \frac{1}{z(z-1)} = \frac{1}{z-1} - \frac{1}{z}
+    \]
+    Using the geometric series we can then find for $\cball[0,1](0)$
+    \[
+        f(z) = -\rec{z} - \sum_{n=0}^{\infty} z^n
+    \]
+    the Laurent series of $f$ around $z_0 = 0$. For $\cball[0,1](1)$ we get 
+    \begin{align*}
+        f(z) &= \rec{z-1} - \rec{z-1+1} = \rec{z-1} - \rec{1 - (1 - z)} \\
+        &= \underbrace{\rec{z-1}}_{\text{Principal part}} - \underbrace{\sum_{n=0}^{\infty} (1-z)^n}_{\text{Analytic part}}
+    \end{align*}
+\end{eg}
+
+\begin{eg}
+    \[
+        f(z) = e^{\rec{z}} = \sum_{n=0}^{\infty} \rec{n!}\left(\rec{z}\right)^n = 1 + \underbrace{\sum_{n=1}^{\infty} \rec{n!} \rec{z^n}}_{\text{Principal part}}
+    \]
+    converges on $\cball[0, \infty](0)$.
+\end{eg}
+
+\begin{thm}
+    If $f: U \setminus\set{z_0} \rightarrow \cmpln$ has an essential singularity in $z_0 \in U$, then for every $\epsilon > 0$ the 
+    image $f(\oball[\epsilon](z_0) \setminus \set{z_0})$ is dense in $\cmpln$, i.e.
+    \[
+        \forall \alpha \in \cmpln ~\exists \anyseqdef[z]{U \setminus \set{z_0}}: \quad z_n \longrightarrow z_0 \implies f(z_n) \longrightarrow \alpha
+    \]
+\end{thm}
+\begin{proof}
+    \reader
+\end{proof}
+
+\begin{rem}
+    We have essentially noticed three things:
+    \begin{enumerate}[(i)]
+        \item 
+        \begin{align*}
+            &f \text{ has a removable singularity in } z_0 \\
+            \iff &f \text{ is bounded in a neighbourhood of } z_0 \\
+            \iff &\lim_{\abs{z - z_0} \rightarrow 0} f(z) \text{ exists and is bounded}
+        \end{align*}
+
+        \item 
+        \begin{align*}
+            &f \text{ has a pole of order } m \ge 1 \text{ in } z_0 \\
+            \iff &\lim_{\abs{z - z_0} \rightarrow 0} \abs{f(z)} = \infty \text{ and } \lim_{\abs{z - z_0} \rightarrow 0} (z- z_0)^m f(z) < \infty
+        \end{align*}
+
+        \item 
+        \begin{align*}
+            &f \text{ has an essential singularity in } z_0 \\
+            \iff &\text{the set of accumulation points of } f(z) \text{ for } z \longrightarrow z_0 \text{ is all of } \cmpln
+        \end{align*}
+    \end{enumerate}
+\end{rem}
+
+\begin{defi}
+    Let $U \subset \cmpln$ be a domain. For holomorphic $g, h: U \rightarrow \cmpln$ with $h \ne 0$ the function 
+    \begin{align*}
+        f: U \setminus \set[h(z) = 0]{z \in U} &\longrightarrow \cmpln \\
+        z &\longmapsto \frac{g(z)}{h(z)}
+    \end{align*}
+    \sloppy is said to be a meromorphic function. Meromorphic functions are holomorphic on ${U \setminus \set{h(z) = 0}}$.
+    If $z_0 \in U$ a root of order $m \in \natn$ of $h$ and a root of order $k \in \natn_0$ of $g$, then the isolated singularity in $z_0$ of $f$ is 
+    \begin{itemize}
+        \item removable for $k \ge m$
+        \item a pole of order $m - k$ for $k < m$
+    \end{itemize}
+\end{defi}
+\end{document}
