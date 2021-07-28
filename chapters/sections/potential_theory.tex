@@ -1,0 +1,286 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{Application: Potential Theory}
+
+\begin{defi}[Harmonic Function]
+    A function $\phi: U \rightarrow \realn$ with $U \subset \realn^d$ open, $d \in \natn$ is said to be harmonic if 
+    \[
+        \laplacian\phi(x) = \sum_{j=1}^d \partial_j^2 \phi(x) = 0, \quad x \in \realn^d
+    \]
+\end{defi}
+
+\begin{thm}\label{thm:10.37}
+    If $f: U \rightarrow \cmpln$, $U \subset \cmpln$ is holomorphic, then $\Re(f)$ and $\Im(f)$ are harmonic on $U$.
+\end{thm}
+\begin{proof}
+    If $f$ is holomorphic on $U$, then $f$ is also analytic, which means it is infinitely differentiable on $U$.
+    Using the Cauchy-Riemann equations the desired statement can be shown.
+\end{proof}
+
+\begin{eg}[Potential problems in $\realn^2$]
+    Let $U \subset \realn^2$ be a domain with smooth boundary. A typical problem from electrostatics is
+    \begin{align*}
+        \laplacian \phi(x, y) &= 0 & (x, y) &\in U \\
+        \phi(x, y) &= \phi_0(x, y) & (x, y) &\in \boundary{U}
+    \end{align*}
+    where $\phi: \closure{U} \rightarrow \realn$ is the desired function with given boundary values $\phi_0 \in C(\boundary{}{U}, \realn)$.
+    Such a boundary value problem is known as the Dirichlet problem.
+
+    An important example is the Dirichlet problem for the upper half plane
+    \[
+        \set[y > 0]{(x, y) \in \realn^2}
+    \] 
+    with $\phi_0 \in C(\realn)$. We want to assume that $\phi_0$ decreases like 
+    \[
+        \abs{\phi_0(x)} \le \frac{c}{1 + \abs{x}}, \quad x \in \realn, c > 0
+    \]
+    near infinity.
+\end{eg}
+
+\begin{thm}[Poisson integral formula for the upper half plane]\label{thm:10.38}
+    The function 
+    \[
+        \phi(x, y) = \rec{\pi} \int_{-\infty}^{\infty} \phi_0(t) \frac{y}{(x-t)^2 + y^2} \dd{t}
+    \]
+    solves the Dirichlet problem for the upper half plane
+    \begin{align*}
+        \laplacian\phi(x, y) &= 0 & (x, y) &\in \set[y > 0]{(x, y) \in \realn^2} \\
+        \phi(x, 0) &= \phi_0(x) & x &\in \realn
+    \end{align*}
+\end{thm}
+\begin{proof}
+    The function
+    \begin{equation}
+        f(z) := \rec{\pi i} \int_{-\infty}^{\infty} \phi_0(t) \rec{t-z} \dd{t}
+    \end{equation}
+    is holomorphic on $\cmpln_+$ with 
+    \begin{equation}
+        \Re(f(x + iy)) = \rec{\pi} \int_{-\infty}^{\infty} \phi_0(t) \Im\left(\rec{t-z}\right) \dd{t}
+    \end{equation}
+    We find that 
+    \begin{equation}
+        \Im\left(\rec{t - x - iy}\right) = \Im\left(\rec{(t - x) - iy}\right) = \Im\left(\frac{(t - x) + iy}{(t - x)^2 + y^2} \right) = \frac{y}{(t-x)^2 + y^2}
+    \end{equation}
+    and thus
+    \begin{equation}
+        \Re(f(x + iy)) = \phi(x, y)
+    \end{equation}
+    for $y > 0$. However according to \Cref{thm:10.37} this means that $\phi$ is harmonic for $y > 0$:
+    \begin{equation}
+        \laplacian \phi(x, y) = 0, \quad \forall(x, y) \in \set[y > 0]{(x, y) \in \realn^2}
+    \end{equation}
+    It remains to be shown that the boundary values are being accounted for. For that we rewrite the Poisson integral formula as 
+    \begin{equation}
+        \phi(x, y) = (\phi_0 * P_y)(x) := \int_{\realn} \phi(t) P_y(x - t) \dd{t}
+    \end{equation}
+    with the Poisson kernel $P_y(x) = \rec{\pi} \frac{y}{x^2 + y^2}$. We will finish this proof later.
+\end{proof}
+
+\begin{defi}[Convolution]
+    We define
+    \[
+        L^1(\realn^d) := \set[\int_{\realn^d} \abs{f(x)} \dd{x} < \infty]{f: \realn^d \rightarrow \realn \text{ measurable}}
+    \]
+    the Lebesgue space of absolutely integrable functions. It is a complete, normed space with 
+    \[
+        \norm{f}_{L^1} = \int_{\realn^d} \abs{f} \dd{x}
+    \]
+    It induces a metric space with the metric
+    \[
+        d(f, g) := \norm{f - g}_{L^1}
+    \]
+    Let $\anyseqdef[f]{L^1(\realn^d)}$. This sequence converges to $f \in L^1(\realn^d)$ if
+    \[
+        \norm{f_n - f}_{L^1} \conv{n \rightarrow \infty} 0
+    \]
+    Since $L^1$ is complete, every Cauchy sequence converges.
+    For $f, g \in L^1(\realn^d)$
+    \[
+        (f * g)(x) := \int_{\realn^d} f(y) g(x - y) \dd{y}
+    \]
+    is said to be the convolution of $f$ and $g$.
+\end{defi}
+
+\begin{thm}
+    The convolution is well defined as a mapping
+    \[
+        *: L^1(\realn^d) \times L^1(\realn^d) \longrightarrow L^1(\realn^d)
+    \]
+    with $\norm{f * g}_{L^1} \le \norm{f}_{L^1} \norm{g}_{L^1}$.
+    The space $(L^1(\realn^d), *)$ is a commutative and associative algebra, i.e. $\forall f, g, h \in L^1(\realn^d)$:
+    \begin{enumerate}[(i)]
+        \item $f * g = g * f$
+        \item $(f * g) * h = f * (g * h)$
+        \item $f * (g + h) = f * g + f * h$
+        \item $\forall \lambda \in \cmpln: \quad \lambda(f * g) = (\lambda f) * g = f * (\lambda g)$
+    \end{enumerate}
+\end{thm}
+
+\begin{proof}
+    We will only be proving that the mapping is well defined and that the inequality holds.
+    First, let 
+    \begin{equation}
+        f, g \in L^1 \cap L^{\infty} := \set[\esssup_{x \in \realn^d} \abs{f(x)} < \infty]{f: \realn^d \rightarrow \realn \text{ measurable}}
+    \end{equation}
+    Then the convolution $f * g$ is well defined (pointwise almost everwhere), because 
+    \begin{equation}
+        \abs{f(y) g(x - y)} \leexpl{$g \in L^{\infty}$} C \abs{f(y)} \implies f \in L^1 \implies \text{integrable}
+    \end{equation}
+    We then find that 
+    \begin{equation}
+        \begin{split}
+            \norm{f * g}_{L^1} &= \int_{\realn^d} \abs{(f * g)(x)} \dd{x} = \int_{\realn^d} \abs{\int_{\realn^d} f(y) g(x - y) \dd{y}} \dd{x} \\
+            &\le \int_{\realn^d} \int_{\realn^d} \abs{f(y)} \abs{g(x - y)} \dd{y}\dd{x} \\
+            &= \int_{\realn^d} \abs{f(y)} \int_{\realn^d} \abs{g(x - y)} \dd{x}\dd{y}
+        \end{split}
+    \end{equation}
+    By substituting $z = x - y$ we get 
+    \begin{equation}
+        = \int_{\realn^d} \abs{f(y)} \int_{\realn^d} \abs{g(z)} \dd{z} \dd{y} = \norm{f}_{L^1} \norm{g}_{L^1}
+    \end{equation}
+    For more general $f, g \in L^1$ we can approximate $f$ via a function sequence
+    \begin{equation}
+        f_n := \min \set{f, n} \in L^1 \cap L^{\infty}
+    \end{equation}
+    Then $f_n \conv{n \rightarrow \infty} f$ in $L^1$, since 
+    \begin{equation}
+        \abs{f_n(x)} \le \abs{f(x)} \quad \forall x \in \realn^d
+    \end{equation}
+    By using the previous results we can conclude
+    \begin{equation}
+        \norm{f_n * g - f_m * g}_{L^1} = \norm{(f_n - f_m) * g}_{L^1} \le \underbrace{\norm{f_n - f_m}_{L^1}}_{\conv{n,m \rightarrow \infty} 0} \norm{g}_{L^1}
+    \end{equation}
+    So $(f_n * g)_{n \in \natn}$ is a Cauchy sequence in $L^1$ and thus 
+    \begin{equation}
+        f * g := \lim_{n \rightarrow \infty} f_n * g
+    \end{equation}
+\end{proof}
+
+\begin{rem}
+    One can show that $(L^1(\realn^d), *)$ does not have a neutral element, i.e.
+    \[
+        \nexists \delta \in L^1(\realn^d): \quad f * \delta = f \quad \forall f \in L^1(\realn^d)
+    \]
+\end{rem}
+
+\begin{defi}[Good kernels, Approximative identity]
+    A sequence of convolution kernels $\anyseqdef[K]{L^1(\realn^d)}$ is said to be a class of good kernels if 
+    \begin{align*}
+        \forall n \in \natn: &\quad \int_{\realn^d} K_n(x) \dd{x} = 1 \\
+        \exists M > 0 ~\forall n \in \natn: &\quad \int_{\realn^d}\abs{K_n(x)} \dd{x} \le M \\
+        \forall \delta > 0: &\quad \limn \int_{\abs{x} > \delta} \abs{K_n(x)} \dd{x} = 0
+    \end{align*}
+    A sequence of good kernels with $K_n \ge 0$ for all $n \in \natn$ is called Dirac sequence.
+\end{defi}
+
+\begin{thm}[Smoothing by convolution with good kernels]\label{thm:10.42}
+    Let $\anyseqdef[K]{L^1(\realn^d)}$ be a class of good kernels. Then:
+    \begin{enumerate}[(i)]
+        \item If $f \in L^1(\realn^d)$ then 
+        \[
+            \norm{f * K_n - f}_{L^1(\realn^d)} = 0
+        \]
+        \item If $K_n \subset C^m(\realn^d) ~\forall n \in \natn$ and if the partial derivatives $\partial^{\alpha} K_n, ~\abs{\alpha} \le m$ are bounded, then 
+        \[
+            f * K_n \in C^m(\realn^d) \text{ and } \partial^{\alpha} (f * K_n) = f * \partial^{\alpha} K_n
+        \]
+        \item If $f \in C(\realn^d)$ is bounded, then 
+        \[
+            \limn (f * K_n)(x) = f(x), \quad \forall x \in \realn^d
+        \]
+    \end{enumerate}
+\end{thm}
+
+\begin{eg}
+    Let $\anyseqdef[\epsilon]{(0, \infty)}$ be a null sequence. Then
+    \begin{align*}
+        \text{Poisson kernels}& & P_{k}(x) &:= \rec{\pi} \frac{\epsilon_k}{x^2 + \epsilon_k^2} \\
+        \text{Gauß kernels}& & \delta_k(x) &:= (2\pi \epsilon_k^2)^{-\frac{d}{2}} e^{-\frac{\abs{x}^2}{2 \epsilon_k^2}}, \quad x \in \realn^d
+    \end{align*}
+    are classes of good kernels. Now let $0 \le \phi \in L^1(\realn^d)$ with $\norm{\phi}_{L^1} = 1$. Then 
+    \[
+        \phi_k(x) = \rec{\epsilon_k^d} \phi\left(\frac{x}{\epsilon}\right)
+    \]
+    is a class of good kernels. We can show that 
+    \[
+        P_{\epsilon_k} (x) = \rec{\pi} \rec{\epsilon_k^2} \frac{\epsilon_k}{\left(\frac{x}{\epsilon_k}\right)^2 + 1} = \rec{\epsilon_k} \rec{\pi} \rec{\left(\frac{x}{\epsilon_k}\right)^2 + 1} = \rec{\epsilon_k} P\left(\frac{x}{\epsilon_k}\right)
+    \]
+    One has to show that 
+    \[
+        P(x) = \rec{\pi} \rec{1 + x^2} \in L^1
+    \]
+    with 
+    \[
+        \int_{\realn} P(x) \dd{x} = 1
+    \]
+    To do that we can calculate
+    \[
+        \int_{\realn} \underbrace{P(x)}_{\ge 0} \dd{x} = \rec{\pi} \int_{\realn} \rec{1 + x^2} \dd{x} = \rec{\pi} (\arctan(\infty) - \arctan(-\infty)) = \rec{\pi} \left(\frac{\pi}{2} - \left(-\frac{\pi}{2}\right)\right) = 1
+    \]
+\end{eg}
+
+\begin{proof}[Proof of \Cref{thm:10.42} (iii)]
+    Consider $f * K_n(x) - f(x)$. We can calculate 
+    \begin{equation}
+        \begin{split}
+            f * K_n(x) - f(x) &= \int_{\realn} f(x - y) K_n(y) \dd{y} - f(x) \underbrace{\int_{\realn^d} K_n(y) \dd{y}}_{=1} \\
+            &= \int_{\realn^d} \left(f(x - y) - f(x) \right) K_n(y) \dd{y}
+        \end{split}
+    \end{equation}
+    Since $f$ is continuous in $x$, 
+    \begin{equation}
+        \forall \epsilon > 0 ~\exists \delta > 0: \quad \abs{f(x - y) - f(x)} < \epsilon \quad \forall \abs{y} < \delta
+    \end{equation}
+    From the definition of good kernels follows that 
+    \begin{equation}
+        \exists M > 0: \quad \int_{\realn^d} \abs{K_n(y)} \dd{y} \le M
+    \end{equation}
+    which lets us conclude 
+    \begin{equation}
+        \int_{\abs{y} < \delta} \underbrace{\abs{f(x - y) - f(x)}}_{< \epsilon} \abs{K_n(y)} \dd{y} < \epsilon \int_{\abs{y} < \delta} \abs{K_n(x)} \dd{y} \le \epsilon M
+    \end{equation}
+    By utilising the boundedness of $f$ and (iii) from the definition of good kernels we can show
+    \begin{equation}
+        \int_{\abs{y} \ge \delta} \underbrace{\abs{f(x - y) - f(x)}}_{\le 2c} \abs{K_n(y)} \dd{y} \le 2c \underbrace{\int_{\abs{y} \ge \delta} \abs{K_n(y)} \dd{y}}_{\epsilon} \le 2c\epsilon
+    \end{equation}
+    We can now use the previous results to  show that 
+    \begin{equation}
+        \begin{split}
+            \abs{f * K_n(x) - f(x)} &\le \int_{\realn^d} \abs{f(x - y) - f(x)} \abs{K_n(y)} \dd{y} \\
+            &= \underbrace{\int_{\abs{y} < \delta} \abs{f(x - y) - f(x)} \abs{K_n(y)} \dd{y}}_{\le M\epsilon} + \underbrace{\int_{\abs{y} \ge \delta} \abs{f(x - y) - f(x)} \abs{K_n(y)} \dd{y}}_{\le 2c\epsilon} \\
+            &\le \epsilon(M + 2c)
+        \end{split}
+    \end{equation}
+    Since $\epsilon$ can be chosen arbitrarily it follows that 
+    \begin{equation}
+        f * K_n(x) \conv{n \rightarrow \infty} f(x) \quad \forall x \in \realn^d
+    \end{equation}
+    With this it is now easy to finish \textbf{the proof for \Cref{thm:10.38}}. We had seen that 
+    \begin{equation}
+        \phi(x, y) = \int_{\realn} \phi_0(t) P_y(x - t) \dd{t} = (\phi_0 * P_y)(x)
+    \end{equation}
+    Now let $\anyseqdef[\epsilon]{(0, \infty)}$ be a null sequence. Since $\phi_0$ is continuous and bounded, 
+    and since $\left(P_{\epsilon_n}\right) \subset {L^1(\realn^d)}$ is a class of good kernels, it follows from what we have just proven that
+    \begin{equation}
+        \lim_{n \rightarrow \infty} (\phi_0 * P_{\epsilon_n})(x) = \phi_0(x)
+    \end{equation}
+    All in all it follows that 
+    \begin{align}
+        \laplacian \phi(x, y) &= 0 & x &\in \realn, ~y > 0 \\
+        \phi(x, 0) &\conv{y \rightarrow 0} \phi_0(x) & \forall x &\in \realn \nonumber
+    \end{align}
+\end{proof}
+
+\begin{rem}
+    If $\psi: U \rightarrow \cmpln$ is holomorphic, $U \subset \cmpln$ open and $V \subset U$ a domain, then $\psi(V)$ is also a domain with $\psi(\boundary{V}) = \boundary{\psi(V)}$.
+    (Open mapping principle). Then the solution to the Dirichlet problem on $V$ 
+    \begin{align*}
+        \laplacian \phi &= 0 & \text{on } &V \\
+        \phi &= \phi_0 & \text{on } &\boundary{V}
+    \end{align*}
+    can be obtained through a holonomic transformation $\psi: V \rightarrow \cmpln_+$ with $\phi(V) = \cmpln_+$ of the Dirichlet problem on the upper half plane.
+\end{rem}
+
+\end{document}
