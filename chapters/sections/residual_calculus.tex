@@ -1,0 +1,177 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{Residual Calculus}
+
+\begin{defi}[Residue]\label{def:residue}
+    Let $r > 0$, $z_0 \in U$ and $f: \cball[0,r] (z_0) \rightarrow \cmpln$ holomorphic.
+    Then for $\rho \in (0, r)$ the number 
+    \[
+        \Res_{z_0} f = \rec{2\pi i} \oint_{\boundary{\oball[\rho](z_0)}} f(z) \dd{z}
+    \]
+    is said to be the residue of $f$ at $z_0$.
+\end{defi}
+
+\begin{lem}
+    If $f$ is a function as defined in \Cref{def:residue} with the Laurent series expansion ${f(z) = \sum_{n \in \intn} c_n (z - z_0)^n}$, then 
+    \[
+        \Res_{z_0} f = c_{-1}
+    \]
+\end{lem}
+\begin{proof}
+    \begin{equation}
+        \Res_{z_0} f = \rec{2\pi i} \oint_{\boundary{\oball[r](z_0)}} f(z) \dd z = \sum_{n \in \intn} c_n \underbrace{\rec{2\pi i} \oint_{\boundary{\oball[r](z_0)}} (z - z_0)^n \dd z}_{= \delta_{n, -1}} 
+    \end{equation}
+\end{proof}
+
+\begin{eg}
+    If $f$ has a pole of order $h$ at $z_0$, then the Laurent series of $f$ around $z_0$ is 
+    \[
+        f(z) = a_{-k} \rec{(z - z_0)^h} + a_{-(h - 1)} \rec{(z - z_0)^{h-1}} + \cdots + a_{-1} \rec{(z - z_0)} + \sum_{n=0}^{\infty} a_n (z - z_0)^n
+    \]
+    and thus 
+    \[
+        (z - z_0)^k f(z) = a_{-k} + a_{-(k-1)} (z - z_0) + \cdots a_{-1} (z - z_0)^{h - 1} + \sum_{n=0}^{\infty} a_n (z - z_0)^{n + h}
+    \]
+    From this follows 
+    \[
+        \Res_{z_0} f = \lim_{z \rightarrow z_0} \rec{(h - 1)!} \dv[h-1]{z} (z - z_0)^h f(z)
+    \]
+\end{eg}
+
+\begin{eg}
+    If $f(z)$ is meromorphic with a root of order $1$ of $h$ at $z_0$ and $g(z_0) \ne 0$, then 
+    \begin{align*}
+        \Res_{z_0} f &= \lim_{z \rightarrow z_0} (z - z_0) f(z) = \lim_{z \rightarrow z_0} \frac{(z - z_0)}{h(z_0)} g(z_0) \\
+        &= \lim_{z \rightarrow z_0} \frac{z - z_0}{h(z) - h(z_0)} g(z_0) = \frac{g(z_0)}{h'(z_0)}
+    \end{align*}
+\end{eg}
+
+\begin{eg}
+    \sloppy Consider $f(z) = \rec{\sin z}$. $f$ is meromorphic with poles of order $1$ in ${z_n = n \pi, ~n \in \intn}$. With the previous example we can thus get 
+    \[
+        \Res_{z_n} f = \rec{\cos(z_n)} = (-1)^n
+    \]
+\end{eg}
+
+\begin{thm}[Residue Theorem]
+    Let $U \subset \cmpln$ be open and $S := \set{z_1, \cdots, z_n} \subset U$ a set of pairwise disjoint points. 
+    Let $\gamma: [0, 1] \rightarrow U \setminus S$ be a closed, piecewise differentiable curve without intersections that is null-homotopic in $U$ and surrounds $S$ in a positive orientation.
+    Then for any holomorphic function $f: U \setminus S \longrightarrow \cmpln$ the following holds
+    \[
+        \oint_{\gamma} f(z) \dd z = 2\pi i \sum_{j=1}^n \Res_{z_j} f
+    \]
+\end{thm}
+\begin{hproof}
+    $\gamma$ is null-homotopic, so we can choose arbitrary curves around the residues. Consider a path $\tilde{\gamma}$ that surrounds every
+    residue with a disk of radius $\rho_i$, and connects them to each other using straight segments that cancel each other in the limit. Then 
+    \[
+        \oint_{\gamma} f(z) \dd z = \oint_{\tilde{\gamma}} f(z) \dd z = \sum_{j=1}^n \oint_{\boundary{\oball[\rho_j](z_0)}} f(z) \dd z = 2\pi i \sum_{j=1}^n \Res_{z_j} f
+    \]
+\end{hproof}
+
+\begin{eg}
+    The residue theorem can be used to calculate integrals such as 
+    \[
+        \int_{-\infty}^{\infty} \rec{1 + x^4} \dd x
+    \]
+    This integral is to be interpreted as 
+    \[
+        \int_{-\infty}^{\infty} \rec{1 + x^4} \dd x = \lim_{R \rightarrow \infty} \int_{-R}^R \frac{\dd x}{1 + x^4} = \lim_{R \rightarrow \infty} I_R
+    \]
+    The poles of the integrand in $\cmpln$ are the roots of the numerator:
+    \[
+        1 + z^4 = 0 \iff z^4 = -1 = e^{-i\pi}
+    \]
+    Which gives us the position of the isolated singularities
+    \begin{align*}
+        z_1 = e^{i \frac{\pi}{4}} && z_2 = e^{i \frac{3\pi}{4}} && z_3 = e^{i \frac{5\pi}{4}} && z_4 = e^{i \frac{7\pi}{4}}
+    \end{align*}
+    We want to integrate along the following path
+    \begin{center}
+        \begin{tikzpicture}
+            \draw[->, >={latex}] (-4.5, 0) -- (4.5, 0) node[below right] {$\Re$};
+            \draw[->, >={latex}] (0, -1.5) -- (0, 4.5) node[above left] {$\Im$};
+
+            \draw[fill] (1, 1) circle [radius=0.05] node [above right] {$z_1$};
+            \draw[fill] (-1, 1) circle [radius=0.05] node [above left] {$z_2$};
+            \draw[fill] (-1, -1) circle [radius=0.05] node [below left] {$z_3$};
+            \draw[fill] (1, -1) circle [radius=0.05] node [below right] {$z_4$};
+
+            \begin{scope}[very thick, decoration={markings, mark=between positions 0.3 and 0.7 step 0.4 with {\arrow{latex}}}]
+                \draw[thick, postaction={decorate}] (-4, 0) node [below] {$-R$} -- (4, 0) node [below] {$R$};
+                \draw[thick, postaction={decorate}, domain=0:180] plot ({4 * cos(\x)}, {4 * sin(\x)});
+            \end{scope}
+
+            \node[above right] at ({4*cos(45)}, {4*sin(45)}) {$\gamma_R$};
+        \end{tikzpicture}
+    \end{center}
+    Using the residue theorem we get 
+    \[
+        I_R + \int_{\gamma_R} \frac{\dd z}{1 + z^4} = 2\pi i \sum_{j=1}^2 \Res_{z_j} f
+    \]
+    So our next task is to calculate the residues of the poles $z_1$ and $z_2$.
+    \begin{align*}
+        \Res_{z_1} \left(\rec{1 + z^4}\right) &= \lim_{z \rightarrow z_1} (z - z_1)\rec{1 + z^4} = \lim_{z \rightarrow z_1} \left(\rec{z - z_2}\rec{z - z_3}\rec{z - z_4}\right) \\
+        &= \rec{z_1 - z_2}\rec{z_1 - z_3}\rec{z_1 - z_4} = \rec{z_1^3} \left( \rec{1 - \frac{z_2}{z_1}} \rec{1 - \frac{z_3}{z_1}} \rec{1 - \frac{z_4}{z_1}} \right) \\
+        &= e^{-i \frac{3\pi}{4}} \underbrace{\rec{1 - e^{i \frac{\pi}{2}}}}_{\rec{1 - i}} \underbrace{\rec{1 - e^{i \pi}}}_{\frac{1}{2}} \underbrace{\rec{1 - e^{i \frac{3\pi}{2}}}}_{\rec{1 + i}} \\
+        &= e^{-i \frac{3\pi}{4}} \rec{2} \left(\rec{1+i}\rec{1-i}\right) \\
+        &= \rec{4} e^{i \frac{3\pi}{4}}
+    \end{align*}
+    Analogously for $z_2$:
+    \[
+        \Res_{z_2} f = \frac{1}{4} e^{-i\frac{\pi}{4}}
+    \]
+    Thus we can evaluate the sum
+    \begin{align*}
+        2\pi i \sum_{j=1}^2 \Res_{z_j} f &= 2\pi i \left(\frac{e^{-i \frac{3\pi}{4}}}{4} + \frac{e^{-i\frac{\pi}{4}}}{4} \right) \\
+        &= \frac{\pi i}{2} \underbrace{e^{-i \frac{\pi}{4}}}_{\frac{1 - i}{\sqrt{2}}} \underbrace{\left( 1 + e^{-i \frac{\pi}{2}}\right)}_{1 - i} \\
+        &= \frac{\pi i}{2} \frac{(1 - i)}{\sqrt{2}} (1 - i) = \frac{\pi}{\sqrt{2}}
+    \end{align*}
+    We also need to calculate the integral along the curve $\gamma_R$. We use the parametrization 
+    \[
+        \gamma_R(t) = Re^{it}, \quad t \in [0, \pi]
+    \]
+    \begin{align*}
+        \abs{\int_{\gamma_R} \rec{1 + z^4} \dd z} = \abs{\int_0^{\pi} \rec{1 + R^4 e^{4it}} R ie^{it} \dd t} \le &\int_0^{\pi} \frac{R}{\abs{1 + R^4 e^{4it}} \dd t} \\
+        = &\int_0^{\pi} \frac{1}{R^3} \underbrace{\rec{\abs{e^{4it} + \rec{R}}}}_{\le 1} \\
+        \le &\rec{R^3} \pi \conv{R \rightarrow \infty} 0
+    \end{align*}
+    So in total, we get 
+    \[
+        \int_{\realn} \frac{\dd x}{1 + x^4} = \lim_{R \rightarrow \infty} I_R = 2\pi i \sum_{j = 1}^2 \Res_{z_j} f = \frac{\pi}{\sqrt{2}}
+    \]
+\end{eg}
+
+\begin{eg}[Fourier integrals of rational functions]
+    We want to inspect Fourier integrals of the form 
+    \[
+        \int_{-\infty}^{\infty} \frac{P(x)}{Q(x)} e^{ix} \dd x
+    \]
+    where $P$ and $Q$ are polynomials such that the degree of $Q$ is greater than the degree of $P$.
+    The roots $z_1, \cdots, z_n \in \cmpln$ of $Q$ can not lie on the real axis. For the integration we'll use the same path as in the previous example.
+    Using the residue theorem we get 
+    \[
+        \int_{-\infty}^{\infty} \frac{P(z)}{Q(z)} e^{iz} \dd z + \int_{\gamma_R} \frac{P(z)}{Q(z)} e^{iz} \dd z = 2\pi i \sum_{\Im(z_j) > 0} \Res_{z_j} \left(\frac{P(z)}{Q(z)} e^{iz}\right)
+    \]
+    The integral along $\gamma_R$ doesn't contribute anything to the total calculation:
+    \begin{align*}
+        \abs{\int_{\gamma_R} \frac{P(z)}{Q(z)} e^{iz} \dd z} = &\abs{\int_0^{\pi} \frac{P(Re^{it})}{Q(Re^{it})} e^{iRe^{it}} \dd t} \\
+        \le &\int_0^{\pi} \frac{\abs{P(Re^{it})}}{\abs{Q(Re^{it})}} \abs{e^{iRe^{it}}} \dd t
+    \end{align*}
+    I want to insert a quick calculation:
+    \[
+        \abs{e^{iRe^{it}}} = \abs{e^{iR \cos t} e^{-R \sin t}} = e^{-R \sin t}, \quad t \in (0, \pi)
+    \]
+    Using this we can continue our calculations
+    \begin{align*}
+        \le & \int_0^{\pi} \underbrace{\frac{\abs{P(Re^{it})}}{\abs{Q(Re^{it})}}}_{\le M, ~M > 0} e^{-R \sin t} \dd t \\
+        \le & M \int_0^{\pi} \underbrace{e^{-R \sin t}}_{\le 1} \dd t \conv{R \rightarrow \infty} 0
+    \end{align*}
+    Thus we showed that 
+    \begin{align*}
+        \int_{-\infty}^{\infty} \underbrace{\frac{P(x)}{Q(x)}}_{f(x)} e^{ix} \dd x = 2\pi i \sum_{\Im(z_j) > 0} \Res_{z_j} \left(\frac{P(z)}{Q(z)} e^{iz}\right)
+    \end{align*}
+\end{eg}
+\end{document}
