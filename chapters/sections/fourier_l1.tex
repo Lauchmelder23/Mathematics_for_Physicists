@@ -1,0 +1,248 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{Fourier Transform on $L^1(\realn^d)$}
+
+\begin{defi}
+    For $f \in L^1(\realn^d)$ the function
+    \begin{align*}
+        \hat{f}: \realn^d &\longrightarrow \cmpln \\
+        k &\longmapsto \rec{(2\pi)^{\frac{d}{2}}} \int_{\realn^d} e^{-ik \cdot x} f(x) \dd{x}
+    \end{align*}
+    is said to be the Fourier transform of $f$. Sometimes it is written as $(\mathcal{F}f)(k)$.
+\end{defi}
+
+\begin{rem}
+    \begin{enumerate}[(i)]
+        \item There are several alternative conventions regarding sign and phase of the transform. 
+        \[
+            \hat{f}(k) = \int_{\realn^d} e^{-2\pi ik \cdot x} f(x) \dd{x}
+        \]
+        is also a valid definition in other scientific fields, however we will stick to the former definition throughout this script.
+
+        \item $k \cdot x = \innerproduct{k}{x} = \sum_{j=1}^d k_j x_j$
+        \item Because $\abs{e^{ik \cdot x}} = 1$, the integral exists for any $f \in L^1(\realn^d)$.
+    \end{enumerate}
+\end{rem}
+
+\begin{eg}\label{eg:1}
+    Consider the function 
+    \[
+        f(x) = \rec{\sqrt{2\pi\sigma^2}} e^{-\frac{(x - \alpha)^2}{2\sigma^2}} \quad ,\alpha \in \cmpln, ~\sigma > 0
+    \]
+    The Fourier transform is
+    \begin{align*}
+        \hat{f}(k) = &\rec{2\pi\sigma} \int_{\realn} e^{-ikx} e^{-\frac{(x - \alpha)^2}{2\sigma^2}} \dd{x} \\
+        = &\rec{2\pi\sigma} e^{-ik\alpha} e^{-\frac{\sigma^2}{2} k^2} \int_{\realn} e^{-\frac{(x - \alpha + ik\sigma^2)^2}{2\sigma^2}} \dd{x} \\
+        = &\rec{2\pi\sigma} e^{-ik\alpha} e^{-\frac{\sigma^2 k^2}{2}} \int_{-\infty}^{\infty} e^{-\frac{x^2}{2\sigma^2}} \dd{x} \\
+        = &\rec{\sqrt{2\pi}} e^{-ik\alpha} e^{-\frac{\sigma^2 k^2}{2}}
+    \end{align*}
+\end{eg}
+
+\begin{eg}
+    The previous example can be generalized for higher dimensions:
+    \[
+        f(x) = \rec{(2\pi\sigma^2)^{\frac{d}{2}}} e^{-\frac{\abs{x}^2}{2\sigma^2}}, \quad x \in \realn^d
+    \]
+    With the Fourier transform
+    \[
+        \hat{f}(k) = \rec{(2\pi)^{\frac{d}{2}}} e^{-\frac{\sigma^2 \abs{k}^2}{2}}, \quad k \in \realn^d
+    \]
+\end{eg}
+
+\begin{eg}
+    Consider the indicator function
+    \[
+        \chi(x) = \begin{cases}
+            1, & \abs{x} \le a \\
+            0, & \abs{x} > a
+        \end{cases}, \quad x \in \realn
+    \]
+    It has the Fourier transform 
+    \[
+        \hat{f}(k) = \rec{\sqrt{2\pi}} \int_{\realn} e^{-ikx} \chi(x) \dd{x} = \rec{\sqrt{2\pi}} \left[ \frac{e^{-ikx}}{-ik} \right]_{-a}^a = \sqrt{\frac{2}{\pi}} \frac{\sin(ka)}{k}
+    \]
+\end{eg}
+
+\begin{defi}
+    For $f \in L^1(\realn^d)$ the function 
+    \[
+        \check{f}(x) := \rec{(2\pi)^{\frac{d}{2}}} \int_{\realn^d} f(k) e^{ikx} \dd{k}
+    \]
+    defines the inverse Fourier transform of $f$.
+\end{defi}
+
+\begin{eg}
+    Let's revisit \Cref{eg:1}, where we found that
+    \[
+        \hat{f}(k) = \rec{\sqrt{2\pi}} e^{-i\alpha k} e^{-\frac{\sigma^2 k^2}{2}} 
+    \]
+    The inverse Fourier transform of that function is 
+    \[
+        \check{\hat{f}}(k) = \rec{\sqrt{2\pi\sigma^2}} e^{-\rec{2\sigma^2} (x - \alpha)^2} = f(x)
+    \]
+\end{eg}
+
+\begin{thm}[Fourier inversion theorem]
+   Let $f, \hat{f} \in L^1(\realn^d)$. Then $\check{\hat{f}} = f$. 
+\end{thm}
+
+\begin{proof}
+    To prove this theorem we will use \Cref{thm:10.42} and the following lemma:
+    \bigbreak
+    \begin{itshape}
+        If $f_n \conv{n \rightarrow \infty} f$, then there exists a subsequence $((f_n)_k)_{k \in \natn}$ with 
+        \[
+            \lim_{k \rightarrow \infty} f_{n_k} (x) = f(x), \quad \forall x \in \realn^d
+        \]
+    \end{itshape}
+    \bigbreak
+    Heuristically this theorem can be proven by considering 
+    \begin{equation}
+        \begin{split}
+            \check{\hat{f}}(x) = \rec{(2\pi)^{\frac{d}{2}}} \int_{\realn^d} \hat{f}(k) e^{ikx} \dd{k} 
+            &= \rec{(2\pi)^{\frac{d}{2}}} \int_{\realn^d} \left( \int_{\realn^d} f(y) e^{-iky} \dd{y} \right) e^{ikx} \dd{k} \\
+            &= \rec{(2\pi)^{\frac{d}{2}}} \int_{\realn^d} \int_{\realn^d} f(y) e^{-ik(y - x)} \dd{k} \dd{y}
+        \end{split}
+    \end{equation}
+    However, to show this rigorously we should first consider the inversion formula for $f * \delta_l$, with
+    \begin{equation}
+        \delta_l (x) = \left( \frac{l^2}{2\pi} \right)^{\frac{d}{2}} e^{-\frac{l^2 \abs{x}^2}{2}}, \quad l \in \natn
+    \end{equation}
+    The Fourier transform is 
+    \begin{equation}
+        \hat{\delta_l} (k) = \left(\rec{2\pi}\right)^{\frac{d}{2}} e^{-\frac{\abs{k}^2}{2l^2}}
+    \end{equation}
+    We've already shown in a previous example that the inversion theorem applies to this function, so we can write 
+    \begin{equation}
+        \begin{split}
+            (f * \delta_l)(x) &= \int_{\realn^d} f(y) \delta_l(x - y) \dd{y} = \int_{\realn^d} f(y) \check{\hat{\delta}}_l(x - y) \dd{y} \\
+            &= \int_{\realn^d} f(y) \left( \rec{(2\pi)^{\frac{d}{2}}} \int_{\realn^d} e^{ik(x - y)} \hat{\delta}_l (k) \dd{k} \right) \dd{y}\\
+            &= \int_{\realn^d} \left(\rec{(2\pi)^{\frac{d}{2}}} \int_{\realn^d} f(y) e^{-iky} \dd{y} \right) e^{ikx} \hat{\delta_l} (k) \dd{k} \\
+            &= \int_{\realn^d} e^{ikx} \hat{f}(k) e^{-\frac{\abs{k}}{2l^2}} \frac{\dd{k}}{(2\pi)^{\frac{d}{2}}} =: \check{F}_l(x)
+        \end{split}
+    \end{equation}
+    Next we want to use the fact that $(\delta_l)_{l \in \natn}$ is a class of good kernels. This means that 
+    \begin{equation}
+        \lim_{l \rightarrow \infty} \norm{\delta_l * f - f}_{L^1} = 0
+    \end{equation}
+    or in other words 
+    \begin{equation}
+        \delta_l * f \conv{l \rightarrow \infty} f
+    \end{equation}
+    Now using the lemma above we can conclude that there exists a subsequence $(\delta_{l_j} * f)_{j \in \natn}$ that converges to $f(x)$ for almost every $x$.
+    We can apply the dominated convergence theorem to find that 
+    \begin{equation}
+        \lim_{l \rightarrow \infty} \check{F}_l(x) = \int_{\realn^d} e^{ikx} \hat{f}(k) \lim_{l \rightarrow \infty} e^{-\frac{\abs{k}^2}{2l^2}} \frac{\dd{k}}{(2\pi)^{\frac{d}{2}}} = \check{\hat{f}}(x)
+    \end{equation}
+    Finally, this lets us conclude 
+    \begin{equation}
+        f(x) = \lim_{j \rightarrow \infty} \delta_{l_j} * f(x) = \lim_{j \rightarrow \infty} \check{F}_{l_j} (x) = \check{\hat{f}}, \quad \text{for a.e. } x \in \realn^d
+    \end{equation}
+\end{proof}
+
+\begin{thm}[Algebraisation of the derivative]
+    Let $f \in C^n(\realn^d)$ and $\partial^{\alpha} f \in L^1(\realn^d)$ for all $\alpha \in \natn_0^d$ with $\abs{\alpha} < m$. Then 
+    \[
+        \widehat{\partial^a f}(k) = (ik)^{\alpha}\hat{f}
+    \]
+    If $\alpha = (\alpha_1, \cdots, \alpha_d)$ and $\abs{\alpha} = \sum_{j=1}^d \alpha_j \le m$, then the interpretation of that is 
+    \[
+        \mathcal{F}\left(\frac{\partial^{\abs{\alpha}}}{\partial x_1^{\alpha_1} \cdots \partial x_d^{\alpha_d}} f\right)(k) = i^{\abs{\alpha}} \left(k_1^{\alpha_1} \cdots k_d^{\alpha_d}\right) \hat{f}(k)
+    \]
+\end{thm}
+\begin{proof}
+   We will only prove the one-dimensional statement. If $m = 1$ we receive via partial integration 
+   \begin{equation}
+       \widehat{f'}(k) = \rec{\sqrt{2\pi}} \int_{\realn} f'(x) e^{-ikx} \dd{x} = \rec{\sqrt{2\pi}} \left[ \left(f(x) e^{-ikx}\right)_{-\infty}^{\infty} - \int_{-\infty}^{\infty} f(x) \dv{x} \left(e^{-ikx}\right) \dd{x} \right]
+   \end{equation} 
+   Since we assumed $f' \in L^1$, the limit $\lim_{x \rightarrow \pm\infty} f(x)$ exists. We can write 
+   \begin{align}
+       f(x) &= f(0) + \int_0^x f'(t) \dd{t} \\
+       \implies \lim_{x \rightarrow \pm\infty} f(x) &= f(0) + \lim_{x \rightarrow \pm\infty} \int_0^x f'(t) \dd{t}
+   \end{align}
+   Furthermore this limit has to be equal to $0$, so 
+   \begin{align}
+       \lim_{\abs{x} \rightarrow \infty} f(x) &= 0 \\
+        \implies \left[f(x) e^{-ikx}\right]_{-\infty}^{\infty} &= \lim_{x \rightarrow \infty} e^{-ikx} f(x) - \lim_{x \rightarrow \infty} f(x)e^{ikx} = 0
+   \end{align}
+   This leads us to 
+   \begin{equation}
+       \widehat{f'}(k) = ik \rec{\sqrt{2\pi}} \int_{\realn} f(x) e^{-ikx} \dd{x} = ik\hat{f}(k)
+   \end{equation}
+   The proof for $m > 1$ can be found via induction.
+\end{proof}
+
+\begin{thm}
+    Let $f \in L^1(\realn^d)$ and $m \in \natn_0$. If
+    \[
+        x \longmapsto x^{\alpha} f(x) \in L^1(\realn^d), \quad \forall \alpha \in \natn_0^d, ~\abs{\alpha} \le m
+    \]
+    then $\hat{f} \in C^m(\realn^d)$ and 
+    \[
+        \partial^{\alpha} \hat{f}(k) = \mathcal{F}\left[(-ix)^{\alpha} f(x)\right](k)
+    \]
+\end{thm}
+\begin{proof}
+     Again we will only consider the one-dimensional case. Assume $m = 1$ (the proof for $m > 1$ follows from induction).
+     We can write out the difference quotient for $\hat{f}$ at $k \in \realn$
+     \begin{equation}
+         \frac{\hat{f}(k + h) - \hat{f}(k)}{h} = \rec{h} \int_{\realn} f(x) \left(e^{-i(k + h)x} - e^{-ikx}\right) \frac{\dd{x}}{\sqrt{2\pi}}, \quad h \in \realn \setminus \set{0}
+     \end{equation}
+     However, because 
+     \begin{equation}
+         \abs{\frac{e^{-ixh} - 1}{h}} \le \abs{x}, \quad \forall x \in \realn, ~h \ne 0
+     \end{equation}
+     and because we assumed that $xf \in L^1$, we can use the dominated convergence theorem to conclude 
+     \begin{equation}
+         \begin{split}
+             \lim_{h \rightarrow 0} \frac{\hat{f}(k + h) - \hat{f}(k)}{h} &= \rec{\sqrt{2\pi}} \int_{\realn} f(x) e^{-ikx} \underbrace{\lim_{h \rightarrow 0} \left(\frac{e^{-ixk} - 1}{h}\right)}_{\dv{x} \left(e^{-ikx} \right) \big|_{x = 0}} \dd{x} \\
+             &= \rec{\sqrt{2\pi}} \int_{\realn} (-ixf(x)) e^{-ikx} \dd{x} = \widehat{-ixf}(k)
+         \end{split}
+     \end{equation}
+\end{proof}
+
+\begin{thm}
+    Let $f, g \in L^1(\realn^d)$. Then
+    \[
+        \widehat{f*g}(k) = (2\pi)^{\frac{d}{2}} \hat{f}(k) \hat{g}(k)
+    \]
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{eg}[Solving inhomogeneous, linear ODEs]
+    We want to find the general solution of 
+    \[
+        \ddot{x} - x = f, \quad f, \hat{f} \in L^1(\realn)
+    \]
+    The solution space of this equation is 
+    \[
+        \mathcal{L} = \mathcal{L}_{\text{hom}} + x_s
+    \]
+    The space of homogeneous solutions $\mathcal{L}_{\text{hom}}$ is equal to $\spn\set{e^x, e^{-x}}$, and $x_s$ is \textit{one} solution of the inhomogeneous equation.
+    Let $\phi$ denote the Fourier transform of $x_s$, so 
+    \[
+        \phi(k) = \rec{\sqrt{2\pi}} \int_{\realn} x_s(t) e^{-ikt} \dd{t}
+    \]
+    Then $\phi$ satisfies the equation
+    \[
+        -k^2 \phi(k) - \phi(k) = \hat{f}(k) 
+    \]
+    Or rearraranged to solve for $\phi$
+    \[
+        \phi(k) = -\rec{1+k^2} \hat{f}(k), \quad k \in \realn
+    \]
+    We can then rewrite $\phi(k)$ as 
+    \begin{align*}
+        \phi(k) = -\hat{g}(k) \hat{f}(k) && \text{with } \hat{g} = \rec{1 + k^2} \in L^1(\realn)
+    \end{align*}
+    and then use the previous theorems to conclude 
+    \[
+        x_s(t) = \check{\phi}(t) = (2\pi)^{\frac{1}{2}} \inv{\mathcal{F}} \underbrace{\left[ \hat{f}\hat{g} (2\pi)^{\frac{1}{2}}\right]}_{\widehat{f*g}}(t) = -\rec{\sqrt{2\pi}}(f*g)(t)
+    \]
+\end{eg}
+
+\end{document}

@@ -1,0 +1,141 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{Fourier Transform on $L^2(\realn^d)$}
+
+\begin{defi}[Hilbert space]
+    For this section we introduce the Hilbert space of Lebesgue square-integrable functions
+    \[
+        L^2(\realn^d) := \set[\norm{f}_{L^2}^2 = \int_{\realn^d} \abs{f(x)}^2 \dd{x} < \infty]{f: \realn^d \rightarrow \cmpln \text{ measurable}}
+    \]
+    This space is also important in quantum mechanics, as wave functions are elements of $L^2$.
+\end{defi}
+
+\begin{defi}
+    The space $L^2(\realn^d)$ is a Hilbert space, i.e. a complete, normed vector space with an inner product
+    \[
+        \innerproduct{f}{g} := \int_{\realn^d} \conj{f(x)} g(x) \dd{x}
+    \]
+    that has the following properties:
+    \begin{enumerate}[(i)]
+        \item $\innerproduct{f}{f} \ge 0$ and $\innerproduct{f}{f} = 0 \iff f = 0$
+        \item $\innerproduct{f}{g} = \conj{\innerproduct{g}{f}}$
+        \item $\innerproduct{f}{g + \lambda h} = \innerproduct{f}{g} + \lambda\innerproduct{f}{h}$
+    \end{enumerate}
+    (ii) and (iii) imply 
+    \[
+        \innerproduct{\lambda f}{g} = \conj{\lambda} \innerproduct{f}{g}
+    \]
+    The inner product induces a norm
+    \[
+        \norm{f}_{L^2}^2 = \innerproduct{f}{f} \left( = \int_{\realn} \underbrace{\conj{f(x)}f(x)}_{\abs{f(x)}^2} \dd{x} \right)
+    \]
+    Since the Fourier transform cannot directly be defined for $L^2(\realn^d)$, we will first consider the space of rapidly decreasing functions,
+    the so called \textit{Schwartz space} $\mathcal{S}(\realn^d)$.
+\end{defi}
+
+\begin{defi}[Schwartz space]
+    The Schwartz space $\mathcal{S}(\realn^d)$ is defined as the function space 
+    \[
+        \mathcal{S}(\realn^d) := \set[x \mapsto x^{\beta} \partial^{\alpha} f \text{ bounded,} \quad \forall \alpha, \beta \in \natn_0^d]{f \in C^{\infty}(\realn^d)}
+    \]
+\end{defi}
+
+\begin{eg}
+    \begin{enumerate}[(i)]
+        \item Smooth functions with compact support $f \in C^{\infty}(\realn^d)$ are also elements of $\mathcal{S}(\realn^d)$, for example 
+        \[
+            f(x) = \begin{cases}
+                \exp\left(-\sum_{j=1}^d \rec{1 - \abs{x_j}^2}\right), & \abs{x_j} < 1 \\
+                0, & \text{else}
+            \end{cases}
+        \]
+
+        \item For every polynomial $p(x)$, the function 
+        \[
+            f(x) = p(x)e^{-\abs{x}^2}
+        \]
+        defines a function in $\mathcal{S}(\realn^d)$.
+    \end{enumerate}
+\end{eg}
+
+\begin{rem}
+    Because of the continuity and the rapid decrease towards infinity we can find that 
+    \[
+        \mathcal{S}(\realn^d) \subset L^1(\realn^d) \cap L^2(\realn^d)
+    \]
+    and one can show that $\mathcal{S}(\realn^d)$ is dense in $L^2(\realn^d)$, i.e.
+    \[
+        \forall f \in L^2(\realn^d) ~\exists \anyseqdef[f]{\mathcal{S}(\realn^d)}: \quad \norm{f_n - f}_{L^2} \conv{n \rightarrow \infty} 0
+    \]
+\end{rem}
+
+\begin{thm}
+    Let $f \in \mathcal{S}(\realn^d)$. Then $\hat{f} \in \mathcal{S}(\realn^d)$ and the restriction of the Fourier transform to $\mathcal{S}(\realn^d)$
+    \[
+        \mathcal{F}_{\mathcal{S}}: \mathcal{S}(\realn^d) \longrightarrow \mathcal{S}(\realn^d)
+    \]
+    is an isomorphism. Furthermore 
+    \[
+        \innerproduct{\hat{f}}{\hat{g}} = \innerproduct{f}{g}, \quad \forall f, g \in \mathcal{S}(\realn^d)
+    \]
+    with the inner product 
+    \[
+        \innerproduct{f}{g} = \int_{\realn^d} \conj{f(x)}g(x) \dd{x}
+    \]
+\end{thm}
+
+\begin{proof}
+    To prove that $\hat{f} \in \mathcal{S}$ we use the fact that 
+    \begin{equation}
+        k^{\beta} \partial^{\alpha} \hat{f}(k) = (-i)^{\abs{\alpha} + \abs{\beta}} \mathcal{F}_{\mathcal{S}} \left[ \partial^{\beta} x^{\alpha} f(k) \right], \quad k \in \realn^d, ~\forall \alpha, \beta \in \natn_0^d
+    \end{equation}
+    Next we want to prove that $\mathcal{F}_{\mathcal{S}}$ is an isomorphism. This is trivial however since 
+    \begin{equation}
+        \forall f \in \mathcal{S}(\realn^d): \quad \inv{\mathcal{F}_{\mathcal{S}}}\mathcal{F}_{\mathcal{S}}(f) = f
+    \end{equation}
+    To prove the final statement we can explicitly calculate 
+    \begin{equation}
+        \begin{split}
+            \innerproduct{\hat{f}}{\hat{g}} &= \int_{\realn^d} \conj{\hat{f}(k)} \hat{g}(k) \dd{k} \\
+            &= \int_{\realn^d} \conj{\left( \int_{\realn^d} f(x) e^{-ikx} \dd{x} \frac{\dd{x}}{(2\pi)^{\frac{d}{2}}} \right)} \hat{g}(x) \dd{k} \\
+            &= \int_{\realn^d} \left( \int_{\realn^d} \conj{f(x)} e^{ikx} \frac{\dd{x}}{(2\pi)^{\frac{d}{2}}} \right) \hat{g}(k) \dd{k} \\
+            &= \int_{\realn^d} \conj{f(x)} \underbrace{\left(\int_{\realn^d} \hat{g}(k) e^{ikx} \frac{\dd{k}}{(2\pi)^{\frac{d}{2}}}\right)}_{\check{\hat{g}}(x) = g(x)} \dd{x} \\
+            &= \int_{\realn^d} \conj{f(x)} g(x) \dd{x} = \innerproduct{f}{g}
+        \end{split}
+    \end{equation}
+\end{proof}
+
+\begin{rem}
+    Since not all functions $f \in L^2(\realn^d)$ are integrable, the limit
+    \[
+        \lim_{R \rightarrow \infty} \int_{\abs{x} < R} f(x) e^{-ikx} \frac{\dd{x}}{(2\pi)^{\frac{d}{2}}} = \hat{f}(k)
+    \]
+    doesn't converge for every $k \in \realn^d$, only for almost every.
+\end{rem}
+
+\begin{thm}
+    The Fourier transform $\mathcal{F}_{\mathcal{S}}$ can be uniquely and continuously continued on $L^2(\realn^d)$. The resulting mapping
+    \[
+        \mathcal{F}: L^2(\realn^d) \longrightarrow L^2(\realn^d)
+    \]
+    is linear and unitary, i.e. $\forall f, g \in L^2(\realn^d)$ we have 
+    \[
+        \innerproduct{\mathcal{F}(f)}{\mathcal{F}(g)} = \innerproduct{f}{g}
+    \]
+    which is also known as the Plancherel identity.
+\end{thm}
+
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{rem}
+    The continuiuty of $\mathcal{F}$ doesn't imply that $\hat{f}$ is continuous. Secondly, the Plancherel identity also yields 
+    \[
+        \norm{f}_{L^2} = \sqrt{\innerproduct{f}{f}} = \sqrt{\innerproduct{\hat{f}}{\hat{f}}} = \norm{\hat{f}}_{L^2}
+    \]
+\end{rem}
+
+\end{document}

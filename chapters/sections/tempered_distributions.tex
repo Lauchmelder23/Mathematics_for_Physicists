@@ -1,0 +1,48 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{Outlook: Tempered Distributions}
+
+\begin{defi}
+    A tempered distribution $f$ is a continuous, linear mapping
+    \begin{align*}
+        f: \mathcal{S}(\realn^d) &\longrightarrow \cmpln \\
+        \phi &\longmapsto f(\phi) = (f, \phi) \left( = \int f(x) \phi(x) \dd{x} \right)
+    \end{align*}
+\end{defi}
+
+\begin{thm}
+    Tempered distributions are linear, continuous mappings.
+\end{thm}
+\begin{proof}
+    To prove linearity, let $\phi, \psi \in \mathcal{S}(\realn^d)$ and $\lambda \in \cmpln$. Then 
+    \begin{equation}
+        (f, \phi + \lambda\psi) = (f, \phi) + \lambda(f, \psi)
+    \end{equation}
+    For the continuity, we want to consider any sequence $\anyseqdef[\phi]{\mathcal{S}(\realn^d)}$ that converges to $\phi \in \mathcal{S}(\realn^d)$. I.e.
+    \begin{equation}
+        \lim_{n \rightarrow \infty} \sup_{x \in \realn^d} \abs{x^{\beta} \partial^{\alpha} (\phi_n(x) - \phi(x))} = 0, \quad \forall \alpha, \beta \in \natn_0^d
+    \end{equation}
+    Then we can conclude that 
+    \begin{equation}
+        \lim_{n \rightarrow \infty} \abs{(f, \phi_n) - (f, \phi)} = 0
+    \end{equation}
+\end{proof}
+
+\begin{rem}
+    The space of all tempered distributions is denoted as $\mathcal{S}'(\realn^d)$.
+\end{rem}
+
+\begin{eg}
+    One important example is the Dirac deltra distribution:
+    \[
+        \delta: \mathcal{S}(\realn^d) \longrightarrow \cmpln
+    \]
+    It maps a function to its value at $0$.
+    \[
+        (\delta, \phi) = \int \delta(x) \phi(x) \dd{x} = \phi(0) \in \cmpln
+    \]
+\end{eg}
+
+\end{document}
