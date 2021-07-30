@@ -1,0 +1,257 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{Linear Operators}
+
+Throughout this chapter $X$ and $Y$ will denote vector spaces over the same scalar field $\field$. Also, I want to quickly recap some normed vector spaces that we will use from here on out.
+\begin{enumerate}[(i)]
+    \item The real numbers
+    \begin{align*}
+        X &= \realn \\
+        \norm{x} &= \abs{x}, \quad x \in \realn
+    \end{align*}
+
+    \item The euclidian space 
+    \begin{align*}
+        X &= \realn^n \\
+        \norm{x} &= \left(\sum_{k=1}^n \xi_k^2\right)^{\rec{2}}, \quad x = (\xi_1, \cdots, \xi_n) \in \realn^n
+    \end{align*}
+
+    \item The space of bounded sequences $l^{\infty}$
+    \begin{align*}
+        X &= l^{\infty} := \set[(\xi_k) \text{ bounded}]{(\xi_k) \subset \realn} \\
+        \norm{x}_{l^{\infty}} &= \sup_{k \in \natn} \abs{\xi_k}, \quad x = (\xi_n) \in l^{\infty}
+    \end{align*}
+
+    \item The space of converging sequences $c$
+    \begin{align*}
+        X &= c = \set[(\xi_k) \text{ is convergent}]{(\xi_k) \subset \realn} \\
+        \norm{x}_c &= \sup_{k \in \natn} \abs{\xi_k}, \quad x = (\xi_n) \in c
+    \end{align*}
+    $c$ can be considered a subspace of $l^{\infty}$ because it is a subset of $l^{\infty}$ and its norm is just a restriction of $\dnorm_{l^{\infty}}$.
+
+    \item The space of bounded functions $B(A)$
+    \begin{align*}
+        X &= B(A) = \set[f \text{ bounded}]{f: A \subset \realn \rightarrow \realn} \\
+        \norm{x}_{\infty} &= \sup_{t \in A} \abs{f(t)}, \quad f \in B(A)
+    \end{align*}
+
+    \item The space of continuous functions $C(A)$
+    \begin{align*}
+        X &= C(A) = \set[f \text{ continuous}]{f: A \rightarrow \realn} \\
+        \norm{x}_C &= \max_{t \in A} \abs{f(t)}, \quad f \in C(A)
+    \end{align*}
+
+    \item Sequence spaces $l^p, ~p \ge 1$
+    \begin{align*}
+        X &= l^p = \set[\sum_{k=1}^{\infty} \abs{\xi_k}^p < \infty]{(\xi_n) \subset \realn} \\
+        \norm{x}_{l^p} &= \left( \sum_{k=1}^{\infty} \abs{\xi_k}^p \right)^{\rec{p}}, \quad x = (\xi_n) \in l^p
+    \end{align*}
+
+    \item The space of Lebesgue measurable functions $L^p(A), ~p \ge 1$
+    \begin{align*}
+        X &= L^p(A) = \set[\int_A \abs{f(t)}^p \dd{t} < \infty]{f: A \rightarrow \realn} \\
+        \norm{x}_{L^p} &= \left(\int_A \abs{f(t)}^p \dd{t} \right)^{\rec{p}}, \quad f \in L^p(A)
+    \end{align*}
+\end{enumerate}
+
+\begin{defi}
+    A linear operator $T$ is a mapping 
+    \[
+        T: \domain(T) \subset X \longrightarrow Y
+    \]
+    such that 
+    \begin{enumerate}[(i)]
+        \item The domain $\domain(T)$ is a subspace of $X$
+        \item $\forall x, y \in \domain(T), ~\forall \alpha \in \field: \quad T(x + \alpha y) = Tx + \alpha Ty$
+    \end{enumerate}
+    If $Y = \field$, then $T$ is said to be a linear functional.
+\end{defi}
+
+\begin{eg}
+    \begin{enumerate}[(i)]
+        \item Let $X = \realn^n$ and $Y = \realn^m$. If $A \in \realn^{m \times n}$ then we can define 
+        \[
+            Tx = Ax, \quad x \in \realn^n
+        \]
+        such that for $x = (\xi_1, \cdots, \xi_n)$ we have
+        \[
+            Tx = \begin{pmatrix}
+                a_{11} & \cdots & a_{1n} \\
+                \vdots & \ddots & \vdots \\
+                a_{m1} & \cdots & a_{mn}
+            \end{pmatrix}
+            \begin{pmatrix}
+                \xi_1 \\ \vdots \\ \xi_n
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+                \eta_1 \\ \vdots \\ \eta_m
+            \end{pmatrix}
+        \]
+        Then $\domain(T) = \realn^n$ and $T$ is a linear operator.
+
+        \item Let $X = C([a, b])$ and $Y = C([a, b])$. Then 
+        \[
+            (Tx)(t) = \int_{\alpha}^t x(s) \dd{s}, \quad t \in [a, b]
+        \]
+        defines a linear operator with $\domain(T) = C([a, b])$.
+
+        \item Consider $X = C([a, b])$ and $Y = C([a, b])$. We can define 
+        \[
+            (Tx)(t) = x'(t), \quad t \in [a, b]
+        \]
+        $T$ is a linear operator with $C([a, b]) \supset \domain(T) = C^1([a, b])$.
+
+        \item Let $X = L^p([a, b])$ and $Y = L^q([a, b])$. Choose a fixed measurable function $\phi: [a, b] \rightarrow \realn$. Then
+        \[
+            (Tx)(t) = \phi(t)x(t), \quad t \in[a, b]
+        \]
+        defines a linear operator. The domain in this case is 
+        \[
+            \domain(T) = \set[\int_a^b \abs{\phi(t) x(t)}^q \dd{t} < \infty]{x \in L^p([a, b])}
+        \]
+
+        \item Consider $X = l^{\infty}$ and $Y = \realn$. Then 
+        \[
+            Tx = \lim_{k \rightarrow \infty} \xi_k, \quad x = (\xi_k) \in l^{\infty}
+        \]
+        is a linear functional with $\domain(T) = c$.
+    \end{enumerate}
+\end{eg}
+
+\begin{defi}
+    Let $T: \domain(T) \rightarrow Y, ~\domain(T) \subset X$ be a linear operator. If $\exists C > 0$ such that 
+    \[
+        \norm{Tx} \le C\norm{x}
+    \]
+    then $T$ is said to be bounded. The number 
+    \[
+        \norm{T} = \sup_{\stackrel{x \in \domain(T)}{x \ne 0}} \frac{\norm{Tx}}{\norm{x}}
+    \]
+    is the operator norm of $T$.
+\end{defi}
+
+\begin{eg}
+    Consider $X = Y = C([0, 1])$. We can define the operator $T$ as
+    \[
+        (Tf)(t) = \int_0^t f(s) \dd{s}, \quad f \in C([0, 1]) = \domain(T)
+    \]
+    $T$ is a bounded operator. This can be shown by explicitely calculating the norm 
+    \begin{align*}
+        \norm{Tf} &= \max_{t \in [0, 1]} \abs{\int_0^t f(s) \dd{s}} \\
+        &\le \max_{t \in [0, 1]} \int_0^t \abs{f(s)} \dd{s} \\
+        &\le \max_{t \in [0, 1]} \int_0^t \max_{s \in [0, 1]} \abs{f(s)} \dd{s} \\
+        &= \norm{f} \max_{t \in [0, 1]} \int_0^t \dd{s} = \norm{f} \max_{t \in [0, 1]} t = \norm{f}
+    \end{align*}
+    Thus we have shown that $\norm{T} \le 1$. We can further show that $\norm{T} = 1$. To do that, assume $f = 1$. 
+    Trivially, this results in $\norm{f} = 1$ and further 
+    \[
+        (Tf)(t) = \int_0^t 1 \dd{s} = t
+    \]
+    This gives us
+    \[
+        \norm{Tf} = 1 \implies \norm{T} \ge \frac{\norm{Tf}}{\norm{f}} = 1
+    \]
+    This implies $\norm{T} = 1$.
+\end{eg}
+
+\begin{eg}
+    Again, consider $X = Y = C([0, 1])$. This time we look at 
+    \[
+        (Tf)(t) = f'(t), \quad \domain(T) = C^1([0, 1])
+    \]
+    $T$ is an unbounded operator. To prove this take $f_n(t) = t^n \in C([0, 1]), ~n \ge 1$. We compute 
+    \[
+        \norm{f_n} = \max_{t \in [0, 1]} \abs{t^n} = 1, \quad \norm{Tf_n} = \max_{t \in [0, 1]} \abs{n t^{n-1}} = n
+    \]
+    Then 
+    \[
+        \norm{T} \ge \frac{\norm{Tf_n}}{\norm{f_n}} = n, \quad \forall n \ge 1
+    \]
+    So there doesn't exist a $C > 0$ such that $n \le C$, thus $T$ cannot be bounded.
+\end{eg}
+
+\begin{thm}
+    Let $X$ be a finite-dimensional normed space. If $T$ is a linear operator on $X$, then $T$ is bounded.
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{defi}
+    Let $T: \domain(T) \rightarrow Y$ be a linear operator. $T$ is said to be continuous in $x_0 \in \domain(T)$ if 
+    \[
+        \forall \epsilon > 0, ~\exists \delta > 0: \quad \norm{x - x_0} < \delta \implies \norm{Tx - Tx_0} < \epsilon, \quad \forall x \in \domain(T)
+    \]
+\end{defi}
+
+\begin{thm}
+    Let $T: \domain(T) \rightarrow Y$ be a linear operator. Then 
+    \begin{enumerate}[(i)]
+        \item $T$ is continuous $\iff$ $T$ is bounded 
+        \item If $T$ is continuous in a single point, then it is continuous everwhere
+    \end{enumerate}
+\end{thm}
+\begin{proof}
+    To prove the first statement, we want to consider $T \ne 0$ (since $T = 0$ is trivial). This implies that $\norm{T} \ne 0$.
+    Assume $T$ is bounded, and take $x_0 \in \domain(T)$. Now let $\epsilon > 0$ and $\delta = \frac{\epsilon}{\norm{T}}$ such that 
+    $\norm{x - x_0} < \delta, ~x \in \domain(T)$. Then
+    \begin{equation}
+        \norm{Tx - Tx_0} = \norm{T(x - x_0)} \le \norm{T}\norm{x - x_0} < \norm{T} \delta = \norm{T} \frac{\epsilon}{\norm{T}} = \epsilon
+    \end{equation}
+    Thus proving that $T$ is continuous. Now inversely, let $T$ be continuous in $x_0 \in \domain(T)$. If we choose $\epsilon = 1$, then we can find a $\delta$ such that 
+    \begin{equation}
+        \norm{x - x_0} < \delta \implies \norm{Tx - Tx_0} < \epsilon = 1
+    \end{equation}
+    If we now take any $y \ne 0$ from $\domain(T)$ and set $x = x_0 + \frac{\delta}{2 \norm{y}} y$, then we can show 
+    \begin{equation}
+        \norm{x - x_0} = \frac{\delta}{2} < \delta \implies \norm{Tx - Tx_0} < \epsilon = 1
+    \end{equation}
+    Therefore we have 
+    \begin{equation}
+        1 > \norm{Tx - Tx_0} = \norm{T(x - x_0)} = \norm{T \frac{\delta}{2\norm{y}} y} = \frac{\delta}{2\norm{y}} \norm{Ty}
+    \end{equation}
+    Thus
+    \begin{equation}
+        \frac{\delta}{2\norm{y}} \norm{Ty} < 1 \implies \norm{Ty} < \frac{2}{\delta} \norm{y}
+    \end{equation}
+    Since $y \in \domain(T)$ was chosen arbitrarily, this implies that $T$ is bounded. The second statement follows trivially from the first one,
+    as we have shown that if $T$ is continuous in one point $x_0$, it is bounded and if it is bounded then it is continuous everywhere.
+\end{proof}
+
+\begin{cor}
+    Let $T$ be a bounded linear operator. Then 
+    \begin{enumerate}[(i)]
+        \item For $x_n, x \in \domain(T)$ we have $x_n \rightarrow x \implies Tx_n \rightarrow Tx$
+        \item The set $\ker(T) = \set[Tx = 0]{x \in \domain(T)}$ is a null set and closed in $X$
+    \end{enumerate}
+\end{cor}
+\begin{proof}
+    \reader
+\end{proof}
+
+\begin{thm}
+    Let $T: \domain(T) \rightarrow Y$ be a bounded linear operator, with $Y$ a Banach space. Then $T$ has an extension $\tilde{T}: \closure{\domain(T)} \rightarrow Y$ where $\tilde{T}$ is a bounded linear operator and $\norm*{\tilde{T}} = \norm{T}$.
+\end{thm}
+\begin{proof}
+    In this proof we only want to show how such a $\tilde{T}$ can be constructed. Let $x \in \closure{\domain(T)}$. Then there is a sequence $x_n \in \domain(T)$
+    such that $x_n \rightarrow x$. Since $T$ is linear and bounded, we can find 
+    \begin{equation}
+        \norm{Tx_n - Tx_m} \le \norm{T(x_n - x_m)} \le \norm{T} \norm{x_n - x_m} \conv{n, m \rightarrow \infty} 0
+    \end{equation}
+    So $(Tx_n)_{n \in \natn}$ is a Cauchy sequence in $Y$. Because $Y$ is a Banach space there exists some $y \in Y$ such that $Tx_n$ converges to $y$. 
+    Now we define $\tilde{T}x := y$, and show that $\tilde{T}x$ is well-defined. If $(z_n)_{n \in \natn} \subset \domain(T)$ is another sequence converging to $x$,
+    then $Tz_n \rightarrow y'$. Now consider the sequence 
+    \begin{equation}
+        (v_n)_{n \in \natn} = (x_1, z_1, x_2, z_2, x_3, z_3, \cdots)
+    \end{equation}
+    This sequence also converges to $x$, and $T v_n \rightarrow y''$. However we can also find
+    \begin{align}
+        T v_{2k+1} \longrightarrow y = y'' && T v_{2k} \longrightarrow y' = y''
+    \end{align}
+    Thus $y = y'$.
+\end{proof}
+
+\end{document}
