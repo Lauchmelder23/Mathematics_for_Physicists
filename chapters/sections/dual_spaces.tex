@@ -1,0 +1,188 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{Dual Spaces}
+
+\begin{defi}[Normed spaces of Operators]
+    Let $X, Y$ be normed spaces and $T: X \rightarrow Y$ a bounded linear operator. Then $B(X, Y)$ is the set of all such bounded linear operators.
+    If we define for $x \in X, ~\alpha \in \field$
+    \begin{align*}
+        (T_1 + T_2)(x) &= T_1x + T_2x, & T_1, T_2 &\in B(X, Y) \\ 
+        (\alpha T)(x) &= \alpha Tx, & T &\in B(X, Y)
+    \end{align*}
+    then $B(X, Y)$ is a vector space.
+\end{defi}
+
+\begin{thm}
+    The vector space $B(X, Y)$ is a normed space with the operator norm 
+    \[
+        \norm{T} = \sup_{x \ne 0} \frac{\norm{Tx}}{\norm{x}} = \sup_{\norm{x} = 1} \norm{Tx}
+    \]
+\end{thm}
+\begin{proof}
+    \reader
+\end{proof}
+
+\begin{thm}
+    If $Y$ is a Banach space, then $B(X, Y)$ is also a Banach space.
+\end{thm}
+\begin{proof}
+    Let $\anyseqdef[T]{B(X, Y)}$ be a Cauchy sequence. We need to show that there exists some $T \in B(X, Y)$ such that $T_n \rightarrow T$.
+    Let $x \in X$ and define 
+    \begin{equation}
+        Tx = \lim_{n \rightarrow \infty} T_n x
+    \end{equation}
+    Consider the sequence $T_n x$. It is possible to show that this is a Cauchy sequence 
+    \begin{equation}
+        \norm{T_n x - T_m x} = \norm{(T_n - T_m) x} = \norm{T_n - T_m} \norm{x} \conv{n,m \rightarrow \infty} 0
+    \end{equation}
+    Since $Y$ is complete, there exists some $y \in Y$ such that $T_n x \rightarrow y := Tx$. Thus we have shown that $T$ is indeed mapping $X$ to $Y$.
+    We now need to prove that $T$ is linear and bounded (and thus element of $B(X, Y)$). 
+    \begin{equation}
+        \begin{split}
+            T(\alpha x + \beta z) &= \lim_{n \rightarrow \infty} T_n(\alpha x + \beta z) \\
+            &= \lim_{n \rightarrow \infty} (\alpha T_n x + \beta T_n z) \\
+            &= \alpha \lim_{n \rightarrow \infty} T_n x + \beta \lim_{n \rightarrow \infty} T_n z = \alpha Tx + \beta Tz
+        \end{split}
+    \end{equation}
+    This shows that $T$ is linear. Now let $\epsilon > 0$. Then 
+    \begin{equation}
+        \exists N \in \natn: \quad \norm{T_n - T_m} < \frac{\epsilon}{2}, \quad \forall n, m \ge N
+    \end{equation}
+    If we let $n \ge N$ we can use this to show 
+    \begin{equation}
+        \begin{split}
+            \norm{T_n x - Tx} &= \norm{T_n x - \lim_{m \rightarrow \infty} T_m x} \\
+            &= \lim_{m \rightarrow \infty} \norm{T_n x - T_m x} \\
+            &\le \lim_{m \rightarrow \infty} \norm{T_n - T_m} \norm{x} \le \frac{\epsilon}{2} \norm{x} < \epsilon \norm{x}
+        \end{split}
+    \end{equation}
+    Thus showing that $T$ is bounded. This also implies that $T_n \rightarrow T$, proving that $B(X, Y)$ is a Banach space.
+\end{proof}
+
+\begin{defi}[Dual Spaces]
+    The set of all bounded linear functionals $f: X \rightarrow \field$ with the norm 
+    \[
+        \norm{f} = \sup_{x \ne 0} \frac{\abs{f(x)}}{\norm{x}} = \sup_{\norm{x} = 1} \abs{f(x)}
+    \]
+    is said to be the dual space of $X$, and is written as $X' = B(X, \field)$.
+\end{defi}
+
+\begin{thm}
+    The dual space $X'$ of a normed space $X$ is a Banach space.
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{defi}
+    Let $X, \tilde{X}$ be normed spaces. A bijective linear operator $T: X \rightarrow \tilde{X}$ that perserves the norm (i.e. $\norm{Tx} = \norm{x}, ~\forall x \in X$) is said to be an isomorphism.
+    If such an isomorphism exists, then $X$ and $\tilde{X}$ are called isomorphic normed spaces.
+\end{defi}
+
+\begin{eg}
+    \begin{enumerate}[(i)]
+        \item The dual space of $l_n^p$ is
+        \[
+            (l_n^p)' = l_n^q, \quad \rec{p} + \rec{q} = 1, ~1 < p <\infty
+        \]
+        So let $f \in (l_n^p)'$ be a bounded linear functional. We can define a basis 
+        \begin{align*}
+            &\left. \begin{aligned}
+                e_1 &= (1, 0, \cdots, 0) \\ 
+                &\vdots \\
+                e_n &= (0, \cdots, 0, 1)
+            \end{aligned} \right\} \in l_n^p
+        \end{align*}
+        This lets us express elements of $l_n^p$ in the following way
+        \[
+            x = \sum_{k=1}^n \xi_k e_k \in l_n^p
+        \]
+        We can then write out $f$ as 
+        \[
+            f(x) = f\left(\sum_{k=1}^n \xi_k e_k\right) = \sum_{k=1}^n \xi_k f(e_k) = \sum_{k=1}^{n} \gamma_k \xi_k = \innerproduct{u}{x}
+        \]
+        where $u = (\gamma_1, \cdots, \gamma_n), ~\gamma_k = f(e_k), ~k = 1, \cdots, n$. To compute the norm of $f$ we want to use Hölder's inequality
+        \[
+            \sum_{k=1}^n \abs{x_k y_k} \le \left(\sum_{k=1}^n \abs{x_k}^q \right)^{\rec{q}} \left(\sum_{k=1}^n \abs{y_k}^p \right)^{\rec{p}}, \quad \rec{p} + \rec{q} = 1
+        \]
+        With this we can write
+        \[
+            \abs{f(x)} = \abs{\sum_{k=1}^n \gamma_k \xi_k} \le \sum_{k=1}^n \abs{\gamma_k \xi_k} \le \left(\sum_{k=1}^n \abs{\gamma_k}^q \right)^{\rec{q}} \left(\sum_{k=1}^n \abs{\xi_k}^p \right)^{\rec{p}} = \norm{u}_{l^q} \norm{x}_{l^p}, \quad \forall x \in l_n^p
+        \]
+        This implies $\norm{f} \le \norm{u}_{l^q}$. Now let $x = (\pm \abs{\gamma_1}^{q-1}, \cdots, \pm \abs{\gamma_n}^{q-1})$ where we use $+$ is $\gamma_k \ge 0$, and $-$ otherwise.
+        Then 
+        \[
+            \abs{f(x)} = \sum_{k=1}^n \gamma_k (\pm \abs{\gamma_k}^{q-1}) = \sum_{k=1}^n \abs{\gamma_k}^q
+        \]
+        and 
+        \[
+            \norm{x}_{l^p} = \left(\sum_{k=1}^n \abs{\gamma_k}^{(q-1)p}\right)^{\rec{p}} = \left(\sum_{k=1}^n \abs{\gamma_k}^q\right)^{1-\rec{q}}
+        \]
+        Using these two steps we can write 
+        \[
+            \abs{f(x)} = \sum_{k=1}^n \abs{\gamma_k}^q = \left(\sum_{k=1}^n \abs{\gamma_k}^q \right)^{\rec{q}} \left(\sum_{k=1}^n \abs{\gamma_k}^q \right)^{1 - \rec{q}} = \norm{u}_{l^q} \norm{x}_{l^p}
+        \]
+        thus proving $\norm{f} = \norm{u}$. As a result, this shows that $f$ is an isomorphism of $(l_n^p)'$ to $l_n^q$. 
+        In other words, any bounded linear function $f$ canm be written as 
+        \[
+            f(x) = \sum_{k=1}^n \gamma_k \xi_k =: \innerproduct{u}{x}, \quad u = \anyseqdef[\gamma]{l_n^p}
+        \]
+
+        \item $(l_n^1)' = l_n^{\infty}$ and $(l_n^{\infty})' = l_n^1$
+        \item $(l^p)' = l^q, \quad \rec{p} + \rec{q} = 1$
+        \item $(l^1)' = l^{\infty}$
+        \item $c' = (c_0)' = l^1$
+        \item $(L^p(A))' = L^q(A)$ and $(L^1(A))' = L^{\infty}(A)$
+        \item $(C(A))' = \text{"functions of bounded variation"}$
+    \end{enumerate}
+\end{eg}
+
+\begin{defi}
+    Let $w: [a, b] \rightarrow \realn$ be a function. $w$ is said to be of bounded variation on $[a, b]$ if its total variation 
+    \[
+        \Var(w) = \sup \sum_{j=1}^n \abs{w(t_j) - w(t_{j-1})}
+    \]
+    is finite. The supremum is taken over all partitions $a = t_0 < t_1 < \cdots < t_n = b$.
+\end{defi}
+
+\begin{eg}
+    If $w$ is non-decreasing, then $w$ has bounded variation. This can be explicitly shown 
+    \[
+        \Var(w) = \sup \sum_{j=1}^n \abs{w(t_j) - w(t_{j-1})} = \sup \sum_{j=1}^n (w(t_j) - w(t_{j-1})) = w(b) - w(a)
+    \]
+\end{eg}
+
+\begin{rem}
+    A functio $w$ has bounded variation if it can be written as a difference of two non-decreasing functions. I.e. $\exists w_1, w_2: [a, b] \rightarrow \realn$ non-decreasing, such that $w = w_1 - w_2$.
+\end{rem}
+
+\begin{lem}
+    Let $BV([a, b])$ be the set of all functions on $[a, b]$ that have bounded variation. It is obvious that $BV([a, b])$ is a vector space over $\realn$, if we define the norm
+    \[
+        \norm{w} = \abs{w(a)} + \Var(w), \quad w \in BV([a, b])
+    \]
+    $BV([a, b])$ is a Banach space 
+\end{lem}  
+
+\begin{rem}
+    Let $x \in C([a, b])$ and $w \in BV([a, b])$. Then one can see that the Riemann-Stieltjes integral 
+    \[
+        \int_a^b \dd{w(t)} = \lim_{\lambda \rightarrow \infty} \sum_{k=1}^{n} x(\xi_k)(w(t_k) - w(t_{k-1}))
+    \]
+    exists, with $\lambda = \max\abs{t_k - t_{k-1}}, ~\xi_k \in [t_{k-1}, t_k]$. If $w \in C^1([a, b])$ then 
+    \[
+        \int_a^b x(t) \dd{w(t)} = \int_a^b x(t)w'(t) \dd{t}
+    \]
+\end{rem}
+
+\begin{thm}
+    Every $f \in (C([a, b]))'$ can be expressed as a Riemann-Stieltjes integral 
+    \[
+        f(x) = \int_a^b x(t) \dd{w(t)}
+    \]
+    with $\norm{f} = \Var(w)$
+\end{thm}
+
+\end{document}
