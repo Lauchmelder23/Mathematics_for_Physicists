@@ -344,4 +344,56 @@
             \item If $H$ contains a total orthonormal sequence, then $H$ is separable
         \end{enumerate}
     \end{thm}
+
+    \begin{eg}[Examples of Orthonormal bases]
+        \begin{enumerate}[(i)]
+            \item Legendre Polynomials
+            
+            Consider the space $L^2([-1, 1])$, which is separable and is the space of all real-valued functions $x$ with the domain $[-1, 1]$, such that 
+            \[
+                \int_{-1}^1 \abs{x(t)}^2 \dd{t} < \infty
+            \]
+            We want to find an orthonormal basis of functions for this space. For that we will consider the linearly independent set of polynomials $M = \set[n \ge 0]{x_n}$,
+            where $x_n(t) = t^n, ~t \in [-1, 1]$. Then $\closure{\spn{M}} = L^2([-1, 1])$, so $M$ is a total set. However it is not orthonormal because 
+            \[
+                \innerproduct{x_k}{x_k} = \int_{-1}^1 t^k t^l \dd{t} = \int_{-1}^1 t^{k+l} \ne 0
+            \]
+            if $k + l$ is even. However we can use the Gram-Schmidt procedure to find an orthonormal set with the same span: 
+            \[
+                e_n(t) = \sqrt{\frac{2n + 1}{2}} P_n(t), \quad P_n(t) = \rec{2^n n!} \dv[n]{t} (t^2 - 1)^n
+            \]
+            These $P_n(t)$ are called the (unassociated) Legendre polynomials. The set $\set[n \ge 0]{e_n}$ constructed in this way is an orthonormal basis in $L^2([-1, 1])$:
+            \[
+                x = \sum_{n=0}^{\infty} \innerproduct{x}{e_n} e_n, \quad \forall x \in L^2([-1, 1])
+            \]
+
+            \item Hermite Polynomials
+            
+            Consider $L^2(\realn)$. We can see that $t^n \not\in L^2(\realn)$ because 
+            \[
+                \int_{\realn} \abs{t^n}^2 \dd{t} = \infty
+            \]
+            Instead, consider $M = \set[n \ge 0]{x_n}$ with 
+            \[
+                x_n(t) = t^n e^{-\frac{t^2}{2}}, \quad t \in \realn
+            \]
+            After normalizing these functions we find 
+            \[
+                e_n(t) = \rec{\sqrt{2^n n! \sqrt{n}}} e^{-\frac{t^2}{2}} H_n(t), \quad H_n(t) = (-1)^n e^{t^2} \dv[n]{t} e^{-t^2}
+            \]
+            where $H_n(t)$ are the Hermite polynomials. The set $\set[n \ge 0]{e_n}$ is an orthonormal basis in $L^2(\realn)$.
+
+            \item Laguerre Polynomials 
+            
+            Consider $L^2([0, \infty))$ and $M = \set[n \ge 0]{x_n}$ with 
+            \[
+                x_n(t) = t^n e^{-\frac{t^2}{2}}, \quad t \ge 0
+            \]
+            Then we can find 
+            \[
+                e_n(t) = e^{-\frac{t}{2}} L_n(t), \quad L_n(t) = \frac{e^t}{n!} \dv[n]{t} (t^n e^{-t})
+            \]
+            where $L_n(t)$ are called the Laguerre polynomials. The set $\set[n \ge 0]{e_n}$ is an orthonormal basis in $L^2([0, \infty))$
+        \end{enumerate}
+    \end{eg}
 \end{document}
