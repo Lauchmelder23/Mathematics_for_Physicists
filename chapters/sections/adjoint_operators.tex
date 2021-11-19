@@ -4,5 +4,126 @@
 \begin{document}
     \section{Adjoint Operators}
 
-    
+    \begin{thm}[Riesz Representation Theorem]\label{thm:riesz}
+        Let $H$ be a Hilbert space. Then every bounded linear functional $f$ on $H$ can be written as an inner product 
+        \[
+            f(x) = \innerproduct{x}{z}
+        \]
+        where $z$ is a uniquely determined element of $H$, and $\norm{f} = \norm{z}$.
+    \end{thm}
+    \begin{proof}
+        \noproof
+    \end{proof}
+
+    \begin{defi}
+        Let $H_1$ and $H_2$ be Hilbert spaces, and $T: H_1 \rightarrow H_2$ a bounded linear operator. 
+        Then the adjoint operator $T^*$ of $T$ is the operator $T^*: H_2 \rightarrow H_1$ such that 
+        \[
+            \forall x \in H_1, y \in H_2: \quad \innerproduct{Tx}{y} = \innerproduct{x}{T^*y}
+        \]
+    \end{defi}
+
+    \begin{thm}
+        The adjoint operator $T^*$ of $T$ exists, is unique, and is bounded with $\norm{T^*} = \norm{T}$
+    \end{thm}
+    \begin{proof}
+        The existence of $T^*$ follows from \Cref{thm:riesz}. Specifically, consider for a fixed $y \in H_2$ the map 
+        \begin{equation}
+            f(x) = \innerproduct{Tx}{y}, \quad x \in H_1
+        \end{equation}
+        Then $f: H_1 \rightarrow \field$ is a bounded linear functional with 
+        \begin{equation}
+            \abs{f(x)} = \abs{\innerproduct{Tx}{y}} \le \norm{Tx}\norm{y} \le \norm{T}\norm{x}\norm{y} = C\norm{x}
+        \end{equation}
+        By \Cref{thm:riesz}, there exists a $z \in H_1$ such that $f(x) = \innerproduct{x}{z}$. Then we can just set 
+        \begin{equation}
+            T^* y := z
+        \end{equation}
+    \end{proof}
+
+    \begin{thm}
+        Let $H_1$ and $H_2$ be Hilbert spaces, and $T, S: H_1 \rightarrow H_2$ bounded linear operators. Then 
+        \begin{enumerate}[(i)]
+            \item $\innerproduct{T^* y}{x} = \innerproduct{y}{Tx}, \quad x \in H_1, ~y \in H_2$
+            \item $(S + T)^* = S^* + T^*$
+            \item $(\alpha T)^* = \conj{\alpha} T^*, \quad \alpha \in \field$
+            \item $(T^*)^* = T$
+            \item $\norm{T^* T} = \norm{TT^*} = \norm{T}^2$
+            \item $T^* T = 0 \iff T = 0$
+            \item $(ST)^* = T^* S^*$ (if $H_1 = H_2$)
+        \end{enumerate}
+    \end{thm}
+
+    \begin{defi}
+        A bounded linear operator $T: H \rightarrow H$ on a Hilbert space $H$ is said to be 
+        \begin{itemize}
+            \item self-adjoint if $T^* = T$
+            \item unitary if $T$ is bijective and $T^* = T^{-1}$
+            \item normal if $TT^* = T^*T$
+        \end{itemize}
+        If $T$ is self-adjoint or unitary, then it is also normal. The inverse is not generally true.
+    \end{defi}
+
+    \begin{eg}
+        Consider $T = 2i I$, where $I$ is the identity operator. Then $T^* = -2i I$. We can see that $TT^* = T^*T$, but $T^* \ne T^{-1} = -\frac{1}{2} i I$ and $T \ne T^*$.
+    \end{eg}
+
+    \begin{eg}
+        Consider $\cmpln^n$ with the inner product 
+        \[
+            \innerproduct{x}{y} = \sum_{k=1}^n \xi_k \conj{\eta_k}, \quad x = (\xi_k), ~y = (\eta_k)
+        \]
+        Any bounded linear operator $T: \cmpln^n \rightarrow \cmpln^n$ can be represented by a square matrix $M_T$. Or in other words, $y = Tx$ can be expressed as 
+        \[
+            \begin{pmatrix}
+                \eta_1 \\ \vdots \\ \eta_n
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+                a_{11} & \cdots & a_{1n} \\
+                \vdots & \ddots & \vdots \\
+                a_{n1} & \cdots & a_{nn}
+            \end{pmatrix}
+            \begin{pmatrix}
+                \xi_1 \\ \vdots \\ \xi_n
+            \end{pmatrix}
+        \]
+        If $M_T$ is the matrix of $T$, then $M_{T^*}$ (the matrix of $T^*$) is the conjugate transpose of $M_T$.
+    \end{eg}
+
+    \begin{thm}
+        Let $H$ be a Hilbert space and $T: H \rightarrow H$ a bounded linear operator. Then 
+        \begin{enumerate}[(i)]
+            \item If $T$ is self-adjoint, then $\innerproduct{Tx}{x}$ is real for all $x \in H$
+            \item If $H$ is complex ($\field = \cmpln$) and $\innerproduct{Tx}{x}$ is real, then $T$ is self-adjoint 
+        \end{enumerate}
+    \end{thm}
+    \begin{proof}
+        To prove the first statement, assume $T$ is self-adjoint. Then 
+        \begin{equation}
+            \conj{\innerproduct{Tx}{x}} = \innerproduct{x}{Tx} = \innerproduct{T^*x}{x} = \innerproduct{Tx}{x} \implies \innerproduct{Tx}{x} \in \realn
+        \end{equation}
+        For the second statement, assume $\innerproduct{Tx}{x}$ to be real. This means 
+        \begin{equation}
+            \innerproduct{Tx}{x} = \conj{\innerproduct{Tx}{x}} = \conj{\innerproduct{x}{T^* x}} = \innerproduct{T^* x}{x}
+        \end{equation}
+        Thus 
+        \begin{equation}
+            0 = \innerproduct{Tx}{x} - \innerproduct{T^*x}{x} = \innerproduct{Tx - T^*x}{x} = \innerproduct{(T - T^*)x}{x} \implies T = T^*
+        \end{equation}
+    \end{proof}
+
+    \begin{thm}
+        \begin{enumerate}[(i)]
+            \item The product of two bounded, self-adjoint operators $S$ and $T$ is self-adjoint, if and only if $ST = TS$.
+            \item Let $(T_n)$ be a sequence of self-adjoint operators on a Hilbert space $H$, such that $T_n \conv{n \rightarrow \infty} T$ in $B(H, H)$. Then $T$ is self-adjoint.
+        \end{enumerate}
+    \end{thm}
+    \begin{proof}
+        We will only prove the second statement. We need to show that $T = T^*$. Consider 
+        \begin{equation}
+            \norm{T_n^* - T^*} = \norm{(T_n - T)^*} = \norm{T_n - T} \conv{n \rightarrow \infty} 0
+        \end{equation}
+        So $T_n^* \conv{n \rightarrow \infty} T^*$, and since $T_n = T_n^*$ this also means that $T_n \conv{n \rightarrow \infty} T^*$. This implies $T = T^*$.
+    \end{proof}
 \end{document}
