@@ -71,8 +71,7 @@ The topics covered in this script will be:
    12.1 Linear Operators  
    12.2 Dual Spaces  
    12.3 Hilbert Spaces  
-   12.4 Orthonormal Sets  
-   12.5 Adjoint Operators
+   12.4 Adjoint Operators
 
 13. Spectral Theory  
    13.1 Spectral Theory of Bounded Linear Operators  
