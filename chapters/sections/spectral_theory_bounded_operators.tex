@@ -1,0 +1,191 @@
+% !TeX root = ../../script.tex
+\documentclass[../../script.tex]{subfiles}
+
+\begin{document}
+\section{Spectral Theory of Bounded Linear Operators}
+
+In this chapter all spaces are assumed to be complex.
+
+\begin{defi}
+    Assume $X \ne \varnothing$ is a complex normed space and consider the operators 
+    \begin{align*}
+        T: \domain(T) &\longrightarrow X \\
+        T - \lambda I: \domain(T) &\longrightarrow X
+    \end{align*}
+    where $Ix = x$ and $\lambda \in \cmpln$. If it exists, denote 
+    \[
+        R_{\lambda} := R_{\lambda}(T) = (T - \lambda I)^{-1}
+    \]
+    Note that $R_{\lambda}$ is a linear operator.
+\end{defi}
+
+\begin{defi}
+    A regular value of $T$ is a complex number $\lambda$ such that 
+    \begin{enumerate}[(i)]
+        \item $R_{\lambda}(T)$ exists 
+        \item $R_{\lambda}(T)$ is bounded
+        \item $R_{\lambda}(T)$ is defined on a dense subset of $X$
+    \end{enumerate}
+    The resolvent set $\rho(T)$ is the set of all regular values of $T$. Furthermore we define $\sigma(T) = \cmpln \setminus \rho(T)$ as the spectrum of $T$.
+    A value $\lambda \in \sigma(T)$ is called a spectral value of $T$.
+\end{defi}
+
+\begin{defi}
+    The spectrum $\sigma(T)$ is partitioned into three disjoint sets:
+    \begin{itemize}
+        \item The point spectrum or discrete spectrum $\sigma_p(T)$ is the set of values for which $R_{\lambda}(T)$ does not exist
+        \item The continuous spectrum $\sigma_c(T)$ is the set of values for which $R_{\lambda}(T)$ exists and is defined on a dense subset of $X$, but is unbounded
+        \item The residual spectrum $\sigma_r(T)$ is the set of values for which $R_{\lambda}(T)$ exists but the domain of $R_{\lambda}(T)$ is not dense in $X$
+    \end{itemize}
+\end{defi}
+
+\begin{rem}
+    These sets are disjoint and $\sigma(T) = \sigma_p(T) \cup \sigma_c(T) \cup \sigma_r(T)$. Also note that $R_{\lambda}(T)$ does not exist if and only if $T - \lambda I$ is not injective, i.e.
+    \[
+        \exists x \ne 0: \quad (T - \lambda I)x = Tx - \lambda x = 0
+    \]
+    Then $\lambda \in \sigma_p(T) \iff \exists x \ne 0: \quad Tx - \lambda x = 0$, and the vector $x$ is called an eigenvector of $T$.
+    If $X$ is finite dimensional, then 
+    \[
+        \sigma_c(T) = \sigma_r(T) = \varnothing
+    \]
+\end{rem}
+
+\begin{eg}
+    Consider $X = l^2$ and define $T: l^2 \rightarrow l^2$ such that 
+    \[
+        Tx = (0, \xi_1, \xi_2, \xi_3, \cdots), \quad x = (\xi_k)
+    \]
+    $T$ is called a right-shift operator and $\domain(T) = l^2$. We have 
+    \[
+        \norm{Tx}^2 = \sum_{k=1}^{\infty} \abs{\xi_k}^2 = \norm{x}^2 \implies \norm{T} = 1
+    \]
+    Now consider the case where $\lambda = 0$. Then we have $R_0 = T^{-1}$ defined on the domain $\domain(T^{-1}) = \set[\eta_1 = 0]{y = (\eta_k)}$, and 
+    \[
+        T^{-1} y = (\eta_2, \eta_3, \cdots), \quad y \in \domain(T^{-1})
+    \]
+    $R_0$ does exist, but $\domain(T^{-1})$ is not dense in $X$. Thus $\lambda = 0$ is part of the residual spectrum of $T$.
+\end{eg}
+
+\begin{rem}
+    Let $X$ be a complete Banach space and take $T \in B(X, X)$ and $\lambda \in \rho(T)$. Then $R_{\lambda}(T)$ is defined on the entire set $X$ and is bounded.
+\end{rem}
+
+\begin{thm}\label{thm:20.5}
+    Take $T \in B(X, X)$, where $X$ is a Banach space. If $\norm{T} < 1$, then $\inv{(I - T)}$ exists, belongs to $B(X, X)$ and 
+    \[
+        \inv{(I - T)} = \sum_{k=0}^{\infty} T^k = I + T + T^2 + \cdots
+    \]
+    where the series converges on $B(X, X)$.
+\end{thm}
+\begin{proof}
+    Firstly, note that $\norm{T^k} \le \norm{T}^k$. Since $\norm{T} < 1$ we can find that 
+    \begin{equation}
+        \sum_{k=0}^{\infty} \norm{T^k} \le \sum_{k=0}^{\infty} \norm{T}^k < \infty
+    \end{equation}
+    This implies that the series 
+    \begin{equation}
+        S := \sum_{k=0}^{\infty} T^k
+    \end{equation}
+    converges. Then we can compute 
+    \begin{equation}
+        (I - T)(T + T + T^2 + \cdots + T^n) = (I + T + T^2 + \cdots + T^n)(I - T) = I - T^{n+1}
+    \end{equation}
+    Since $\norm{T^{n+1}} \le \norm{T}^{n+1} \conv{n \rightarrow \infty} 0$, we get $(I - T)S = S(I - T) = I$ and thus finally $S = (I - T)^{-1}$.
+\end{proof}
+
+\begin{thm}\label{thm:20.6}
+    The resolvent set $\rho(T)$ of $T \in B(X, X)$ on a complex Banach space $X$ is open. Hence the spectrum $\sigma(T)$ is closed.
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{thm}
+    The spectrum $\sigma(T)$ of $T \in B(X, X)$ on a complex Banach space $X$ is compact and lies in the disk $\abs{\lambda} \le \norm{T}$.
+\end{thm}
+\begin{proof}
+    Take $\lambda \ne 0$ and denote $\theta = \rec{\lambda}$. Using \Cref{thm:20.5} we obtain 
+    \begin{equation}
+        R_{\lambda} = (T - \lambda I)^{-1} = -\theta(I - \theta T)^{-1} = -\theta \sum_{k=0}^{\infty} (\theta T)^k = -\rec{\lambda} \sum_{k=0}^{\infty} \left(\rec{\lambda} T \right)^k
+    \end{equation}
+    where the series converges on 
+    \begin{equation}
+        \norm{\rec{\lambda} T} = \frac{\norm{T}}{\abs{\lambda}} < 1
+    \end{equation}
+    So by \Cref{thm:20.5} $R_{\lambda} \in B(X, X)$. Since $\sigma(T)$ is closed by \Cref{thm:20.6} and bounded, we have that $\sigma(T)$ is compact.
+\end{proof}
+
+\begin{thm}
+    Let $X$ be a Banach space and $T \in B(X, X)$. Then for every $\lambda_0 \in \rho(T)$ the resolvent $R_{\lambda}(T)$ has the representation
+    \[
+        R_{\lambda}(T) = \sum_{k=0}^{\infty} (\lambda - \lambda_0)^k R_{\lambda_0}^{k+1}
+    \]
+    where the series converges absolutely for $\lambda$ in the open disk 
+    \[
+        \abs{\lambda - \lambda_0} < \rec{\norm{R_{\lambda_0}}}
+    \]
+    in the complex plane.
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{defi}
+    The spectral radius $r_{\sigma}(T)$ of $T \in B(X, X)$ is the radius 
+    \[
+        r_{\sigma}(T) = \sup_{\lambda \in \sigma(T)} \abs{T}
+    \]
+    One can show that 
+    \[
+        r_{\sigma(T)} = \lim_{n \rightarrow \infty} \sqrt[n]{\norm{T^n}}
+    \]
+\end{defi}
+
+\begin{thm}[Resolvent Equation, Commutativity]
+    Let $X$ be a complete Banach space and take $T \in B(X, X)$ and $\lambda, \mu \in \rho(T)$. Then 
+    \begin{enumerate}[(i)]
+        \item $R_{\mu} - R_{\lambda} = (\mu - \lambda) R_{\mu} R_{\lambda}$
+        \item $R_{\lambda}$ commutes with any $S \in B(X, X)$ which commutes with $T$
+        \item $R_{\lambda} R_{\mu} = R_{\mu} R_{\lambda}$
+    \end{enumerate}
+\end{thm}
+\begin{proof}
+    To prove the first statement, we can simply compute 
+    \begin{equation}
+        \begin{split}
+            R_{\mu} - R_{\lambda} &= R_{\mu} I - I R_{\lambda} \\
+            &= R_{\mu}\left((T - \lambda I) R_{\lambda} \right) - \left(R_{\mu}(T - \mu I)\right) R_{\lambda} \\
+            &= R_{\mu}(T - \lambda I - T + \mu I) R_{\lambda} \\
+            &= R_{\mu}(\mu - \lambda) R_{\lambda} = (\mu - \lambda) R_{\mu} R_{\lambda}
+        \end{split}
+    \end{equation}
+    The second statement assumes that $TS = ST$. This implies $(T - \lambda I)S = S(T - \lambda I)$. Thus 
+    \begin{equation}
+        R_{\lambda} S = R_{\lambda} S(T - \lambda I) R_{\lambda} = R_{\lambda} (T - \lambda I) S R_{\lambda} = S R_{\lambda}
+    \end{equation}
+    The third statement follows directly from the second.
+\end{proof}
+
+\begin{thm}
+    Let $X$ be a complex Banach space. Consider $T \in B(X, X)$ and the polynomial
+    \[
+        p(\lambda) = \alpha_n \lambda^n + \alpha_{n-1} \lambda^{n-1} + \cdots + \alpha_0, \quad \alpha_n \ne 0
+    \]
+    Then 
+    \[
+        \sigma(p(T)) = p(\sigma(T))
+    \]
+    where $p(T) = \alpha_n T^n + \alpha_{n-1} T^{n-1} + \cdots + \alpha_0 T$ and $p(\sigma(T)) = \set[\lambda \in \sigma(T)]{p(\lambda) \in \cmpln}$
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{thm}
+    The eigenvectors $\set{x_1, \cdots, x_n}$ corresponding to different eigenvalues $\lambda_1, \cdots, \lambda_n$ of a linear operator $T$ on a vector space $X$ are linearly independent.
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+\end{document}
