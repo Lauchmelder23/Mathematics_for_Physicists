@@ -1,0 +1,287 @@
+\documentclass[../../script.tex]{subfiles}
+%! TEX root = ../../script.tex
+
+\begin{document}
+\section[Spectral Theorem]{Spectral Theorem for Bounded Self-Adjoint Operators}
+In this section we assume that $H$ is a complex Hilbert space, and $T: H \rightarrow H$ is a bounded, linear operator.
+
+\begin{eg}
+    Consider the Hilbert space $H = L^2[0, 1]$ and the operator 
+    \[
+        (Tx)(t) = tx(t), \quad t \in [0, 1], ~x \in L^2[0, 1]
+    \]
+    $T$ is self-adjoint. This can be seen explicitly
+    \[
+        \innerproduct{Tx}{y} = \int_0^1 tx(t) \conj{y(t)} \dd{t} = \int_0^1 x(t) \conj{t y(t)} \dd{t} = \innerproduct{x}{Ty}
+    \]
+    We want to find the spectrum and resolvent sets. Consider the operator $T_{\lambda} := T - \lambda I$. We can compute 
+    \[
+        (T_{\lambda} x)(t) = (Tx - \lambda x)(t) = tx(t) - \lambda x(t) = (t - \lambda)x(t) = y(t)
+    \]
+    Then we can find the operator $R_{\lambda}$
+    \[
+        (R_{\lambda}y)(t) = \rec{t - \lambda} y(t), \quad t \in [0, 1]
+    \]
+    There are now two cases to consider. Firstly, if $\lambda \in \cmpln \setminus [0, 1]$, then $\rec{t - \lambda}$ is bounded, so 
+    \[
+        \norm{R_{\lambda}y}^2 = \int_0^1 \rec{\abs{t - \lambda}^2} \abs{y(t)}^2 \dd{t} \le \sup_{t \in [0, 1]} \rec{\abs{t - \lambda}^2} \int_0^1 \abs{y(t)}^2 \dd{t} \le \sup_{t \in [0, 1]} \rec{\abs{t - \lambda}^2} \norm{y}^2
+    \]
+    Thus, $R_{\lambda}$ is a bounded linear operator on all of $L^2[0, 1]$, implying $\lambda \in \rho(T)$.
+
+    Now let $\lambda \in [0, 1]$, then $\rec{t - \lambda}$ is not bounded and $R_{\lambda}$ is not defined on all of $L^2[0, 1]$. 
+    Consider the function $y(t) = \sqrt{t - \lambda} \charfun_{[\lambda, 1]}(t), ~t \in [0, 1]$. Then 
+    \[
+        R_{\lambda}y(t) = \frac{\sqrt{t - \lambda}}{t - \lambda} \charfun_{[\lambda, 1]}(t) \dd{t} = \rec{\sqrt{t - \lambda}} \charfun_{[\lambda, 1]}(t)
+    \]
+    and the norm is 
+    \[
+        \norm{R_{\lambda}y}^2 = \int_0^1 \rec{\sqrt{t - \lambda}^2} \charfun_{[\lambda, 1]}(t) \dd{t} = \int_{\lambda}^1 \rec{t - \lambda} \dd{t} = \infty
+    \]
+    if $\lambda < 1$. So $R_{\lambda}$ is only defined on 
+    \[
+        \domain(R_{\lambda}) = \set[\int_0^1 \frac{\abs{y(t)}^2}{\abs{t - \lambda}} \dd{t} < \infty]{y \in L^2[0, 1]}
+    \]
+    One can prove that $\domain(R_{\lambda})$ is dense in $L^2[0, 1]$, so $\lambda \in \sigma_c(T)$. Additionally $\sigma_c(T) = [0, 1]$, $\sigma_p(T) = \sigma_r(T) = \emptyset$ and $\rho(T) = \cmpln \setminus [0, 1]$.
+\end{eg}
+
+\begin{thm}
+    Let $H$ be a complex Hilbert space and $T: H \rightarrow H$ a bounded self-adjoint operator. Then 
+    \begin{enumerate}[(i)]
+        \item All eigenvalues of $T$ (if they exist) are real.
+        \item Eigenvectors corresponding to different eigenvalues of $T$ are orthogonal.
+    \end{enumerate}
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{thm}[Resolvent Set]
+    Let $H$ be a complex Hilbert space and $T: H \rightarrow H$ a bounded self-adjoint operator. Then $\lambda \in \rho(T)$ if and only if $\exists C > 0$:
+    \[
+        \norm{Tx - \lambda x} \ge C \norm{x}, \quad \forall x \in H
+    \]
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{thm}[Spectrum]
+    Let $H$ be a complex Hilbert space and $T: H \rightarrow H$ a bounded self-adjoint operator. Then the spectrum $\sigma(T)$ of $T$ is real and belongs to the interval $[m, M]$
+    \begin{align*}
+        m = \inf_{\norm{x} = 1} \innerproduct{Tx}{x} && M = \sup_{\norm{x} = 1} \innerproduct{Tx}{x}
+    \end{align*}
+    $m$ and $M$ are spectral values of $T$.
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{thm}[Residual Spectrum]
+    The residual spectrum $\sigma_r(T)$ of a bounded self-adjoint operator $T: H \rightarrow H$ on a complex Hilbert space $H$ is empty.
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{defi}
+    We introduce a partial order "$\le$" on the set of self-adjoint operators on $H$. If $T$ is a self-adjoint operator, then we know that $\innerproduct{Tx}{x}$ is real.
+    \begin{itemize}
+        \item Let $T_1, T_2: H \rightarrow H$ be bounded self-adjoint operators. We write $T_1 \le T_2$ if 
+        \[
+            \innerproduct{T_1x}{x} \le \innerproduct{T_2x}{x}, \quad \forall x \in H
+        \]
+        \item A bounded self-adjoint operator $T$ is said to be positive if $T \ge 0$, that is 
+        \[
+            \innerproduct{Tx}{x} \ge 0, \quad \forall x \in H
+        \]
+    \end{itemize}
+    We remark that the sum of positive operators is positive.
+\end{defi}
+
+\begin{thm}
+    Every positive bounded self-adjoint operator $T: H \rightarrow H$ on a complex Hilbert space $H$ has a positive square root $T^{\rec{2}}$, that is $(T^{\rec{2}})^2 = T$, which is unique. This operator commutes with every bounded linear operator on $H$ that commutes with $T$.
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{defi}
+    Let $H$ be a Hilbert space and $Y$ a closed subspace of $H$. Previously we have shown that $H = Y \oplus Y^{\perp}$. This meant
+    \[
+        \forall x \in H ~\exists! y \in Y, ~z \in Y^{\perp}: \quad x = y + z
+    \]
+    We defined $y$ as the minimizer of the function $Y \ni \tilde{y} \rightarrow \norm{x - \tilde{y}}$, i.e.
+    \[
+        \norm{x - y} = \inf_{\tilde{y} \in Y} \norm{x - \tilde{y}}
+    \]
+    We define the operator $P: H \rightarrow H$ such that $Px := y$. This is called an orthogonal projection on $H$.
+    More specificailly, $P$ is said to be the projection of $H$ onto $Y$.
+\end{defi}
+
+\begin{rem}
+    If $P$ is the projection of $H$ onto $Y$, then 
+    \[
+        P(H) = \set[x \in H]{Px} = Y
+    \]
+    and $\ker P = Y^{\perp}$.
+\end{rem}
+
+\begin{thm}\label{thm:22.3}
+    A bounded linear operator $P: H \rightarrow H$ on a Hilbert space $H$ is a projection on $H$ if and only if $P^* = P$ and $P^2 = P$, or in other words if it is self-adjoint and idempotent.
+\end{thm}
+\begin{proof}
+    Assume that $P$ is a projection. Take $x \in H$, then 
+    \begin{equation}
+        Px = y + z = Px + 0
+    \end{equation}
+    where $y \in Y$ and $z \in Y^{\perp}$. Thus $P(Px) = Px$. Now take $x_1 = y_1 + z_1$ and $x_2 = y_2 + z_2$, where $y_1, y_2 \in Y$ and $z_1, z_2 \in Y^{\perp}$. Then 
+    \begin{equation}
+        \innerproduct{Px_1}{x_2} = \innerproduct{y_1}{y_2 + z_2} = \innerproduct{y_1}{y_2} + \innerproduct{y_1}{z_2} = \innerproduct{y_1}{y_2}
+    \end{equation}
+    and 
+    \begin{equation}
+        \innerproduct{x_1}{Px_2} = \innerproduct{y_1 + z_1}{y_2} = \innerproduct{y_1}{y_2} + \innerproduct{z_1}{y_2} = \innerproduct{y_1}{y_2}
+    \end{equation}
+    This implies $P^* = P$. Conversely assume $P^* = P^2 = P$ is given. Set $Y := P(H)$. We need to prove that if $x = y + z$, with $y \in Y$ and $z \in Y^{\perp}$, then $y = Px$. We write 
+    \begin{equation}
+        x = Px + x - Px
+    \end{equation}
+    and check that $x - Px \in Y^{\perp}$. Take $u \in P(H) \iff u = Px, ~v \in H$. Compute 
+    \begin{equation}
+        \innerproduct{u}{x - Px} = \innerproduct{Pv}{x - Px} = \innerproduct{Pv}{x} - \innerproduct{Pv}{Px} = \innerproduct{Pv}{x} - \innerproduct{P^2v}{x} = 0
+    \end{equation}
+\end{proof}
+
+\begin{eg}\label{eg:22.4}
+    Consider $H = L^2([0, 1])$. Define for $\lambda \in [0, 1]$
+    \[
+        (Px)(t) = \charfun_{[0, \lambda]}(t) x(t) = \begin{cases}
+            x(t), & t \le \lambda \\
+            0, & t > \lambda
+        \end{cases}
+    \]
+    We want to check that $P$ is a projection. According to \Cref{thm:22.3} we need to prove that $P^2 = P^* = P$. It is clear that $P^2 = P$.
+    So we compute 
+    \begin{align*}
+        \innerproduct{Px_1}{x_2} &= \int_0^1 (Px_1)(t) \conj{x_2(t)} \dd{t} \\
+        &= \int_0^1 \charfun_{[0, \lambda]}(t) x_1(t) \conj{x_2(t)} \dd{t} \\
+        &= \int_0^1 x_1(t) \conj{\charfun_{[0, \lambda]}(t) x_2(t)} \dd{t} = \innerproduct{x_1}{Px_2}
+    \end{align*}
+    This implies that $P$ is a projection on $H$. We define 
+    \[
+        Y = P(H) = \set[x(t) = 0, ~t \in {(\lambda, 1]}]{x \in L^2([0, 1])}
+    \]
+\end{eg}
+
+\begin{defi}
+    Assume $H$ is a Hilbert space and $P_1, P_2, P$ are projections on $H$. Denote $Y_i = P_i(H) = \Im P_i$ and $Y = P(H) = \Im P$. Then 
+    \begin{enumerate}[(i)]
+        \item $P$ is positive and $\innerproduct{Px}{x} = \norm{Px}^2$.
+        \item $P_1 P_2$ is a projection if and only if $P_1 P_2 = P_2 P_1$. Then $P_1 P_2$ projects $H$ onto $Y_1 \cap Y_2$.
+        \item $P_1 + P_2$ is a projection on $H$ if and only if $Y_1 \perp Y_2$. In this case $P_1 + P_2$ projects $H$ onto $Y_1 \oplus Y_2$.
+        \item $P_2 - P_1$ is a projection on $H$ if ans only if $Y_1 \subset Y_2$.
+    \end{enumerate}
+\end{defi}
+
+\begin{thm}[Partial Order]
+    The following statements are equivalent
+    \begin{enumerate}[(i)]
+        \item $P_1 P_2 = P_2 P_1 = P_1$
+        \item $Y_1 \subset Y_2$
+        \item $\ker P_1 \supset \ker P_2$
+        \item $\norm{P_1 x} \le \norm{P_2 x}$
+        \item $P_1 \le P_2$ ($P_2 - P_1$ is positive)
+    \end{enumerate}
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{defi}
+    Let $H$ be a complex Hilbert space. A real spectral family is a family $\set[\lambda \in \realn]{E_{\lambda}}$ of projections $E_{\lambda}$ on $H$ such that 
+    \begin{enumerate}[(i)]
+        \item $E_{\lambda} \le E_{\mu}, \quad \forall \lambda < \mu$
+        \item $E_{\lambda} x \conv{\lambda \rightarrow -\infty} 0, ~E_{\lambda} x \conv{\lambda \rightarrow \infty} x, \quad \forall x \in H$
+        \item $E_{\lambda + 0} x := \lim_{\mu \rightarrow \lambda + 0} E_{\mu} x = E_{\lambda} x, \quad \forall x \in H$
+    \end{enumerate}
+    $\set[\lambda \in \realn]{E_{\lambda}}$ is called a spectral family on an interval $[a, b]$ if
+    \[
+        E_{\lambda} = \begin{cases}
+            0, & \lambda < a \\
+            I, & \lambda \ge b
+        \end{cases}
+    \]
+    We define a spectral family for a bounded self-adjoint operator $T: H \rightarrow H$. For this, fix $\lambda \in \realn$ and consider $T_{\lambda} = T - \lambda I$. 
+    Define the positive operator $B_{\lambda} = (T_{\lambda}^2)^{\rec{2}}$. Remark that $B_{\lambda}$ is the unique positive self-adjoint operator such that $B_{\lambda}^2 = T_{\lambda}^2$.
+    Define $T_{\lambda}^+ = \rec{2}(B_{\lambda} + T_{\lambda})$.
+\end{defi}
+
+\begin{eg}
+    Let $H = L^2([0, 1])$ and take $(Tx)(t) = t x(t)$. We want to construct the projections $E_{\lambda}$. For this compute 
+    \[
+        (T_{\lambda}x)(t) = (Tx)(t) - \lambda x(t) = (t - \lambda)x(t), \quad t \in [0, 1]
+    \]
+    Then we can calculate 
+    \[
+        (T_{\lambda}^2 x)(t) = (t - \lambda)^2 x(t)
+    \]
+    and 
+    \[
+        (B_{\lambda} x)(t) = \sqrt{(t - \lambda)^2} x(t) = \abs{t - \lambda} x(t), \quad t \in [0, 1]
+    \]
+    So the positive part of $T$ is 
+    \begin{align*}
+        (T_{\lambda}^+ x)(t) &= \rec{2} \left((B_{\lambda}x)(t) + (T_{\lambda}x)(t)\right) \\
+        &= \rec{2} \left(\abs{t - \lambda} x(t) + (t - \lambda) x(t)\right) = (t - \lambda)^+ x(t), \quad t \in [0, 1]
+    \end{align*}
+    where 
+    \[
+        s^+ = \begin{cases}
+            s, & s \ge 0 \\
+            0, & s < 0
+        \end{cases}
+    \]
+    So this results in 
+    \[
+        (T_{\lambda}^+ x)(t) = \begin{cases}
+            x(t), & t > \lambda \\
+            0, & t \le \lambda
+        \end{cases}
+    \]
+    This lets us calculate the kernel
+    \[
+        \ker T_{\lambda}^+ = \set[T_{\lambda}^+ x = 0]{x \in H} = \set[x(t) = 0, ~t > \lambda]{x \in H}
+    \]
+    From \Cref{eg:22.4} we know that the projection $E_{\lambda}$ of $H$ onto $\ker T_{\lambda}^+$ is defined as 
+    \[
+        (E_{\lambda}x)(t) = \charfun_{[0, \lambda]}(t) x(t)
+    \]
+\end{eg}
+
+\begin{thm}
+    The family $\set[\lambda \in \realn]{E_{\lambda}}$, where $E_{\lambda}$ is the projection of $H$ onto $T_{\lambda}^+$, is the spectral family of the interval $[m, M]$ which is the smallest interval containing the spectrum of $T$.
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{thm}[Spectral Theorem for Bounded Self-Adjoint Linear Operators]
+    Let $T: H \rightarrow H$ be a bounded self-adjoint linear operator on a complex Hilbert space $H$. Then 
+    \[
+        T = \int_{-\infty}^{\infty} \lambda \dd{E_{\lambda}} = \int_m^M \lambda \dd{E_{\lambda}}
+    \]
+    where $E_{\lambda}$ is the spectral family associated with $T$. In particular 
+    \[
+        \innerproduct{Tx}{y} = \int_{-\infty}^{\infty} \lambda \dd{\innerproduct{E_{\lambda}x}{y}} = \int_m^M \lambda \dd{\innerproduct{E_{\lambda}x}{y}}, \quad \forall x, y \in H
+    \]
+\end{thm}
+
+\begin{eg}
+    Coming back to $(Tx)(t) = t x(t)$, we can compute 
+    \begin{align*}
+        (Tx)(t) &= \int_{-\infty}^{\infty} \lambda \dd{E_{\lambda}x(t)} = \int_0^1 \lambda \dd{\charfun_{[0, \lambda]}(t) x(t)} \\
+        &= x(t) \int_0^1 \lambda \dd{\charfun_{[0, \lambda]}(t)} = x(t) \cdot t \cdot 1 = t x(t)
+    \end{align*}
+\end{eg}
+
+\end{document}

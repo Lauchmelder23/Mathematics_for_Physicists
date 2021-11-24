@@ -76,9 +76,9 @@ The topics covered in this script will be:
 13. Spectral Theory  
    13.1 Spectral Theory of Bounded Linear Operators  
    13.2 Spectral Representation of Bounded Self-Adjoint Operators
-   13.4 Compact Linear Operators  
-   13.5 Unbounded Linear Operators  
-   13.6 Spectral Representation of Unbounded Self-Adjoint Operaotrs
+   13.3 Compact Linear Operators  
+   13.4 Unbounded Linear Operators  
+   13.5 Spectral Representation of Unbounded Self-Adjoint Operaotrs
 
 14. Curves in ℝ³
 15. Differentiable Manifolds
