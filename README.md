@@ -1,6 +1,7 @@
 # Mathematics
 
-This is my attempt at digitalizing (and translating) my math notes from uni. It's not finished yet, I'll update it bit by bit when I feel like it
+This is my attempt at digitalizing (and translating) my math notes from uni. 
+It contains all the maths I learned in four semesters of university, however I have not proofread it yet, and I also plan on adding in all the proofs that were labeled as "left to the lecture attendant".
 
 The topics covered in this script will be:
 1. Fundamentals and Notation  
@@ -43,6 +44,7 @@ The topics covered in this script will be:
    7.3 Integrals over the real numbers  
    7.4 Product Measures and the Fubini Theorem  
    7.5 The Transformation Theorem
+   7.6 Lebesgue-Stieltjes Integral
 
 8. Ordinary Differential Equations  
    8.1 Solution Methods  
@@ -65,7 +67,7 @@ The topics covered in this script will be:
 11. Fourier Transform and Basics of Distribution Theory  
    11.1 Fourier Transform on L¹(ℝᵈ)  
    11.2 Fourier Transform on L²(ℝᵈ)  
-   11.3 Tempered Distributions
+   11.3 Outlook: Tempered Distributions
 
 12. Operator Theory  
    12.1 Linear Operators  
@@ -76,9 +78,4 @@ The topics covered in this script will be:
 13. Spectral Theory  
    13.1 Spectral Theory of Bounded Linear Operators  
    13.2 Spectral Representation of Bounded Self-Adjoint Operators
-   13.3 Compact Linear Operators  
-   13.4 Unbounded Linear Operators  
-   13.5 Spectral Representation of Unbounded Self-Adjoint Operaotrs
-
-14. Curves in ℝ³
-15. Differentiable Manifolds
+   13.3 Compact & Unbounded Linear Operators  

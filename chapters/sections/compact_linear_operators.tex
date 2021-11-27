@@ -1,0 +1,294 @@
+\documentclass[../../script.tex]{subfiles}
+%! TEX root = ../../script.tex
+
+\begin{document}
+\section{Compact \& Unbounded Linear Operators}
+
+\begin{defi}
+    Let $X$ be a normed space. $F \subset X$ is compact in $X$ if every open cover of $F$ contains a finite subcover, that is, for every family $\set{G_{\alpha}}$ of open sets in $X$ such that $F \subset \bigcup_{\alpha} G_{\alpha}$ there exists $\set{G_{\alpha_1}, \cdots, G_{\alpha_n}} \subset \set{G_{\alpha}}$ such that $F \subset \bigcup_{k = 1}^n G_{\alpha_k}$.
+\end{defi}
+
+\begin{thm}
+    $F$ is compact in $X$ if and only if every sequence $\anyseqdef{F}$ has a subsequence that is convergent in $F$.
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{defi}
+    A set $F \subset X$ is said to be relatively compact if $\closure{F}$ is compact.
+    Every bounded set in a finite-dimensional normed space is relatively compact.
+\end{defi}
+
+\begin{defi}
+    Let $X$ and $Y$ be normed spaces. An operator $T: X \rightarrow Y$ is called a compact linear operator if $T$ is linear and if for every bounded subset $M \subset X$ the image $T(M)$ is relatively compact.
+\end{defi}
+
+\begin{thm}[Compactness Criterion]
+    Let $X$ and $Y$ be normed spaces and $T: X \rightarrow Y$ a linear operator. 
+    Then $T$ is compact if and only if it maps every bounded sequence $\anyseqdef{X}$ onto a sequence $\anyseqdef[Tx]{Y}$ that has a convergent subsequence, that is
+    \[
+        \forall \anyseqdef{X} ~\exists \left(Tx_{n_k}\right) \subset Y: \quad Tx_{n_k} \conv{k \rightarrow \infty} y \in Y
+    \]
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{thm}\label{thm:23.6}
+    If $T: X \rightarrow Y$ is bounded and $\Im T = T(X)$ is finite-dimensional, then $T$ is compact.
+\end{thm}
+
+\begin{eg}
+    Consider $X = Y = l^2$ over the field $\field$. The operator $T$ defined by 
+    \[
+        Tx = (2\xi_1, \xi_2, \xi_3 + \xi_4, 0, 0, 0, \cdots)
+    \]
+    for $x = (\xi_k)$ is compact. Indeed the set 
+    \[
+        T(X) = \set[\eta_1, \eta_2, \eta_3 \in \field]{(\eta_1, \eta_2, \eta_3, 0, 0, 0, \cdots)}
+    \]
+    is a three-dimensional subspace of $l^2$. By \Cref{thm:23.6} $T$ is compact.
+\end{eg}
+
+\begin{thm}\label{thm:23.8}
+    Let $\seq{T}$ be a sequence of compact linear operators from a normed space $X$ to a Banach space $Y$. If $T_n \rightarrow T$ in $B(X, Y)$ then $T$ is compact.
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{eg}
+    Consider $X = Y = l^2$ and the operator 
+    \[
+        Tx = \left(\xi_1, \frac{\xi_2}{2}, \frac{\xi_3}{3}, \cdots \right)
+    \]
+    We can prove that $T$ is compact if we take the sequence 
+    \[
+        T_n x = \left( \xi_1, \frac{\xi_2}{2}, \frac{\xi_3}{3}, \cdots \frac{\xi_n}{n}, 0, 0, \cdots \right)
+    \]
+    Then $T_n$ is bounded and $\dim\left(T_n(X)\right) = n$. So by \Cref{thm:23.6} every element of the sequence is compact. 
+    Now we compute 
+    \begin{align*}
+        \norm{(T - T_n)x}^2 &= \norm{\left(0, 0, \cdots, 0, \frac{\xi_{n+1}}{n + 1}, \frac{\xi_{n+2}}{n + 2}, \cdots\right)}^2 \\
+        &= \sum_{k=n+1}^{\infty} \frac{\xi_k^2}{k^2} \le \rec{(n+1)^2} \sum_{k=n+1}^{\infty} \xi_k^2 \le \rec{(n+1)^2} \norm{x}^2
+    \end{align*}
+    Thus $\norm{T - T_n} \le \rec{n+1} \conv{n \rightarrow \infty} 0$. By \Cref{thm:23.8} $T$ is compact.
+\end{eg}
+
+\begin{thm}
+    Let $T: H \rightarrow H$ be a bounded linear operator on a separable Hilbert space $H$. The following statements are equivalent.
+    \begin{enumerate}[(i)]
+        \item $T$ is compact.
+        \item $T^*$ is compact.
+        \item If $\innerproduct{x_n}{y} \conv{n \rightarrow \infty} \innerproduct{x}{y}, ~\forall y \in H$ then $Tx_n \conv{n \rightarrow \infty} Tx$ in $H$.
+        \item There exists a sequence of $T_n$ of operators of finite rank such that $\norm{T - T_n} \conv{n \rightarrow \infty} 0$.
+    \end{enumerate}
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{thm}[Hilbert-Schmidt Theorem]
+    Let $T$ be a self-adjoint compact operator. Then 
+    \begin{enumerate}[(i)]
+        \item There exists an orthonormal basis consisting of eigenvectors of $T$.
+        \item All eigenvalues of $T$ are real and for every eigenvalue $\lambda \ne 0$ the corresponding eigenspace is finite dimensional.
+        \item Two eigenvectors of $T$ that correspond fo different eigenvalues are orthogonal.
+        \item If $T$ has a countable set of eigenvalues $\set[n \ge 1]{\lambda_n}$ then $\lambda_n \conv{n \rightarrow \infty} 0$.
+    \end{enumerate}
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{cor}
+    Let $T$ be a compact self-adjoint operator on a complex Hilbert space $H$. Then there exists an orthonormal basis $\set[k \ge 1]{e_k}$ such that 
+    \[
+        Tx = \sum_{n=1}^{\infty} \lambda_n \innerproduct{x}{e_n} e_n, \quad x \in H
+    \]
+\end{cor}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{eg}[Unbounded Linear Operators]
+    Take $H = L^2(-\infty, \infty)$. Conisder the first multiplication operator 
+    \[
+        (Tx)(t) = t x(t), ~t \in \realn, \quad \domain(T) = \set[\int_{-\infty}^{\infty} t^2 \abs{x(t)}^2 \dd{t} < \infty]{x \in L^2(-\infty, \infty)}
+    \]
+    It should be noted that $\domain(T) \ne L^2(-\infty, \infty)$. Indeed 
+    \[
+        x(t) = \begin{cases}
+            \rec{t}, & t \ge 1 \\
+            0, & t < 1
+        \end{cases} \quad\in L^2(-\infty, \infty)
+    \]
+    because 
+    \[
+        \norm{x}^2 = \int_{-\infty}^{\infty} \abs{x(t)}^2 \dd{t} = \int_1^{\infty} \rec{t^2} \dd{t} = 1
+    \]
+    but 
+    \[
+        \norm{Tx}^2 = \int_{-\infty}^{\infty} t^2 \abs{x(t)}^2 \dd{t} = \int_1^{\infty} 1 \dd{t} = \infty
+    \]
+    Let us recall the definition for boundedness of linear operators. An operator $T: \domain(T) \rightarrow H$ is bounded if 
+    \[
+        \exists C \ge 0 ~\forall x \in \domain(T): \quad \norm{Tx} \le C \norm{x}
+    \]
+    Consider the sequence 
+    \[
+        x_n = \begin{cases}
+            1, & n \le t < n + 1 \\
+            0, & \text{else}
+        \end{cases}
+    \]
+    This sequence has the norm 
+    \[
+        \norm{x_n}^2 = \int_{-\infty}^{\infty} \abs{x_n(t)}^2 \dd{t} = \int_n^{n+1} \dd{t} = 1
+    \]
+    but 
+    \[
+        \norm{Tx_n}^2 = \int_{-\infty}^{\infty} t^2\abs{x_n(t)}^2 \dd{t} = \int_n^{n+1} t^2 \dd{t} \ge n^2
+    \]
+    So $\norm{Tx_n}^2 \ge n^2 \norm{x_n}, ~\forall n \ge 1$, hence $T$ is unbounded. The differentiation operator 
+    \[
+        (Tx)(t) = ix'(t), \quad \domain(T) \subset L^2(-\infty, \infty)
+    \]
+    is also unbounded. We will not discuss what $\domain(T)$ is at this point, however we will do so later. 
+    Here we will only remark that all continuously differentiable functions with compact support and Hermite polynomials belong to $\domain(T)$.
+\end{eg}
+
+\begin{eg}
+    Let $H$ be a complex Hilbert space. Let $T: \domain(T) \rightarrow H$ be a densely defined linear operator.
+    The adjoint operator $T^*: \domain(T^*) \rightarrow H$ of $T$ is defined as follows. The domain $\domain(T^*)$ of $T^*$ consists of all $y \in H$ such that $\exists y^* \in H$ satisfying
+    \[
+        \innerproduct{Tx}{y} = \innerproduct{x}{y^*}, \quad \forall x \in \domain(T)
+    \]
+    For each such $y \in \domain(T^*)$ define $T^*y := y^*$. Remark that $\domain(T^*)$ is not necessarily equal to $H$. 
+    Since $\domain(T)$ is dense in $H$, for every $y \in \domain(T^*)$ there exists a unique $y^*$ satisfying the above equation.
+    Before we discuss the properties of adjoint operators, we will first take a look at the extension of a linear operator. Consider again the differentiation operator 
+    \[
+        (T_1x)(t) = ix'(t)
+    \]
+    We can define $T_1$ only for functions from
+    \[
+        \domain(T_1) = C_0^1(\realn) = \set[f = 0 \text{ outside some interval}]{f \in C^1(\realn)}
+    \]
+    Now let 
+    \[
+        (T_2x)(t) = ix'(t), \quad \domain(T_2) = \set[\int_{-\infty}^{\infty} \abs{f}^2 \dd{t} < \infty, ~\int_{-\infty}^{\infty} \abs{f'}^2 \dd{t} < \infty]{f \in C(\realn)}
+    \]
+    $T_1$ and $T_2$ are different operators, but $\domain(T_1) \subset \domain(T_2)$ and $T_1 = T_2 \vert_{\domain(T_1)}$.
+\end{eg}
+
+\begin{defi}
+    An operator $T_2$ is said to be an extension of another operator $T_1$ if $\domain(T_1) \subset \domain(T_2)$ and $T_1 = T_2 \vert_{\domain(T_1)}$.
+    In this case we write $T_1 \subset T_2$.
+\end{defi}
+
+\begin{thm}
+    Let $T: \domain(T) \rightarrow H$ be a linear operator, where $\domain(T) \subset H$. Then 
+    \begin{enumerate}[(i)]
+        \item $T$ is closed if and only if $x_n \longrightarrow x, ~x_n \in \domain(T)$ and $Tx_n \longrightarrow y$ imply $x \in \domain(T)$ and $Tx = y$.
+        \item If $T$ is closed and $\domain(T)$ is closed, then $T$ is bounded.
+        \item Let $T$ be bounded. Then $T$ is closed if and only if $\domain(T)$ is closed.
+    \end{enumerate}
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{thm}
+    Let $T$ be a densely defined operator on $H$. Then the adjoint operator $T^*$ is closed.
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{defi}
+    If a linear operator $T$ has an extension $T_1$ which is a closed linear operator, then $T$ is said to be closable.
+    If $T$ is closable, then there exists a minimal closed operator $\closure{T}$ satisfying $T \subset \closure{T}$. The operator $\closure{T}$ is said to be the closure of $T$.
+\end{defi}
+
+\begin{thm}
+    Let $T: \domain(T) \rightarrow H$ be a densely defined linear operator. If $T$ is symmetric, its closure $\closure{T}$ exists and is unique.
+\end{thm}
+\begin{proof}
+    \noproof
+\end{proof}
+
+\begin{thm}
+    Let $U: H \rightarrow H$ be a unitary operator. Then there exists a spectral family $\set{E_{\theta}}_{\pi}$ on $[-\pi, \pi]$ such that 
+    \[
+        U = \int_{-\pi}^{\pi} e^{i\theta} \dd{E_{\theta}}
+    \]
+    where the integral is understood in the sense of uniform operator convergence.
+\end{thm}
+\begin{hproof}
+    One can show that there exists a bounded self-adjoint linear operator $S$ with $\sigma(S) \subset [-\pi, \pi]$ such that 
+    \begin{equation}
+        U = e^{iS} = \cos S + i\sin S
+    \end{equation}
+    Let $\set{E_{\theta}}$ be a spectral family for $S$ on $[-\pi, \pi]$. Then 
+    \[
+        S = \int_{-\pi}^{\pi} \theta \dd{E_{\theta}}
+    \]
+    Hence 
+    \[
+        U = e^{iS} = \int_{-\pi}^{\pi} \cos\theta \dd{E_{\theta}} + i \int_{-\pi}^{\pi} \sin\theta \dd{E_{\theta}} = \int_{-\pi}^{\pi} e^{i\theta} \dd{E_{\theta}}
+    \]
+\end{hproof}
+
+\begin{defi}
+    Let $T: \domain(T) \rightarrow H$ be a self-adjoint linear operator, where $\domain(T)$ is dense in $H$ and $T$ may be unbounded.
+    Define a new operator 
+    \[
+        U = (T - iI)(T + iI)^{-1}
+    \]
+    called the Cayley transform of $T$. It is defined on the entire Hilbert space since we know that $-i \not\in \sigma(T) \subset \realn$. One can also check that it is unitary and 
+    \[
+        T = i(I + U)(I - U)^{-1}
+    \]
+\end{defi}
+
+\begin{thm}[Spectral Representation for Unbounded Self-Adjoint Operators]
+    Let $T: \domain(T) \rightarrow H$ be a self-adjoint linear operator and let $\domain(T)$ be dense in $H$. 
+    Let $U$ be the Cayley transform of $T$ and $\set{\tilde{E}_{\theta}}$ a spectral family in the spectral representation for $-U$. Then 
+    \[
+        T = \int_{-\pi}^{\pi} \tan\frac{\theta}{2} \dd{\tilde{E}_{\theta}} = \int_{-\infty}^{\infty} \lambda \dd{E_{\lambda}}
+    \]
+    where $E_{\lambda} = \tilde{E}_{2\arctan\lambda}, ~\lambda \in \realn$.
+\end{thm}
+\begin{proof}
+    \proof
+\end{proof}
+
+\begin{rem}
+    We remark that $T = i(I+U)(I-U)^{-1} = f(-U)$, where $f(\theta) = i\frac{1-\theta}{1+\theta}$. Let 
+    \[
+        -U = \int_{-\pi}^{\pi} e^{i\theta} \dd{\tilde{E}_{\theta}}
+    \]
+    Then 
+    \begin{align*}
+        T = \int_{-\pi}^{\pi} f(e^{i\theta}) \dd{\tilde{E}_{\theta}} &= \int_{-\pi}^{\pi} i \frac{1 - e^{i\theta}}{1 + e^{i\theta}} \dd{\tilde{E}_{\theta}} \\
+        &= \int_{-\pi}^{\pi} i\frac{(1 - \cos\theta) - i\sin\theta}{(1 + \cos\theta) + i\sin\theta} \dd{\tilde{E}_{\theta}} \\
+        &= \int_{-\pi}^{\pi} i\frac{-2i\sin\theta}{2 + 2\cos\theta} \dd{\tilde{E}_{\theta}} \\
+        &= \int_{-\pi}^{\pi} \tan\frac{\theta}{2} \dd{\tilde{E}_{\theta}}
+    \end{align*}
+\end{rem}
+
+\begin{eg}[Spectral Representation of the Multiplication Operator]
+    Consider the space $H = L^2(-\infty, \infty)$ which is to be taken over $\cmpln$ and take 
+    \[
+        (Tx)(t) = tx(t), ~t \in \realn, \quad \domain(T) = \set[\int_{-\infty}^{\infty} t^2\abs{x(t)}^2 \dd{t} < \infty]{x \in L^2(-\infty, \infty)}
+    \]
+    Then $T$ is self-adjoint and the spectral family associated with $T$ is 
+    \[
+        (F_{\lambda} x)(t) = \begin{cases}
+            x(t), & t < \lambda \\
+            0, & t \ge \lambda
+        \end{cases}
+    \]
+\end{eg}
+\end{document}
