@@ -1,16 +1,18 @@
 \documentclass[../../script.tex]{subfiles}
 
+% !TEX root = ../../script.tex
+
 \begin{document}
 \section{Sets and Functions}
 \begin{defi}
 A set is an imaginary "container" for mathematical objects. If $A$ is a set we write
 \begin{itemize}
 	\item $x \in A$ for "$x$ is an element of $A$"
-	\item $x \notin A$ for $\neg x \in A$
+	\item $x \notin A$ for $\neg (x \in A)$
 \end{itemize}
 There are some specific types of sets
 \begin{enumerate}[(i)]
-	\item $\varnothing$ is the empty set which contains no elements. Formally: $\exists x \forall y ~y\notin x$
+	\item $\emptyset$ is the empty set which contains no elements. Formally: $\exists x \forall y ~y\notin x$
 	\item Finite sets: $\left\{1, 3, 7, 20\right\}$
 	\item Let $\Phi(x)$ be a statement and $A$ a set. Then $\left\{x \in A \,\vert\, \Phi(x)\right\}$ is the set of all elements from $A$ such that $\Phi(x)$ holds.
 \end{enumerate}
@@ -40,7 +42,7 @@ Each element can appear only once in a set, and there is no specific ordering to
 	\]
 	\item The power set of a set $A$ is the set of all subsets of $A$. Example:
 	\[
-		\mathcal{P}(\{1, 2\}) = \{\varnothing, \{1\}, \{2\}, \{1, 2\}\}
+		\mathcal{P}(\{1, 2\}) = \{\emptyset, \{1\}, \{2\}, \{1, 2\}\}
 	\]
 \end{enumerate}
 \end{defi}
@@ -55,26 +57,59 @@ Each element can appear only once in a set, and there is no specific ordering to
 	\end{align*}
 \end{thm}
 \begin{proof}
-	Let $A, B, C$ be sets. 
+	Let $A, B, C$ be sets. Then the first statement follows from
 	\begin{equation}
-	\begin{split}
-		x \in A \cap (B \cup C) &\iff x \in A \wedge x \in B \cup C \\
-		&\iff x \in A \wedge (x \in B \vee x \in C) \\
-		&\iff (x \in A \wedge x \in B) \vee (x \in A \wedge x \in C) \\
-		&\iff x \in A \cap B \vee x\ in A \cap C \\
-		&\iff x \in (A \cap B) \cup (A \cap C)
-	\end{split}
+		\begin{split}
+			x \in A \setminus (B \cup C) &\iff x \in A \wedge \neg(x \in B \cup C) \\
+			&\iff x \in A \wedge \neg(x \in B \vee x \in C) \\
+			&\iff x \in A \wedge (x \not\in B \wedge x \not\in C) \\
+			&\iff (x \in A \wedge x \not\in B) \wedge (x \in A \wedge x \not\in C) \\
+			&\iff x \in A \setminus B \wedge x \in A \setminus C \\
+			&\iff x \in (A \setminus B) \cap (A \setminus C)
+		\end{split}
 	\end{equation}
-	The other equations are left as an exercise to the reader.
+	The second statement follows a similar structure, with the logical operators swapped
+	\begin{equation}
+		\begin{split}
+			x \in A \setminus (B \cap C) &\iff x \in A \wedge \neg(x \in B \cup C) \\
+			&\iff x \in A \wedge \neg(x \in B \wedge x \in C) \\
+			&\iff x \in A \wedge (x \not\in B \vee x \not\in C) \\
+			&\iff (x \in A \wedge x \not\in B) \vee (x \in A \wedge x \not\in C) \\
+			&\iff x \in A \setminus B \vee x \in A \setminus C \\
+			&\iff x \in (A \setminus B) \cup (A \setminus C)
+		\end{split}
+	\end{equation}
+	The third statement follows from 
+	\begin{equation}
+		\begin{split}
+			x \in A \cup (B \cap C) &\iff x \in A \vee x \in B \cap C \\
+			&\iff x \in A \vee (x \in B \wedge x \in C) \\
+			&\iff (x \in A \vee x \in B) \wedge (x \in A \vee x \in C) \\
+			&\iff x \in A \cup B \wedge x \in A \cup C \\
+			&\iff x \in (A \cup B) \cap (A \cup C)
+		\end{split}
+	\end{equation}
+	The final statement is also similar to the third with the operators swapped
+	\begin{equation}
+		\begin{split}
+			x \in A \cap (B \cup C) &\iff x \in A \wedge x \in B \cup C \\
+			&\iff x \in A \wedge (x \in B \vee x \in C) \\
+			&\iff (x \in A \wedge x \in B) \vee (x \in A \wedge x \in C) \\
+			&\iff x \in A \cap B \vee x \in A \cap C \\
+			&\iff x \in (A \cap B) \cup (A \cap C)
+		\end{split}
+	\end{equation}
+	
 \end{proof}
 
 \begin{defi}
-	Let $A, B$ be sets. For $x \in A$, $y \in B$ we call $(x, y)$ the ordered pair from $x, y$. The Cartesian product is defined as
+	Let $A, B$ be sets. For $x \in A$ and $y \in B$ we call $(x, y)$ the ordered pair of $x, y$. The Cartesian product is defined as
 	\[
 		A \times B = \left\{(x, y) \,\vert\, x \in A \wedge y \in B\right\}
 	\]
 \end{defi}
 
+\pagebreak
 \begin{rem}\leavevmode
 \begin{enumerate}[(i)]
 	\item $(x, y)$ is NOT equivalent to $\{x, y\}$. The former is an ordered pair, the latter a set. It is important to note that
@@ -93,7 +128,7 @@ Each element can appear only once in a set, and there is no specific ordering to
 \begin{defi}
 Let $A$, $B$ be sets. A mapping $f$ from $A$ to $B$ assigns each $x \in A$ exactly one element $f(x) \in B$. $A$ is called the domain and $B$ the codomain.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \begin{tikzpicture}[ele/.style={fill=black,circle,minimum width=.8pt,inner sep=1pt},every fit/.style={ellipse,draw,inner sep=-2pt}]
  
@@ -123,7 +158,7 @@ As shown in figure \ref{fig:mapping}, every element from $A$ is assigned exactly
 \]
 A mapping that has numbers ($\natn$, $\realn$, $\cdots$) as the codomain is called a function.
 \end{defi}
-\newpage
+
 \begin{eg}\leavevmode
 \begin{enumerate}[(i)]
 	\item 
@@ -157,8 +192,8 @@ A mapping that has numbers ($\natn$, $\realn$, $\cdots$) as the codomain is call
 \begin{enumerate}[(i)]
 	\item A mapping $f: A \rightarrow B$ corresponds to a subset of $F = A \times B$, such that
 	\begin{align*}
-		&\forall x \in A ~\forall y, z \in B ~~(x, y) \in F \wedge (x, z) \in F \implies y = z \\
-		&\forall x \in A ~\exists y \in B ~~(x, y) \in F
+		\forall x \in A ~\forall y, z \in B&: \quad (x, y) \in F \wedge (x, z) \in F \implies y = z \\
+		\forall x \in A ~\exists y \in B&: \quad (x, y) \in F
 	\end{align*}
 	\item Simply writing "Let the function $f(x) = x^2$..." is NOT mathematically rigorous.
 	\item 
@@ -167,7 +202,7 @@ A mapping that has numbers ($\natn$, $\realn$, $\cdots$) as the codomain is call
 	\]
 	\item 
 	\[
-		f, g: A \longrightarrow B \text{ are the same mapping} \iff \forall x \in A ~~f(x) = g(x)
+		f, g: A \longrightarrow B \text{ are the same mapping} \iff \forall x \in A: \quad f(x) = g(x)
 	\]
 \end{enumerate}
 \end{rem}
@@ -175,13 +210,13 @@ A mapping that has numbers ($\natn$, $\realn$, $\cdots$) as the codomain is call
 \begin{defi}
 	We call $f: A \rightarrow B$
 	\begin{itemize}
-		\item injective if $\forall x, \tilde{x} \in A ~~f(x) = f(\tilde{x}) \implies x = \tilde{x}$
+		\item injective if $\forall x, \tilde{x} \in A: \quad f(x) = f(\tilde{x}) \implies x = \tilde{x}$
 		
-		\item surjective if $\forall y \in B, \exists x \in A ~~f(x) = y$
+		\item surjective if $\forall y \in B ~\exists x \in A: \quad f(x) = y$
 
 		\item bijective if $f$ is injective and surjective
 	\end{itemize}
-	\begin{figure}[h]
+	\begin{figure}[ht]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
 		\begin{tikzpicture}[ele/.style={fill=black,circle,minimum width=.8pt,inner sep=1pt},every fit/.style={ellipse,draw,inner sep=-2pt}]
@@ -243,7 +278,7 @@ A mapping that has numbers ($\natn$, $\realn$, $\cdots$) as the codomain is call
 	f: \natn &\longrightarrow \natn \\
 	n &\longmapsto n^2
 	\end{align*}
-	is not surjective (e.g. $n^2 \ne 3$), but injective.
+	is not surjective (e.g. $\nexists n \in \natn: \quad n^2 = 3$), but injective.
 	\item 
 	\begin{align*}
 	f: \intn &\longrightarrow \natn \\
@@ -255,8 +290,8 @@ A mapping that has numbers ($\natn$, $\realn$, $\cdots$) as the codomain is call
 	f: \natn &\longrightarrow \natn \\
 	n &\longmapsto 
 	\begin{cases}
-		\frac{n}{2} & n \text{even} \\
-		\frac{n+1}{2} & n \text{odd}
+		\frac{n}{2} & n \text{ even} \\
+		\frac{n+1}{2} & n \text{ odd}
 	\end{cases}
 	\end{align*}
 	is surjective but not injective.
@@ -273,28 +308,25 @@ Let $A, ~B, ~C$ be sets, and let $f: A \rightarrow B, ~g: B \rightarrow C$. Then
 
 \begin{rem}
 Compositing is associative (why?), but not commutative. For example let
-
-\noindent\begin{minipage}{.5\linewidth}
-	\begin{align*}
+\begin{align*}
+	&\begin{aligned}
 		f: \natn &\longrightarrow \natn \\
 		n &\longmapsto 2n
-	\end{align*}
-\end{minipage}
-\begin{minipage}{.5\linewidth}
-	\begin{align*}
+	\end{aligned} &
+	&\begin{aligned}
 		g: \natn &\longrightarrow \natn \\
 		n &\longmapsto n + 3
-	\end{align*}
-\end{minipage}
+	\end{aligned}
+\end{align*}
 Then
 \begin{align*}
-	&f \circ g (n) = 2(n + 3) = 2n + 6 \\
-	&g \circ f (n) = 2n + 3
+	&(f \circ g)(n) = 2(n + 3) = 2n + 6 \\
+	&(g \circ f)(n) = 2n + 3
 \end{align*}
 \end{rem}
 
 \begin{thm}
-Let $f: A \rightarrow B$ be a bijective mapping. Then there exists a mapping $\inv{f}: B \rightarrow A$ such that $f \circ \inv{f} = \emph{\idf}_B$ and $\inv{f} \circ f = \emph{\idf}_A$. $\inv{f}$ is called the inverse function of $f$.
+Let $f: A \rightarrow B$ be a bijective mapping. Then there exists another mapping $\inv{f}: B \rightarrow A$ such that $f \circ \inv{f} = \emph{\idf}_B$ and $\inv{f} \circ f = \emph{\idf}_A$. $\inv{f}$ is called the inverse function of $f$.
 \end{thm}
 \begin{proof}
 Let $y \in B$ and $f$ bijective. That means $\exists x \in A$ such that $f(x) = y$. Due to $f$ being injective, this $x$ must be unique, since if $\exists \tilde{x} \in A$ s.t. $f(\tilde{x}) = f(x) = y$, then $x = \tilde{x}$. We define $f(x) = y$ and $\inv{f}(y) = x$, therefore
