@@ -135,20 +135,52 @@
 }
 \makeatother
 
-\theoremstyle{definition}
+\newtheoremstyle{mydefinition}   %
+    {\topsep}                    %
+    {\topsep}                    %
+    {}                           %
+    {}                           %
+    {\bfseries}                  %
+    {.}                          %
+    {.5em}                       %
+    {\llap{#2 }#1\ifthenelse{\isempty{#3}}{}{ \textnormal{(#3)}}} %
+
+\newtheoremstyle{myremark}   %
+    {\topsep}                    %
+    {\topsep}                    %
+    {}                           %
+    {}                           %
+    {\itshape}                  %
+    {.}                          %
+    {.5em}                       %
+    {\llap{#2 }#1\ifthenelse{\isempty{#3}}{}{ \textnormal{(#3)}}} %
+
+\newtheoremstyle{mytheorem}   %
+    {\topsep}                    %
+    {\topsep}                    %
+    {\itshape}                           %
+    {}                           %
+    {\bfseries}                  %
+    {.}                          %
+    {.5em}                       %
+    {\llap{#2 }#1\ifthenelse{\isempty{#3}}{}{ \textnormal{(#3)}}} %
+
+\theoremstyle{mydefinition}
 \newtheorem{defi}{Definition}[chapter]
 
-\theoremstyle{remark}
+\theoremstyle{myremark}
 \newtheorem{eg}[defi]{Example}
 \newtheorem{rem}[defi]{Remark}
 
-\theoremstyle{plain}
+\theoremstyle{mytheorem}
 \newtheorem{thm}[defi]{Theorem}
 \newtheorem{lem}[defi]{Lemma}
 \newtheorem{cor}[defi]{Corollary}
 
 \newenvironment{hproof}{%
   \renewcommand{\proofname}{Heuristic Proof}\proof}{\endproof}
+
+\renewcommand{\epsilon}{\varepsilon}
   
 \Crefname{defi}{Definition}{Definitions}
 \crefname{defi}{Def.}{Defs.}
