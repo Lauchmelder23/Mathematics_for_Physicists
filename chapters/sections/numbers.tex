@@ -23,35 +23,35 @@ The real numbers are a set $\realn$ with the following structure
 \end{defi}
 
 \begin{defi}[Axioms of Addition]\leavevmode
-\begin{enumerate}[label=A\arabic*:]
+\begin{enumerate}[{A}1:]
 	\item Associativity
 	\[
-		\forall a, b, c \in \realn: ~~(a + b) + c = a + (b + c)
+		\forall a, b, c \in \realn: \quad (a + b) + c = a + (b + c)
 	\]
 	\item Existence of a neutral element
 	\[
-		\exists 0 \in \realn ~\forall x \in \realn: ~~x + 0 = x
+		\exists 0 \in \realn ~\forall x \in \realn: \quad x + 0 = x
 	\]
 	\item Existence of an inverse element
 	\[
-		\forall x \in \realn ~\exists (-x) \in \realn: ~~ x + (-x) = 0
+		\forall x \in \realn ~\exists (-x) \in \realn: \quad x + (-x) = 0
 	\]
 	\item Commutativity
 	\[
-		\forall x, y \in \realn: ~~x + y = y + x
+		\forall x, y \in \realn: \quad x + y = y + x
 	\]
 \end{enumerate}
 \end{defi}
 
 \begin{thm}\label{thm:addition}
-$x, y \in \realn$
+	Let $x, y \in \realn$. Then
 
-\begin{enumerate}[(i)]
-	\item The neutral element is unique
-	\item $\forall x \in \realn$ the inverse is unique
-	\item $-(-x) = x$
-	\item $-(x + y) = (-x) + (-y)$
-\end{enumerate}
+	\begin{enumerate}[(i)]
+		\item The neutral element is unique
+		\item $\forall x \in \realn$ the inverse is unique
+		\item $-(-x) = x$
+		\item $-(x + y) = (-x) + (-y)$
+	\end{enumerate}
 \end{thm}
 \begin{proof}\leavevmode
 	\begin{enumerate}[(i)]
@@ -74,7 +74,15 @@ $x, y \in \realn$
 		\end{equation}
 		Therefore $c = d$.
 		
-		\item \reader
+		\item By definition, we know 
+		\begin{align}
+			x + (-x) &\eqlbl{\text{A4}} (-x) + x \eqlbl{\text{A3}} 0 \\
+			(-x) + (-(-x)) &\eqlbl{\text{A4}} (-(-x)) + (-x) \eqlbl{\text{A3}} 0
+		\end{align}
+		Thus follows 
+		\begin{equation}
+			x + (-x) = (-(-x)) + (-x) \implies x = (-(-x))
+		\end{equation}
 		
 		\item
 		\begin{equation}
@@ -88,21 +96,36 @@ $x, y \in \realn$
 \end{proof}
 
 \begin{defi}[Axioms of Multiplication]\leavevmode
-\begin{enumerate}[label=M\arabic*:]
-	\item $\forall x, y, z \in \realn: ~~(xy)z = x(yz)$
-	\item $\exists 1 \in \realn ~\forall x \in \realn: ~~x1 = x$
-	\item $\forall x \in \realn \setminus \{0\} ~\exists \inv{x} \in \realn: ~~x\inv{x} = 1$
-	\item $\forall x, y \in \realn: ~~xy = yx$
+\begin{enumerate}[M1:]
+	\item Associativity
+	\[
+		\forall x, y, z \in \realn: \quad (xy)z = x(yz)
+	\]
+	\item Existence of a neutral element
+	\[
+		\exists 1 \in \realn ~\forall x \in \realn: \quad x1 = x
+	\]
+	\item Existence of an inverse element 
+	\[ 
+		\forall x \in \realn \setminus \set{0} ~\exists \inv{x} \in \realn: \quad x\inv{x} = 1
+	\]
+	\item Commutativity
+	\[ 
+		\forall x, y \in \realn: \quad xy = yx
+	\]
 \end{enumerate}
 \end{defi}
 
 \begin{defi}[Compatibility of Addition and Multiplication]\leavevmode
-\begin{enumerate}[label=R\arabic*:]
+\begin{enumerate}[label=R1:]
 	\item Distributivity
 	\[
-		\forall x, y, z \in \realn: ~~ x\cdot(y + z) = (x \cdot y) + (x \cdot z)
+		\forall x, y, z \in \realn: \quad x\cdot(y + z) = (x \cdot y) + (x \cdot z)
 	\]
-	\item $0 \ne 1$
+	\item Uniqueness of the neutral elements
+	\[ 
+		0 \ne 1
+	\]
 \end{enumerate}
 \end{defi}
 
@@ -135,8 +158,13 @@ $x, y \in \realn$
 		\stackrel{\text{A3}}{\implies} -(xy) = x\cdot(-y)
 	\end{equation}
 	
-	\item \reader
-	
+	\item Consider the expression $xy + (-x)y + (-x)(-y)$. By using distributivity we can see 
+	\begin{align}
+		xy + (-x)y + (-x)(-y) = xy + (-x)(y + (-y)) &\eqlbl{\text{A3}} xy \\
+		xy + (-x)y + (-x)(-y) = (x + (-x))y + (-x)(-y) &\eqlbl{\text{A3}} (-x)(-y)
+	\end{align}
+	Thus follows the desired statement.
+
 	\item $x \in \realn$
 	\begin{equation}
 		x \cdot (-\inv{(-x)}) \eqlbl{(ii)} -(x \cdot \inv{(-x)}) \eqlbl{(ii)} (-x) \cdot \inv{(-x)} \eqlbl{M3} 1 \eqlbl{M3} x \cdot \inv{x}
@@ -224,8 +252,16 @@ $x, y \in \realn$
 		1 \le 0 \implbl{(ii)} 0 \le 1 \cdot 1 = 1
 	\end{equation}
 	
-	\item \reader
-	
+	\item Assume that $0 \le \inv{x}$ is not true. Then 
+	\begin{equation}
+		\inv{x} \le 0 \implbl{(ii)} 0 \le \inv{x}\inv{x}
+	\end{equation}
+	We can then conclude 
+	\begin{equation}
+		0 \le x \implbl{\text{O6}} 0 \le x\inv{x}\inv{x} \implbl{\text{M3}} 0 \le \inv{x} \implbl{\text{O3}} 0 = \inv{x}
+	\end{equation}
+	which would contradict M3.
+
 	\item
 	\begin{equation}
 		0 \le \inv{x} \wedge 0 \le \inv{y} \implbl{O6} 0 \le \inv{x}\inv{y}
@@ -245,17 +281,17 @@ A structure that fulfils all the  previous axioms is called an ordered field.
 \begin{defi}
 Let $A \subset \mathbb{R}$, $x \in \realn$.
 \begin{enumerate}[(i)]
-	\item $x$ is called an upper bound of $A$ if $\forall y \in A: ~y \le x$
+	\item $x$ is an upper bound of $A$ if $\forall y \in A: \quad y \le x$
 	
-	\item $x$ is called a maximum of $A$ if $x$ is an upper bound of $A$ and $x \in A$
+	\item $x$ is a maximum of $A$ if $x$ is an upper bound of $A$ and $x \in A$
 	
-	\item $x$ is called supremum of $A$ is $x$ is an upper bound of $A$ and if for every other upper bound $y \in \realn$ the statement $x \le y$ holds. In other words, $x$ is the smallest upper bound of $A$.
+	\item $x$ is the supremum of $A$ if $x$ is an upper bound of $A$ and if for every other upper bound $y \in \realn$ the statement $x \le y$ holds. In other words, $x$ is the smallest upper bound of $A$.
 \end{enumerate}
 $A$ is called bounded above if it has an upper bound. Analogously, there exists a lower bound, a minimum and an infimum. We introduce the notation $\sup A$ for the supremum and $\inf A$ for the infimum.
 \end{defi}
 
 \begin{defi}
-$a, b \in \realn$, $a < b$. We define
+Let $a, b \in \realn$, $a < b$. We define
 \begin{itemize}
 	\item $(a, b) := \{x \in \realn \setvert a < x \wedge x < b\}$
 	
@@ -309,28 +345,60 @@ Define $A = \{x \in \realn \setvert \Phi(x)\}$. According to the assumptions, $A
 \end{proof}
 
 \begin{cor}
-$m, n \in \natn$
+Let $m, n \in \natn$
 \begin{enumerate}[(i)]
 	\item $m + n \in \natn$
 	\item $mn \in \natn$
-	\item $1 \le n ~~\forall n \in \natn$
+	\item $\forall n \in \natn: \quad 1 \le n$
 \end{enumerate}
 \end{cor}
-\begin{proof}
-We will only proof (i). (ii) and (iii) are left as an exercise for the reader. Let $n \in \natn$. Define $A = \{m \in \natn \setvert m + n \in \natn\}$. Then $1 \in A$, since $\natn$ is inductive. Now let $m \in A$, therefore $n + m \in \natn$.
-\begin{align}
-	&\implies n + m + 1 \in \natn \\
-	&\iff m + 1 \in A
-\end{align}
-Hence $A$ is inductive, so $\natn \subset A$. From $A \subset N$ follows that $\natn = A$.
+\begin{proof}\leavevmode
+\begin{enumerate}[(i)]
+	\item 
+	Let $n \in \natn$. Define $A = \{m \in \natn \setvert m + n \in \natn\}$. Then $1 \in A$, since $\natn$ is inductive. Now let $m \in A$, therefore $n + m \in \natn$.
+	\begin{align}
+		\implies &n + m + 1 \in \natn \\
+		\iff &m + 1 \in A
+	\end{align}
+	Hence $A$ is inductive, so $\natn \subset A$. From $A \subset \natn$ follows that $\natn = A$.
+
+	\item
+	Let $n \in \natn$. Define $A = \set[mn \in \natn]{m \in \natn}$. Then $1 \in A$ because of M2.
+	Now let $m \in A$, therefore $nm \in \natn$
+	\begin{align}
+		\implies &(m + 1)n = mn + n \in \natn \\
+		\iff &m + 1 \in A
+	\end{align}
+	Hence $A$ is inductive, so $\natn \subset A$. From $A \subset \natn$ follows that $\natn = A$.
+
+	\item 
+	Define $A = \set[1 \le n]{n \in \natn}$. Then $1 \in A$ since $1 \le 1$. Now let $n \in A$.
+	\begin{align}
+		&0 \le 1 \implies n \le n + 1 \implies 1 \le n + 1
+		\iff &n + 1 \in A
+	\end{align}
+	Hence $A$ is inductive, so $\natn \subset A$. But since $A \subset \natn$ it must follow that $\natn = A$.
+\end{enumerate}
 \end{proof}
 
 \begin{thm}
-$n \in \natn$. There are no natural numbers between $n$ and $n + 1$.
+Let $n \in \natn$. There are no natural numbers between $n$ and $n + 1$.
 \end{thm}
-\begin{hproof}
-Show that $x \in \natn \cap (1, 2)$ implies that $\natn \setminus \{x\}$ is inductive. Now show that if $\natn \cap (n, n+1) = \varnothing$ and $x \in \natn \cap (n + 1, n + 2)$ then $\natn \setminus \{x\}$ is inductive.
-\end{hproof}
+\begin{proof}
+	Let $x \in \natn \cap (1, 2)$, and define $A = \natn \setminus \set{x} = \set[n \ne x]{n \in \natn}$. Obviously, $1 \in A$ and $2 \in A$. Let $n \in A$, then 
+	\begin{align}
+		&1 \le n \implies 2 \le n + 1 \\
+		\iff &n + 1 \in A
+	\end{align}
+	Thus $A$ is inductive. Since $A \subset \natn$ we have $A = \natn$, so there are no natural numbers between $1$ and $2$.
+	Now assume $\natn \cap (n, n+1) = \emptyset$, and consider $x \in \natn \cap (n + 1, n + 2)$. We will take another look at $A$ with this new $x$. Obviously $1 \in A$.
+	Let $m \in A$, we want to show that $m + 1 \in A$. To do this, assume that $m + 1 \not\in A$, i.e. 
+	\begin{equation}
+		m + 1 \in \natn \cap (n + 1, n + 2) \implies m \in \natn \cap (n, n + 1)
+	\end{equation}
+	However since $\natn \cap (n, n + 1) = \emptyset$ this $m$ can't exist, so $m + 1 \in A$.
+	So $A$ is still inductive, and $A = \natn$ still holds.
+\end{proof}
 
 \begin{thm}[Archimedian property]
 \[
@@ -365,7 +433,8 @@ But since there exists no natural number between $n$ and $n+1$, this means that 
 \begin{equation}
 	n+1 \le m ~\forall m \in A \implies n+1 \in \tilde{A}
 \end{equation}
-So $\tilde{A}$ is an inductive set, hence $\tilde{A} = \natn$. Therefore $A = \varnothing$.
+So $\tilde{A}$ is an inductive set, hence $\tilde{A} = \natn$. Therefore $A = \emptyset$.
+The proof that a bounded above $A$ has a maximum works in the same way.
 \end{proof}
 
 \begin{defi}
@@ -374,7 +443,7 @@ We define the following new sets:
 	&\intn := \{x \in \realn \setvert x \in \natn_0 \vee (-x) \in \natn_0\}\\
 	&\ratn := \left\{\frac{p}{q} \setvert p, q \in \intn \wedge q \ne 0\right\}
 \end{align*}
-$\intn$ are called integers, and $\ratn$ are called the rational numbers. $\natn_0$ are the natural numbers with the $0$ ($\natn_0 = \natn \cap \{0\}$).
+$\intn$ are called integers, and $\ratn$ are called the rational numbers. $\natn_0$ are the natural numbers with the $0$ ($\natn_0 = \natn \cup \{0\}$).
 \end{defi}
 
 \begin{rem}
@@ -388,15 +457,15 @@ The second statement implies that $\ratn$ is a field.
 \begin{cor}[Density of the rationals]\label{cor:densityrats}
 $x, y \in \realn, ~x < y$. Then
 \[
-	\exists r \in \ratn: ~~x < r < y
+	\exists r \in \ratn:\quad ~x < r < y
 \]
 \end{cor}
 \begin{proof}
 This proof relies on the Archimedian property.
 \begin{equation}
-	\exists q \in \natn: ~~ \frac{1}{y-x} < q \left( \iff \frac{1}{q} < y - x \right)
+	\exists q \in \natn: \quad \frac{1}{y-x} < q \left( \iff \frac{1}{q} < y - x \right)
 \end{equation}
-Let $p \in \intn$ be the greatest integer that is smaller than $y \cdot q$. The existence of $p$ is ensured by corollary \Cref{cor:minimum}. Then $\frac{p}{q} < y$ and
+Let $p \in \intn$ be the greatest integer that is smaller than $y \cdot q$. The existence of $p$ is ensured by \Cref{cor:minimum}. Then $\frac{p}{q} < y$ and
 \begin{equation}
 	p + 1 \ge y \cdot q \implies y \le \frac{p}{q} + \frac{1}{q} < \frac{p}{q} + (y - x)
 \end{equation}
@@ -423,7 +492,18 @@ We define the following function
 \]
 \end{thm}
 \begin{proof}
-\reader
+Let $x, y \in \realn$. If $x$ and $y$ are both positive or both negative, their product is positive and the statement is trivial:
+\begin{equation}
+	\abs{xy} = xy = \abs{x} \abs{y}
+\end{equation}
+So let w.l.o.g. $0 \le x$ and $y < 0$. Then 
+\begin{equation}
+	\abs{x}\abs{y} = x(-y) = -(xy)
+\end{equation}
+Since $xy$ is negative, the absolute value is 
+\begin{equation}
+	\abs{xy} = -(xy) = \abs{x}\abs{y}
+\end{equation}
 \end{proof}
 
 \begin{defi}[Complex numbers]
@@ -473,6 +553,6 @@ Every non-constant, complex polynomial has a complex root. I.e. for $n \in \natn
 \]
 \end{thm}
 \begin{proof}
-Not here.
+Not here. It is proven in \Cref{thm:fundamental}.
 \end{proof}
 \end{document}
