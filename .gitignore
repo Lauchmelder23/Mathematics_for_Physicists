@@ -6,3 +6,5 @@
 *.gz
 *.toc
 *.loe
+*.maf
+*.mtc*
